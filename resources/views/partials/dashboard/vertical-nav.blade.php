@@ -1,8 +1,8 @@
 @php
     $url = '';
-    
+
     $MyNavBar = \Menu::make('MenuList', function ($menu) use($url){
-        
+
         //Admin Dashboard
         $menu->add('<span class="item-name">'.__('message.dashboard').'</span>', ['route' => 'dashboard'])
             ->prepend('<i class="icon">
@@ -13,7 +13,7 @@
                         <path d="M2 18.5C2 19.4319 2 19.8978 2.15224 20.2654C2.35523 20.7554 2.74458 21.1448 3.23463 21.3478C3.60218 21.5 4.06812 21.5 5 21.5H7C7.93188 21.5 8.39782 21.5 8.76537 21.3478C9.25542 21.1448 9.64477 20.7554 9.84776 20.2654C10 19.8978 10 19.4319 10 18.5C10 17.5681 10 17.1022 9.84776 16.7346C9.64477 16.2446 9.25542 15.8552 8.76537 15.6522C8.39782 15.5 7.93188 15.5 7 15.5H5C4.06812 15.5 3.60218 15.5 3.23463 15.6522C2.74458 15.8552 2.35523 16.2446 2.15224 16.7346C2 17.1022 2 17.5681 2 18.5Z" stroke="currentColor" stroke-width="1.5"/>
                     </svg></i>')
             ->link->attr([ 'class' => activeRoute(route('dashboard')) ? 'nav-link active' : 'nav-link' ]);
-            
+
         $menu->add('<span class="item-name">'.__('message.user').'</span>', ['class' => ''])
             ->prepend('<i class="icon">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -34,7 +34,7 @@
 
             $menu->user->add('<span class="item-name">'.__('message.add_form_title',['form' => __('message.user')]).'</span>', ['route' => 'users.create'])
                 ->data('permission', [ 'user-add', 'user-edit'])
-                ->prepend('<i class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor"><g><circle cx="12" cy="12" r="8" fill="currentColor"></circle></g></svg></i>')          
+                ->prepend('<i class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor"><g><circle cx="12" cy="12" r="8" fill="currentColor"></circle></g></svg></i>')
                 ->link->attr(['class' => activeRoute(route('users.create')) || request()->is('users/*/edit') ? 'nav-link active' : 'nav-link']);
 
         $menu->add('<span class="item-name">'.__('message.equipment').'</span>', ['class' => ''])
@@ -81,7 +81,7 @@
                 ->data('permission', [ 'exercise-add', 'exercise-edit'])
                 ->prepend('<i class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor"><g><circle cx="12" cy="12" r="8" fill="currentColor"></circle></g></svg></i>')
                 ->link->attr(['class' => activeRoute(route('exercise.create')) || request()->is('exercise/*/edit') ? 'nav-link active' : 'nav-link']);
-        
+
         $menu->add('<span class="item-name">'.__('message.workout').'</span>', ['class' => ''])
             ->prepend('<i class="icon">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -106,41 +106,41 @@
                 ->data('permission', [ 'workout-add', 'workout-edit'])
                 ->prepend('<i class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor"><g><circle cx="12" cy="12" r="8" fill="currentColor"></circle></g></svg></i>')
                 ->link->attr(['class' => activeRoute(route('workout.create')) || request()->is('workout/*/edit') ? 'nav-link active' : 'nav-link']);
-            
+
             $menu->workout->add('<span class="item-name">'.__('message.list_form_title',['form' => __('message.workouttype')]).'</span>', ['route' => 'workouttype.index'])
                 ->data('permission', 'workouttype-list')
                 ->prepend('<i class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor"><g><circle cx="12" cy="12" r="8" fill="currentColor"></circle></g></svg></i>')
                 ->link->attr(['class' => activeRoute(route('workouttype.index')) ? 'nav-link active' : 'nav-link']);
 
-        $menu->add('<span class="item-name">'.__('message.diet').'</span>', ['class' => ''])
-            ->prepend('<i class="icon">
-                    <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <g>
-                            <rect fill="none" height="24" width="24" />
-                            <path d="M8.16,11c-1.43,0.07-3.52,0.57-4.54,2h6.55L8.16,11z" enable-background="new" opacity=".3" />
-                            <path d="M1,21h15.01v0.98c0,0.56-0.45,1.01-1.01,1.01H2.01C1.45,22.99,1,22.54,1,21.98V21z M20.49,23.31L16,18.83V19H1v-2h13.17 l-2-2H1c0-3.24,2.46-5.17,5.38-5.79l-5.7-5.7L2.1,2.1L13,13l2,2l6.9,6.9L20.49,23.31z M10.17,13l-2-2c-1.42,0.06-3.52,0.56-4.55,2 H10.17z M23,5h-5V1h-2v4h-5l0.23,2h9.56l-1,9.97l1.83,1.83L23,5z" fill="currentColor"/>
-                        </g>
-                    </svg></i>')
-            ->nickname('diet')
-            ->data('permission', 'diet-list')
-            ->link->attr(['class' => 'nav-link' ])
-            ->href('#diet');
+//        $menu->add('<span class="item-name">'.__('message.diet').'</span>', ['class' => ''])
+//            ->prepend('<i class="icon">
+//                    <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+//                        <g>
+//                            <rect fill="none" height="24" width="24" />
+//                            <path d="M8.16,11c-1.43,0.07-3.52,0.57-4.54,2h6.55L8.16,11z" enable-background="new" opacity=".3" />
+//                            <path d="M1,21h15.01v0.98c0,0.56-0.45,1.01-1.01,1.01H2.01C1.45,22.99,1,22.54,1,21.98V21z M20.49,23.31L16,18.83V19H1v-2h13.17 l-2-2H1c0-3.24,2.46-5.17,5.38-5.79l-5.7-5.7L2.1,2.1L13,13l2,2l6.9,6.9L20.49,23.31z M10.17,13l-2-2c-1.42,0.06-3.52,0.56-4.55,2 H10.17z M23,5h-5V1h-2v4h-5l0.23,2h9.56l-1,9.97l1.83,1.83L23,5z" fill="currentColor"/>
+//                        </g>
+//                    </svg></i>')
+//            ->nickname('diet')
+//            ->data('permission', 'diet-list')
+//            ->link->attr(['class' => 'nav-link' ])
+//            ->href('#diet');
+//
+//            $menu->diet->add('<span class="item-name">'.__('message.list_form_title',['form' => __('message.diet')]).'</span>', ['route' => 'diet.index'])
+//                ->data('permission', 'diet-list')
+//                ->prepend('<i class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor"><g><circle cx="12" cy="12" r="8" fill="currentColor"></circle></g></svg></i>')
+//                ->link->attr(['class' => activeRoute(route('diet.index')) ? 'nav-link active' : 'nav-link']);
+//
+//            $menu->diet->add('<span class="item-name">'.__('message.add_form_title',['form' => __('message.diet')]).'</span>', ['route' => 'diet.create'])
+//                ->data('permission', [ 'diet-add', 'diet-edit'])
+//                ->prepend('<i class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor"><g><circle cx="12" cy="12" r="8" fill="currentColor"></circle></g></svg></i>')
+//                ->link->attr(['class' => activeRoute(route('diet.create')) || request()->is('diet/*/edit') ? 'nav-link active' : 'nav-link']);
+//
+//            $menu->diet->add('<span class="item-name">'.__('message.list_form_title',['form' => __('message.categorydiet')]).'</span>', ['route' => 'categorydiet.index'])
+//                ->data('permission', 'categorydiet-list')
+//                ->prepend('<i class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor"><g><circle cx="12" cy="12" r="8" fill="currentColor"></circle></g></svg></i>')
+//                ->link->attr(['class' => activeRoute(route('categorydiet.index')) ? 'nav-link active' : 'nav-link']);
 
-            $menu->diet->add('<span class="item-name">'.__('message.list_form_title',['form' => __('message.diet')]).'</span>', ['route' => 'diet.index'])
-                ->data('permission', 'diet-list')
-                ->prepend('<i class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor"><g><circle cx="12" cy="12" r="8" fill="currentColor"></circle></g></svg></i>')
-                ->link->attr(['class' => activeRoute(route('diet.index')) ? 'nav-link active' : 'nav-link']);
-
-            $menu->diet->add('<span class="item-name">'.__('message.add_form_title',['form' => __('message.diet')]).'</span>', ['route' => 'diet.create'])
-                ->data('permission', [ 'diet-add', 'diet-edit'])
-                ->prepend('<i class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor"><g><circle cx="12" cy="12" r="8" fill="currentColor"></circle></g></svg></i>')
-                ->link->attr(['class' => activeRoute(route('diet.create')) || request()->is('diet/*/edit') ? 'nav-link active' : 'nav-link']);
-            
-            $menu->diet->add('<span class="item-name">'.__('message.list_form_title',['form' => __('message.categorydiet')]).'</span>', ['route' => 'categorydiet.index'])
-                ->data('permission', 'categorydiet-list')
-                ->prepend('<i class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor"><g><circle cx="12" cy="12" r="8" fill="currentColor"></circle></g></svg></i>')
-                ->link->attr(['class' => activeRoute(route('categorydiet.index')) ? 'nav-link active' : 'nav-link']);
-    
         $menu->add('<span class="item-name">'.__('message.level').'</span>', ['class' => ''])
             ->prepend('<i class="icon">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -171,124 +171,135 @@
                             <path d="M2 10.5588C5.1153 10.2051 6.39428 10.6706 8.75105 12.2516M15.5021 13.7518L13.8893 6.66258C13.8186 6.35178 13.4791 6.18556 13.1902 6.32034L10.3819 7.6308C10.1384 7.74442 9.85788 7.75857 9.61117 7.65213C8.87435 7.33425 8.38405 6.97152 7.86685 6.31394C7.61986 5.99992 7.54201 5.5868 7.62818 5.19668C7.87265 4.0899 8.12814 3.34462 8.62323 2.31821C8.70119 2.15659 8.86221 2.05093 9.04141 2.04171C11.0466 1.93856 12.3251 2.01028 14.2625 2.44371C14.5804 2.51485 14.8662 2.69558 15.0722 2.948C19.8635 8.8193 21.3943 11.9968 21.9534 16.6216C21.9872 16.9004 21.8964 17.1818 21.7073 17.3895C17.6861 21.8064 14.7759 22.3704 8.75105 20.0604C6.65624 21.5587 5.07425 21.8624 2.25004 21.3106" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
                         </svg></i>')
                 ->nickname('bodypart')
-                ->data('permission', 'bodypart-list')
+                ->data('permission', 'bodyparts-list')
                 ->link->attr(['class' => 'nav-link' ])
                 ->href('#bodypart');
 
             $menu->bodypart->add('<span class="item-name">'.__('message.list_form_title',['form' => __('message.bodypart')]).'</span>', ['route' => 'bodypart.index'])
-                ->data('permission', 'bodypart-list')
+                ->data('permission', 'bodyparts-list')
                 ->prepend('<i class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor"><g><circle cx="12" cy="12" r="8" fill="currentColor"></circle></g></svg></i>')
                 ->link->attr(['class' => activeRoute(route('bodypart.index')) ? 'nav-link active' : 'nav-link']);
 
             $menu->bodypart->add('<span class="item-name">'.__('message.add_form_title',['form' => __('message.bodypart')]).'</span>', ['route' => 'bodypart.create'])
-                ->data('permission', [ 'bodypart-add', 'bodypart-edit'])
+                ->data('permission', [ 'bodyparts-add', 'bodypart-edit'])
                 ->prepend('<i class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor"><g><circle cx="12" cy="12" r="8" fill="currentColor"></circle></g></svg></i>')
                 ->link->attr(['class' => activeRoute(route('bodypart.create')) || request()->is('bodypart/*/edit') ? 'nav-link active' : 'nav-link']);
 
-        $menu->add('<span class="item-name">'.__('message.product').'</span>', ['class' => ''])
-                ->prepend('<i class="icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M2 3L2.26491 3.0883C3.58495 3.52832 4.24497 3.74832 4.62248 4.2721C5 4.79587 5 5.49159 5 6.88304V9.5C5 12.3284 5 13.7426 5.87868 14.6213C6.75736 15.5 8.17157 15.5 11 15.5H19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                            <path d="M7.5 18C8.32843 18 9 18.6716 9 19.5C9 20.3284 8.32843 21 7.5 21C6.67157 21 6 20.3284 6 19.5C6 18.6716 6.67157 18 7.5 18Z" stroke="currentColor" stroke-width="1.5"/>
-                            <path d="M16.5 18.0001C17.3284 18.0001 18 18.6716 18 19.5001C18 20.3285 17.3284 21.0001 16.5 21.0001C15.6716 21.0001 15 20.3285 15 19.5001C15 18.6716 15.6716 18.0001 16.5 18.0001Z" stroke="currentColor" stroke-width="1.5"/>
-                            <path d="M5 6H16.4504C18.5054 6 19.5328 6 19.9775 6.67426C20.4221 7.34853 20.0173 8.29294 19.2078 10.1818L18.7792 11.1818C18.4013 12.0636 18.2123 12.5045 17.8366 12.7523C17.4609 13 16.9812 13 16.0218 13H5" stroke="currentColor" stroke-width="1.5"/>
-                        </svg></i>')
-                ->nickname('product')
-                ->data('permission', 'product-list')
-                ->link->attr(['class' => 'nav-link' ])
-                ->href('#product');
+//        $menu->add('<span class="item-name">'.__('message.product').'</span>', ['class' => ''])
+//                ->prepend('<i class="icon">
+//                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+//                            <path d="M2 3L2.26491 3.0883C3.58495 3.52832 4.24497 3.74832 4.62248 4.2721C5 4.79587 5 5.49159 5 6.88304V9.5C5 12.3284 5 13.7426 5.87868 14.6213C6.75736 15.5 8.17157 15.5 11 15.5H19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+//                            <path d="M7.5 18C8.32843 18 9 18.6716 9 19.5C9 20.3284 8.32843 21 7.5 21C6.67157 21 6 20.3284 6 19.5C6 18.6716 6.67157 18 7.5 18Z" stroke="currentColor" stroke-width="1.5"/>
+//                            <path d="M16.5 18.0001C17.3284 18.0001 18 18.6716 18 19.5001C18 20.3285 17.3284 21.0001 16.5 21.0001C15.6716 21.0001 15 20.3285 15 19.5001C15 18.6716 15.6716 18.0001 16.5 18.0001Z" stroke="currentColor" stroke-width="1.5"/>
+//                            <path d="M5 6H16.4504C18.5054 6 19.5328 6 19.9775 6.67426C20.4221 7.34853 20.0173 8.29294 19.2078 10.1818L18.7792 11.1818C18.4013 12.0636 18.2123 12.5045 17.8366 12.7523C17.4609 13 16.9812 13 16.0218 13H5" stroke="currentColor" stroke-width="1.5"/>
+//                        </svg></i>')
+//                ->nickname('product')
+//                ->data('permission', 'product-list')
+//                ->link->attr(['class' => 'nav-link' ])
+//                ->href('#product');
+//
+//            $menu->product->add('<span class="item-name">'.__('message.list_form_title',['form' => __('message.product')]).'</span>', ['route' => 'product.index'])
+//                ->data('permission', 'product-list')
+//                ->prepend('<i class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor"><g><circle cx="12" cy="12" r="8" fill="currentColor"></circle></g></svg></i>')
+//                ->link->attr(['class' => activeRoute(route('product.index')) ? 'nav-link active' : 'nav-link']);
+//
+//            $menu->product->add('<span class="item-name">'.__('message.add_form_title',['form' => __('message.product')]).'</span>', ['route' => 'product.create'])
+//                ->data('permission', [ 'product-add', 'product-edit'])
+//                ->prepend('<i class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor"><g><circle cx="12" cy="12" r="8" fill="currentColor"></circle></g></svg></i>')
+//                ->link->attr(['class' => activeRoute(route('product.create')) || request()->is('product/*/edit') ? 'nav-link active' : 'nav-link']);
+//
+//            $menu->product->add('<span class="item-name">'.__('message.list_form_title',['form' => __('message.productcategory')]).'</span>', ['route' => 'productcategory.index'])
+//                ->data('permission', 'productcategory-list')
+//                ->prepend('<i class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor"><g><circle cx="12" cy="12" r="8" fill="currentColor"></circle></g></svg></i>')
+//                ->link->attr(['class' => activeRoute(route('productcategory.index')) ? 'nav-link active' : 'nav-link']);
 
-            $menu->product->add('<span class="item-name">'.__('message.list_form_title',['form' => __('message.product')]).'</span>', ['route' => 'product.index'])
-                ->data('permission', 'product-list')
-                ->prepend('<i class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor"><g><circle cx="12" cy="12" r="8" fill="currentColor"></circle></g></svg></i>')
-                ->link->attr(['class' => activeRoute(route('product.index')) ? 'nav-link active' : 'nav-link']);
 
-            $menu->product->add('<span class="item-name">'.__('message.add_form_title',['form' => __('message.product')]).'</span>', ['route' => 'product.create'])
-                ->data('permission', [ 'product-add', 'product-edit'])
-                ->prepend('<i class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor"><g><circle cx="12" cy="12" r="8" fill="currentColor"></circle></g></svg></i>')
-                ->link->attr(['class' => activeRoute(route('product.create')) || request()->is('product/*/edit') ? 'nav-link active' : 'nav-link']);
-            
-            $menu->product->add('<span class="item-name">'.__('message.list_form_title',['form' => __('message.productcategory')]).'</span>', ['route' => 'productcategory.index'])
-                ->data('permission', 'productcategory-list')
-                ->prepend('<i class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor"><g><circle cx="12" cy="12" r="8" fill="currentColor"></circle></g></svg></i>')
-                ->link->attr(['class' => activeRoute(route('productcategory.index')) ? 'nav-link active' : 'nav-link']);
-            
-        $menu->add('<span class="item-name">'.__('message.post').'</span>', ['class' => ''])
-                ->prepend('<i class="icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M18.18 8.03933L18.6435 7.57589C19.4113 6.80804 20.6563 6.80804 21.4241 7.57589C22.192 8.34374 22.192 9.58868 21.4241 10.3565L20.9607 10.82M18.18 8.03933C18.18 8.03933 18.238 9.02414 19.1069 9.89309C19.9759 10.762 20.9607 10.82 20.9607 10.82M18.18 8.03933L13.9194 12.2999C13.6308 12.5885 13.4865 12.7328 13.3624 12.8919C13.2161 13.0796 13.0906 13.2827 12.9882 13.4975C12.9014 13.6797 12.8368 13.8732 12.7078 14.2604L12.2946 15.5L12.1609 15.901M20.9607 10.82L16.7001 15.0806C16.4115 15.3692 16.2672 15.5135 16.1081 15.6376C15.9204 15.7839 15.7173 15.9094 15.5025 16.0118C15.3203 16.0986 15.1268 16.1632 14.7396 16.2922L13.5 16.7054L13.099 16.8391M13.099 16.8391L12.6979 16.9728C12.5074 17.0363 12.2973 16.9867 12.1553 16.8447C12.0133 16.7027 11.9637 16.4926 12.0272 16.3021L12.1609 15.901M13.099 16.8391L12.1609 15.901" stroke="currentColor" stroke-width="1.5"/>
-                            <path d="M8 13H10.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                            <path d="M8 9H14.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                            <path d="M8 17H9.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                            <path d="M19.8284 3.17157C18.6569 2 16.7712 2 13 2H11C7.22876 2 5.34315 2 4.17157 3.17157C3 4.34315 3 6.22876 3 10V14C3 17.7712 3 19.6569 4.17157 20.8284C5.34315 22 7.22876 22 11 22H13C16.7712 22 18.6569 22 19.8284 20.8284C20.7715 19.8853 20.9554 18.4796 20.9913 16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                        </svg></i>')
-                ->nickname('post')
-                ->data('permission', 'post-list')
-                ->link->attr(['class' => 'nav-link' ])
-                ->href('#post');
 
-            $menu->post->add('<span class="item-name">'.__('message.list_form_title',['form' => __('message.post')]).'</span>', ['route' => 'post.index'])
-                ->data('permission', 'post-list')
-                ->prepend('<i class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor"><g><circle cx="12" cy="12" r="8" fill="currentColor"></circle></g></svg></i>')
-                ->link->attr(['class' => activeRoute(route('post.index')) ? 'nav-link active' : 'nav-link']);
 
-            $menu->post->add('<span class="item-name">'.__('message.add_form_title',['form' => __('message.post')]).'</span>', ['route' => 'post.create'])
-                ->data('permission', [ 'post-add', 'post-edit'])
-                ->prepend('<i class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor"><g><circle cx="12" cy="12" r="8" fill="currentColor"></circle></g></svg></i>')
-                ->link->attr(['class' => activeRoute(route('post.create')) || request()->is('post/*/edit') ? 'nav-link active' : 'nav-link']);
+//        $menu->add('<span class="item-name">'.__('message.post').'</span>', ['class' => ''])
+//                ->prepend('<i class="icon">
+//                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+//                            <path d="M18.18 8.03933L18.6435 7.57589C19.4113 6.80804 20.6563 6.80804 21.4241 7.57589C22.192 8.34374 22.192 9.58868 21.4241 10.3565L20.9607 10.82M18.18 8.03933C18.18 8.03933 18.238 9.02414 19.1069 9.89309C19.9759 10.762 20.9607 10.82 20.9607 10.82M18.18 8.03933L13.9194 12.2999C13.6308 12.5885 13.4865 12.7328 13.3624 12.8919C13.2161 13.0796 13.0906 13.2827 12.9882 13.4975C12.9014 13.6797 12.8368 13.8732 12.7078 14.2604L12.2946 15.5L12.1609 15.901M20.9607 10.82L16.7001 15.0806C16.4115 15.3692 16.2672 15.5135 16.1081 15.6376C15.9204 15.7839 15.7173 15.9094 15.5025 16.0118C15.3203 16.0986 15.1268 16.1632 14.7396 16.2922L13.5 16.7054L13.099 16.8391M13.099 16.8391L12.6979 16.9728C12.5074 17.0363 12.2973 16.9867 12.1553 16.8447C12.0133 16.7027 11.9637 16.4926 12.0272 16.3021L12.1609 15.901M13.099 16.8391L12.1609 15.901" stroke="currentColor" stroke-width="1.5"/>
+//                            <path d="M8 13H10.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+//                            <path d="M8 9H14.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+//                            <path d="M8 17H9.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+//                            <path d="M19.8284 3.17157C18.6569 2 16.7712 2 13 2H11C7.22876 2 5.34315 2 4.17157 3.17157C3 4.34315 3 6.22876 3 10V14C3 17.7712 3 19.6569 4.17157 20.8284C5.34315 22 7.22876 22 11 22H13C16.7712 22 18.6569 22 19.8284 20.8284C20.7715 19.8853 20.9554 18.4796 20.9913 16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+//                        </svg></i>')
+//                ->nickname('post')
+//                ->data('permission', 'post-list')
+//                ->link->attr(['class' => 'nav-link' ])
+//                ->href('#post');
+//
+//            $menu->post->add('<span class="item-name">'.__('message.list_form_title',['form' => __('message.post')]).'</span>', ['route' => 'post.index'])
+//                ->data('permission', 'post-list')
+//                ->prepend('<i class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor"><g><circle cx="12" cy="12" r="8" fill="currentColor"></circle></g></svg></i>')
+//                ->link->attr(['class' => activeRoute(route('post.index')) ? 'nav-link active' : 'nav-link']);
+//
+//            $menu->post->add('<span class="item-name">'.__('message.add_form_title',['form' => __('message.post')]).'</span>', ['route' => 'post.create'])
+//                ->data('permission', [ 'post-add', 'post-edit'])
+//                ->prepend('<i class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor"><g><circle cx="12" cy="12" r="8" fill="currentColor"></circle></g></svg></i>')
+//                ->link->attr(['class' => activeRoute(route('post.create')) || request()->is('post/*/edit') ? 'nav-link active' : 'nav-link']);
+//
+//            $menu->post->add('<span class="item-name">'.__('message.list_form_title',['form' => __('message.category')]).'</span>', ['route' => 'category.index'])
+//                ->data('permission', 'category-list')
+//                ->prepend('<i class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor"><g><circle cx="12" cy="12" r="8" fill="currentColor"></circle></g></svg></i>')
+//                ->link->attr(['class' => activeRoute(route('category.index')) ? 'nav-link active' : 'nav-link']);
+//
+//            $menu->post->add('<span class="item-name">'.__('message.list_form_title',['form' => __('message.tags')]).'</span>', ['route' => 'tags.index'])
+//                ->data('permission', 'tags-list')
+//                ->prepend('<i class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor"><g><circle cx="12" cy="12" r="8" fill="currentColor"></circle></g></svg></i>')
+//                ->link->attr(['class' => activeRoute(route('tags.index')) ? 'nav-link active' : 'nav-link']);
 
-            $menu->post->add('<span class="item-name">'.__('message.list_form_title',['form' => __('message.category')]).'</span>', ['route' => 'category.index'])
-                ->data('permission', 'category-list')
-                ->prepend('<i class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor"><g><circle cx="12" cy="12" r="8" fill="currentColor"></circle></g></svg></i>')
-                ->link->attr(['class' => activeRoute(route('category.index')) ? 'nav-link active' : 'nav-link']);
-                
-            $menu->post->add('<span class="item-name">'.__('message.list_form_title',['form' => __('message.tags')]).'</span>', ['route' => 'tags.index'])
-                ->data('permission', 'tags-list')
-                ->prepend('<i class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor"><g><circle cx="12" cy="12" r="8" fill="currentColor"></circle></g></svg></i>')
-                ->link->attr(['class' => activeRoute(route('tags.index')) ? 'nav-link active' : 'nav-link']);
-                
-        $menu->add('<span class="item-name">'.__('message.package').'</span>', ['class' => ''])
-                ->prepend('<i class="icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <rect x="4.75" y="1.75" width="14.5" height="20.5" rx="1.25" stroke="currentColor" stroke-width="1.5"/>
-                            <path d="M13.0896 6.50024L12.6588 5.17427C12.4514 4.53607 11.5486 4.53607 11.3412 5.17427L10.9104 6.50024H9.51615C8.84511 6.50024 8.56611 7.35893 9.10899 7.75336L10.2369 8.57286L9.80609 9.89883C9.59873 10.537 10.3292 11.0677 10.8721 10.6733L12 9.8538L13.1279 10.6733C13.6708 11.0677 14.4013 10.537 14.1939 9.89883L13.7631 8.57286L14.891 7.75336C15.4339 7.35893 15.1549 6.50024 14.4838 6.50024H13.0896Z" stroke="currentColor" stroke-width="1.14541"/>
-                            <path d="M8 15.0215L16 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                            <path d="M8 19.0215L16 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                        </svg>
-                        </i>')
-                ->nickname('package')
-                ->data('permission', 'package-list')
-                ->link->attr(['class' => 'nav-link' ])
-                ->href('#package');
 
-            $menu->package->add('<span class="item-name">'.__('message.list_form_title',['form' => __('message.package')]).'</span>', ['route' => 'package.index'])
-                ->data('permission', 'package-list')
-                ->prepend('<i class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor"><g><circle cx="12" cy="12" r="8" fill="currentColor"></circle></g></svg></i>')
-                ->link->attr(['class' => activeRoute(route('package.index')) ? 'nav-link active' : 'nav-link']);
 
-            $menu->package->add('<span class="item-name">'.__('message.add_form_title',['form' => __('message.package')]).'</span>', ['route' => 'package.create'])
-                ->data('permission', [ 'package-add', 'package-edit'])
-                ->prepend('<i class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor"><g><circle cx="12" cy="12" r="8" fill="currentColor"></circle></g></svg></i>')
-                ->link->attr(['class' => activeRoute(route('package.create')) || request()->is('package/*/edit') ? 'nav-link active' : 'nav-link']);
 
-        $menu->add('<span class="item-name">'.__('message.subscription').'</span>', ['class' => ''])
-                ->prepend('<i class="icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M5 20.3884H7.25993C8.27079 20.3884 9.29253 20.4937 10.2763 20.6964C12.0166 21.0549 13.8488 21.0983 15.6069 20.8138C16.4738 20.6734 17.326 20.4589 18.0975 20.0865C18.7939 19.7504 19.6469 19.2766 20.2199 18.7459C20.7921 18.216 21.388 17.3487 21.8109 16.6707C22.1736 16.0894 21.9982 15.3762 21.4245 14.943C20.7873 14.4619 19.8417 14.462 19.2046 14.9433L17.3974 16.3084C16.697 16.8375 15.932 17.3245 15.0206 17.4699C14.911 17.4874 14.7962 17.5033 14.6764 17.5172M14.6764 17.5172C14.6403 17.5214 14.6038 17.5254 14.5668 17.5292M14.6764 17.5172C14.8222 17.486 14.9669 17.396 15.1028 17.2775C15.746 16.7161 15.7866 15.77 15.2285 15.1431C15.0991 14.9977 14.9475 14.8764 14.7791 14.7759C11.9817 13.1074 7.62942 14.3782 5 16.2429M14.6764 17.5172C14.6399 17.525 14.6033 17.5292 14.5668 17.5292M14.5668 17.5292C14.0434 17.5829 13.4312 17.5968 12.7518 17.5326" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                            <rect x="2" y="14" width="3" height="8" rx="1.5" stroke="currentColor" stroke-width="1.5"/>
-                            <path d="M11.1992 9H14.7992" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                            <path d="M18.7654 6.78078L18.9029 5.56316C19.0109 4.60685 19.0649 4.1287 18.8686 3.93104C18.7624 3.82412 18.618 3.7586 18.4636 3.7473C18.1782 3.72641 17.8198 4.06645 17.1029 4.74654C16.7321 5.09825 16.5468 5.2741 16.34 5.30134C16.2254 5.31643 16.1086 5.30091 16.0028 5.25654C15.8119 5.17646 15.6846 4.95906 15.43 4.52426L14.0878 2.23243C13.6067 1.41081 13.3661 1 13 1C12.6339 1 12.3933 1.41081 11.9122 2.23243L10.57 4.52426C10.3154 4.95906 10.1881 5.17646 9.99716 5.25654C9.89135 5.30091 9.77461 5.31643 9.66002 5.30134C9.45323 5.2741 9.26786 5.09825 8.89712 4.74654C8.18025 4.06645 7.82181 3.72641 7.53639 3.7473C7.38199 3.7586 7.23759 3.82412 7.13139 3.93104C6.93508 4.1287 6.98908 4.60685 7.09708 5.56316L7.2346 6.78078C7.46119 8.78708 7.57449 9.79024 8.28406 10.3951C8.99363 11 10.0571 11 12.184 11H13.816C15.9429 11 17.0064 11 17.7159 10.3951C18.4255 9.79024 18.5388 8.78708 18.7654 6.78078Z" stroke="currentColor" stroke-width="1.5"/>
-                        </svg>
-                        </i>')
-                ->nickname('subscription')
-                ->data('permission', 'subscription-list')
-                ->link->attr(['class' => 'nav-link' ])
-                ->href('#subscription');
+//        $menu->add('<span class="item-name">'.__('message.package').'</span>', ['class' => ''])
+//                ->prepend('<i class="icon">
+//                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+//                            <rect x="4.75" y="1.75" width="14.5" height="20.5" rx="1.25" stroke="currentColor" stroke-width="1.5"/>
+//                            <path d="M13.0896 6.50024L12.6588 5.17427C12.4514 4.53607 11.5486 4.53607 11.3412 5.17427L10.9104 6.50024H9.51615C8.84511 6.50024 8.56611 7.35893 9.10899 7.75336L10.2369 8.57286L9.80609 9.89883C9.59873 10.537 10.3292 11.0677 10.8721 10.6733L12 9.8538L13.1279 10.6733C13.6708 11.0677 14.4013 10.537 14.1939 9.89883L13.7631 8.57286L14.891 7.75336C15.4339 7.35893 15.1549 6.50024 14.4838 6.50024H13.0896Z" stroke="currentColor" stroke-width="1.14541"/>
+//                            <path d="M8 15.0215L16 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+//                            <path d="M8 19.0215L16 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+//                        </svg>
+//                        </i>')
+//                ->nickname('package')
+//                ->data('permission', 'package-list')
+//                ->link->attr(['class' => 'nav-link' ])
+//                ->href('#package');
+//
+//            $menu->package->add('<span class="item-name">'.__('message.list_form_title',['form' => __('message.package')]).'</span>', ['route' => 'package.index'])
+//                ->data('permission', 'package-list')
+//                ->prepend('<i class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor"><g><circle cx="12" cy="12" r="8" fill="currentColor"></circle></g></svg></i>')
+//                ->link->attr(['class' => activeRoute(route('package.index')) ? 'nav-link active' : 'nav-link']);
+//
+//            $menu->package->add('<span class="item-name">'.__('message.add_form_title',['form' => __('message.package')]).'</span>', ['route' => 'package.create'])
+//                ->data('permission', [ 'package-add', 'package-edit'])
+//                ->prepend('<i class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor"><g><circle cx="12" cy="12" r="8" fill="currentColor"></circle></g></svg></i>')
+//                ->link->attr(['class' => activeRoute(route('package.create')) || request()->is('package/*/edit') ? 'nav-link active' : 'nav-link']);
 
-            $menu->subscription->add('<span class="item-name">'.__('message.list_form_title',['form' => __('message.subscription')]).'</span>', ['route' => 'subscription.index'])
-                ->data('permission', 'subscription-list')
-                ->prepend('<i class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor"><g><circle cx="12" cy="12" r="8" fill="currentColor"></circle></g></svg></i>')
-                ->link->attr(['class' => activeRoute(route('subscription.index')) ? 'nav-link active' : 'nav-link']);
+
+
+//        $menu->add('<span class="item-name">'.__('message.subscription').'</span>', ['class' => ''])
+//                ->prepend('<i class="icon">
+//                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+//                            <path d="M5 20.3884H7.25993C8.27079 20.3884 9.29253 20.4937 10.2763 20.6964C12.0166 21.0549 13.8488 21.0983 15.6069 20.8138C16.4738 20.6734 17.326 20.4589 18.0975 20.0865C18.7939 19.7504 19.6469 19.2766 20.2199 18.7459C20.7921 18.216 21.388 17.3487 21.8109 16.6707C22.1736 16.0894 21.9982 15.3762 21.4245 14.943C20.7873 14.4619 19.8417 14.462 19.2046 14.9433L17.3974 16.3084C16.697 16.8375 15.932 17.3245 15.0206 17.4699C14.911 17.4874 14.7962 17.5033 14.6764 17.5172M14.6764 17.5172C14.6403 17.5214 14.6038 17.5254 14.5668 17.5292M14.6764 17.5172C14.8222 17.486 14.9669 17.396 15.1028 17.2775C15.746 16.7161 15.7866 15.77 15.2285 15.1431C15.0991 14.9977 14.9475 14.8764 14.7791 14.7759C11.9817 13.1074 7.62942 14.3782 5 16.2429M14.6764 17.5172C14.6399 17.525 14.6033 17.5292 14.5668 17.5292M14.5668 17.5292C14.0434 17.5829 13.4312 17.5968 12.7518 17.5326" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+//                            <rect x="2" y="14" width="3" height="8" rx="1.5" stroke="currentColor" stroke-width="1.5"/>
+//                            <path d="M11.1992 9H14.7992" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+//                            <path d="M18.7654 6.78078L18.9029 5.56316C19.0109 4.60685 19.0649 4.1287 18.8686 3.93104C18.7624 3.82412 18.618 3.7586 18.4636 3.7473C18.1782 3.72641 17.8198 4.06645 17.1029 4.74654C16.7321 5.09825 16.5468 5.2741 16.34 5.30134C16.2254 5.31643 16.1086 5.30091 16.0028 5.25654C15.8119 5.17646 15.6846 4.95906 15.43 4.52426L14.0878 2.23243C13.6067 1.41081 13.3661 1 13 1C12.6339 1 12.3933 1.41081 11.9122 2.23243L10.57 4.52426C10.3154 4.95906 10.1881 5.17646 9.99716 5.25654C9.89135 5.30091 9.77461 5.31643 9.66002 5.30134C9.45323 5.2741 9.26786 5.09825 8.89712 4.74654C8.18025 4.06645 7.82181 3.72641 7.53639 3.7473C7.38199 3.7586 7.23759 3.82412 7.13139 3.93104C6.93508 4.1287 6.98908 4.60685 7.09708 5.56316L7.2346 6.78078C7.46119 8.78708 7.57449 9.79024 8.28406 10.3951C8.99363 11 10.0571 11 12.184 11H13.816C15.9429 11 17.0064 11 17.7159 10.3951C18.4255 9.79024 18.5388 8.78708 18.7654 6.78078Z" stroke="currentColor" stroke-width="1.5"/>
+//                        </svg>
+//                        </i>')
+//                ->nickname('subscription')
+//                ->data('permission', 'subscription-list')
+//                ->link->attr(['class' => 'nav-link' ])
+//                ->href('#subscription');
+//
+//            $menu->subscription->add('<span class="item-name">'.__('message.list_form_title',['form' => __('message.subscription')]).'</span>', ['route' => 'subscription.index'])
+//                ->data('permission', 'subscription-list')
+//                ->prepend('<i class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor"><g><circle cx="12" cy="12" r="8" fill="currentColor"></circle></g></svg></i>')
+//                ->link->attr(['class' => activeRoute(route('subscription.index')) ? 'nav-link active' : 'nav-link']);
+
+
+
 
         $menu->add('<span>'.__('message.account_setting').'</span>', ['class' => ''])
             ->prepend('<i class="icon">
@@ -313,72 +324,74 @@
                 ->prepend('<i class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor"><g><circle cx="12" cy="12" r="8" fill="currentColor"></circle></g></svg></i>')
                 ->link->attr(['class' => activeRoute(route('permission.index')) ? 'nav-link active' : 'nav-link']);
 
-        $menu->add('<span>'.__('message.pages').'</span>', ['class' => ''])
-            ->prepend('<i class="icon">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M20.3116 12.6473L20.8293 10.7154C21.4335 8.46034 21.7356 7.3328 21.5081 6.35703C21.3285 5.58657 20.9244 4.88668 20.347 4.34587C19.6157 3.66095 18.4881 3.35883 16.2331 2.75458C13.978 2.15033 12.8504 1.84821 11.8747 2.07573C11.1042 2.25537 10.4043 2.65945 9.86351 3.23687C9.27709 3.86298 8.97128 4.77957 8.51621 6.44561C8.43979 6.7254 8.35915 7.02633 8.27227 7.35057L8.27222 7.35077L7.75458 9.28263C7.15033 11.5377 6.84821 12.6652 7.07573 13.641C7.25537 14.4115 7.65945 15.1114 8.23687 15.6522C8.96815 16.3371 10.0957 16.6392 12.3508 17.2435L12.3508 17.2435C14.3834 17.7881 15.4999 18.0873 16.415 17.9744C16.5152 17.9621 16.6129 17.9448 16.7092 17.9223C17.4796 17.7427 18.1795 17.3386 18.7203 16.7612C19.4052 16.0299 19.7074 14.9024 20.3116 12.6473Z" stroke="currentColor" stroke-width="1.5"/>
-                        <path d="M16.415 17.9741C16.2065 18.6126 15.8399 19.1902 15.347 19.6519C14.6157 20.3368 13.4881 20.6389 11.2331 21.2432C8.97798 21.8474 7.85044 22.1495 6.87466 21.922C6.10421 21.7424 5.40432 21.3383 4.86351 20.7609C4.17859 20.0296 3.87647 18.9021 3.27222 16.647L2.75458 14.7151C2.15033 12.46 1.84821 11.3325 2.07573 10.3567C2.25537 9.58627 2.65945 8.88638 3.23687 8.34557C3.96815 7.66065 5.09569 7.35853 7.35077 6.75428C7.77741 6.63996 8.16368 6.53646 8.51621 6.44531" stroke="currentColor" stroke-width="1.5"/>
-                        <path d="M11.7773 10L16.607 11.2941" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                        <path d="M11 12.8975L13.8978 13.6739" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                    </svg></i>')
-            ->nickname('pages')
-            ->data('permission', ['terms-condition','privacy-policy'])
-            ->link->attr(['class' => 'nav-link' ])
-            ->href('#pages');
+//        $menu->add('<span>'.__('message.pages').'</span>', ['class' => ''])
+//            ->prepend('<i class="icon">
+//                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+//                        <path d="M20.3116 12.6473L20.8293 10.7154C21.4335 8.46034 21.7356 7.3328 21.5081 6.35703C21.3285 5.58657 20.9244 4.88668 20.347 4.34587C19.6157 3.66095 18.4881 3.35883 16.2331 2.75458C13.978 2.15033 12.8504 1.84821 11.8747 2.07573C11.1042 2.25537 10.4043 2.65945 9.86351 3.23687C9.27709 3.86298 8.97128 4.77957 8.51621 6.44561C8.43979 6.7254 8.35915 7.02633 8.27227 7.35057L8.27222 7.35077L7.75458 9.28263C7.15033 11.5377 6.84821 12.6652 7.07573 13.641C7.25537 14.4115 7.65945 15.1114 8.23687 15.6522C8.96815 16.3371 10.0957 16.6392 12.3508 17.2435L12.3508 17.2435C14.3834 17.7881 15.4999 18.0873 16.415 17.9744C16.5152 17.9621 16.6129 17.9448 16.7092 17.9223C17.4796 17.7427 18.1795 17.3386 18.7203 16.7612C19.4052 16.0299 19.7074 14.9024 20.3116 12.6473Z" stroke="currentColor" stroke-width="1.5"/>
+//                        <path d="M16.415 17.9741C16.2065 18.6126 15.8399 19.1902 15.347 19.6519C14.6157 20.3368 13.4881 20.6389 11.2331 21.2432C8.97798 21.8474 7.85044 22.1495 6.87466 21.922C6.10421 21.7424 5.40432 21.3383 4.86351 20.7609C4.17859 20.0296 3.87647 18.9021 3.27222 16.647L2.75458 14.7151C2.15033 12.46 1.84821 11.3325 2.07573 10.3567C2.25537 9.58627 2.65945 8.88638 3.23687 8.34557C3.96815 7.66065 5.09569 7.35853 7.35077 6.75428C7.77741 6.63996 8.16368 6.53646 8.51621 6.44531" stroke="currentColor" stroke-width="1.5"/>
+//                        <path d="M11.7773 10L16.607 11.2941" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+//                        <path d="M11 12.8975L13.8978 13.6739" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+//                    </svg></i>')
+//            ->nickname('pages')
+//            ->data('permission', ['terms-condition','privacy-policy'])
+//            ->link->attr(['class' => 'nav-link' ])
+//            ->href('#pages');
+//
+//            $menu->pages->add('<span>'.__('message.terms_condition').'</span>', ['route' => 'pages.term_condition'])
+//                ->data('permission', 'terms-condition')
+//                ->prepend('<i class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor"><g><circle cx="12" cy="12" r="8" fill="currentColor"></circle></g></svg></i>')
+//                ->link->attr(['class' => activeRoute(route('pages.term_condition')) ? 'nav-link active' : 'nav-link']);
+//
+//            $menu->pages->add('<span>'.__('message.privacy_policy').'</span>', ['route' => 'pages.privacy_policy'])
+//                ->data('permission', 'privacy-policy')
+//                ->prepend('<i class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor"><g><circle cx="12" cy="12" r="8" fill="currentColor"></circle></g></svg></i>')
+//                ->link->attr(['class' => activeRoute(route('pages.privacy_policy')) ? 'nav-link active' : 'nav-link']);
 
-            $menu->pages->add('<span>'.__('message.terms_condition').'</span>', ['route' => 'pages.term_condition'])
-                ->data('permission', 'terms-condition')
-                ->prepend('<i class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor"><g><circle cx="12" cy="12" r="8" fill="currentColor"></circle></g></svg></i>')
-                ->link->attr(['class' => activeRoute(route('pages.term_condition')) ? 'nav-link active' : 'nav-link']);
+//        $menu->add('<span class="item-name">'.__('message.pushnotification').'</span>', ['class' => ''])
+//            ->prepend('<i class="icon">
+//                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+//                    <path d="M18.7491 9.70957V9.00497C18.7491 5.13623 15.7274 2 12 2C8.27256 2 5.25087 5.13623 5.25087 9.00497V9.70957C5.25087 10.5552 5.00972 11.3818 4.5578 12.0854L3.45036 13.8095C2.43882 15.3843 3.21105 17.5249 4.97036 18.0229C9.57274 19.3257 14.4273 19.3257 19.0296 18.0229C20.789 17.5249 21.5612 15.3843 20.5496 13.8095L19.4422 12.0854C18.9903 11.3818 18.7491 10.5552 18.7491 9.70957Z" stroke="currentColor" stroke-width="1.5"/>
+//                    <path d="M7.5 19C8.15503 20.7478 9.92246 22 12 22C14.0775 22 15.845 20.7478 16.5 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+//                    </svg></i>')
+//            ->nickname('pushnotification')
+//            ->data('permission', 'pushnotification-list')
+//            ->link->attr(['class' => 'nav-link' ])
+//            ->href('#pushnotification');
+//
+//            $menu->pushnotification->add('<span class="item-name">'.__('message.list_form_title',['form' => __('message.pushnotification')]).'</span>', ['route' => 'pushnotification.index'])
+//                ->data('permission', 'pushnotification-list')
+//                ->prepend('<i class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor"><g><circle cx="12" cy="12" r="8" fill="currentColor"></circle></g></svg></i>')
+//                ->link->attr(['class' => activeRoute(route('pushnotification.index')) ? 'nav-link active' : 'nav-link']);
+//
+//            $menu->pushnotification->add('<span class="item-name">'.__('message.add_form_title',['form' => __('message.pushnotification')]).'</span>', ['route' => 'pushnotification.create'])
+//                ->data('permission', 'pushnotification-add')
+//                ->prepend('<i class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor"><g><circle cx="12" cy="12" r="8" fill="currentColor"></circle></g></svg></i>')
+//                ->link->attr(['class' => activeRoute(route('pushnotification.create')) ? 'nav-link active' : 'nav-link']);
 
-            $menu->pages->add('<span>'.__('message.privacy_policy').'</span>', ['route' => 'pages.privacy_policy'])
-                ->data('permission', 'privacy-policy')
-                ->prepend('<i class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor"><g><circle cx="12" cy="12" r="8" fill="currentColor"></circle></g></svg></i>')
-                ->link->attr(['class' => activeRoute(route('pages.privacy_policy')) ? 'nav-link active' : 'nav-link']);
 
-        $menu->add('<span class="item-name">'.__('message.pushnotification').'</span>', ['class' => ''])
-            ->prepend('<i class="icon">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M18.7491 9.70957V9.00497C18.7491 5.13623 15.7274 2 12 2C8.27256 2 5.25087 5.13623 5.25087 9.00497V9.70957C5.25087 10.5552 5.00972 11.3818 4.5578 12.0854L3.45036 13.8095C2.43882 15.3843 3.21105 17.5249 4.97036 18.0229C9.57274 19.3257 14.4273 19.3257 19.0296 18.0229C20.789 17.5249 21.5612 15.3843 20.5496 13.8095L19.4422 12.0854C18.9903 11.3818 18.7491 10.5552 18.7491 9.70957Z" stroke="currentColor" stroke-width="1.5"/>
-                    <path d="M7.5 19C8.15503 20.7478 9.92246 22 12 22C14.0775 22 15.845 20.7478 16.5 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                    </svg></i>')
-            ->nickname('pushnotification')
-            ->data('permission', 'pushnotification-list')
-            ->link->attr(['class' => 'nav-link' ])
-            ->href('#pushnotification');
 
-            $menu->pushnotification->add('<span class="item-name">'.__('message.list_form_title',['form' => __('message.pushnotification')]).'</span>', ['route' => 'pushnotification.index'])
-                ->data('permission', 'pushnotification-list')
-                ->prepend('<i class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor"><g><circle cx="12" cy="12" r="8" fill="currentColor"></circle></g></svg></i>')
-                ->link->attr(['class' => activeRoute(route('pushnotification.index')) ? 'nav-link active' : 'nav-link']);
+//        $menu->add('<span class="item-name">'.__('message.quotes').'</span>', ['class' => ''])
+//                ->prepend('<i class="icon">
+//                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+//                            <path d="M6.0894 14.3092L6.58097 14.4006C6.60635 14.2642 6.5739 14.1234 6.49139 14.0118C6.40888 13.9003 6.28372 13.828 6.14586 13.8124L6.0894 14.3092ZM6.21523 5.9626L6.18824 6.46188L6.20173 6.4626H6.21523V5.9626ZM9.75938 13.701L10.229 13.8726L9.75938 13.701ZM3.38411 19.0277L2.9762 18.7386C2.8602 18.9022 2.85322 19.1193 2.95847 19.2901C3.06372 19.4608 3.26083 19.5522 3.45914 19.5221L3.38411 19.0277ZM6.14586 13.8124C5.30247 13.7165 4.37659 13.38 3.67228 12.7945C2.98015 12.2191 2.5 11.4052 2.5 10.3037H1.5C1.5 11.7387 2.14181 12.8226 3.03302 13.5635C3.91204 14.2942 5.03086 14.6921 6.03295 14.806L6.14586 13.8124ZM2.5 10.3037C2.5 8.01378 4.18533 6.35361 6.18824 6.46188L6.24222 5.46333C3.58951 5.31994 1.5 7.52057 1.5 10.3037H2.5ZM6.21523 6.4626C8.40815 6.4626 9.84658 8.47295 9.84658 10.3037H10.8466C10.8466 8.06594 9.09529 5.4626 6.21523 5.4626V6.4626ZM9.84658 10.3037C9.84658 11.3473 9.76326 12.2337 9.28976 13.5294L10.229 13.8726C10.7518 12.4421 10.8466 11.4347 10.8466 10.3037H9.84658ZM9.28976 13.5294C9.11014 14.0209 7.7045 17.8662 3.30907 18.5334L3.45914 19.5221C8.45885 18.7632 10.0408 14.3878 10.229 13.8726L9.28976 13.5294ZM3.79202 19.3169C4.34794 18.5326 4.98077 17.7465 5.47004 16.9968C5.9777 16.2189 6.39675 15.3908 6.58097 14.4006L5.59784 14.2177C5.44652 15.0311 5.10012 15.7339 4.63261 16.4502C4.14671 17.1947 3.59466 17.8661 2.9762 18.7386L3.79202 19.3169Z" stroke="currentColor" stroke-width="1"/>
+//                            <path d="M16.7432 14.2938L17.2348 14.3853C17.2602 14.2488 17.2277 14.108 17.1452 13.9965C17.0627 13.8849 16.9375 13.8127 16.7997 13.797L16.7432 14.2938ZM16.869 5.94722L16.8421 6.44649L16.8555 6.44722H16.869V5.94722ZM20.4132 13.6856L20.8828 13.8573L20.4132 13.6856ZM14.0379 19.0123L13.63 18.7232C13.514 18.8868 13.507 19.104 13.6123 19.2747C13.7175 19.4455 13.9146 19.5368 14.1129 19.5067L14.0379 19.0123ZM16.7997 13.797C15.9563 13.7012 15.0304 13.3646 14.3261 12.7791C13.634 12.2037 13.1538 11.3898 13.1538 10.2883H12.1538C12.1538 11.7233 12.7956 12.8072 13.6868 13.5481C14.5659 14.2788 15.6847 14.6767 16.6868 14.7906L16.7997 13.797ZM13.1538 10.2883C13.1538 7.9984 14.8391 6.33823 16.8421 6.44649L16.896 5.44795C14.2433 5.30456 12.1538 7.50519 12.1538 10.2883H13.1538ZM16.869 6.44722C19.062 6.44722 20.5004 8.45757 20.5004 10.2883H21.5004C21.5004 8.05056 19.7491 5.44722 16.869 5.44722V6.44722ZM20.5004 10.2883C20.5004 11.3319 20.4171 12.2183 19.9436 13.514L20.8828 13.8573C21.4056 12.4267 21.5004 11.4193 21.5004 10.2883H20.5004ZM19.9436 13.514C19.764 14.0055 18.3583 17.8508 13.9629 18.518L14.1129 19.5067C19.1127 18.7478 20.6946 14.3724 20.8828 13.8573L19.9436 13.514ZM14.4458 19.3015C15.0018 18.5172 15.6346 17.7311 16.1239 16.9814C16.6315 16.2035 17.0506 15.3754 17.2348 14.3853L16.2516 14.2023C16.1003 15.0157 15.7539 15.7185 15.2864 16.4349C14.8005 17.1794 14.2485 17.8507 13.63 18.7232L14.4458 19.3015Z" stroke="currentColor" stroke-width="1"/>
+//                        </svg></i>')
+//                ->nickname('quotes')
+//                ->data('permission', 'quotes-list')
+//                ->link->attr(['class' => 'nav-link' ])
+//                ->href('#quotes');
+//
+//            $menu->quotes->add('<span class="item-name">'.__('message.list_form_title',['form' => __('message.quotes')]).'</span>', ['route' => 'quotes.index'])
+//                ->data('permission', 'quotes-list')
+//                ->prepend('<i class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor"><g><circle cx="12" cy="12" r="8" fill="currentColor"></circle></g></svg></i>')
+//                ->link->attr(['class' => activeRoute(route('quotes.index')) ? 'nav-link active' : 'nav-link']);
+//
+//            $menu->quotes->add('<span class="item-name">'.__('message.add_form_title',['form' => __('message.quotes')]).'</span>', ['route' => 'quotes.create'])
+//                ->data('permission', [ 'quotes-add', 'quotes-edit'])
+//                ->prepend('<i class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor"><g><circle cx="12" cy="12" r="8" fill="currentColor"></circle></g></svg></i>')
+//                ->link->attr(['class' => activeRoute(route('quotes.create')) || request()->is('quotes/*/edit') ? 'nav-link active' : 'nav-link']);
 
-            $menu->pushnotification->add('<span class="item-name">'.__('message.add_form_title',['form' => __('message.pushnotification')]).'</span>', ['route' => 'pushnotification.create'])
-                ->data('permission', 'pushnotification-add')
-                ->prepend('<i class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor"><g><circle cx="12" cy="12" r="8" fill="currentColor"></circle></g></svg></i>')
-                ->link->attr(['class' => activeRoute(route('pushnotification.create')) ? 'nav-link active' : 'nav-link']);
 
-        $menu->add('<span class="item-name">'.__('message.quotes').'</span>', ['class' => ''])
-                ->prepend('<i class="icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M6.0894 14.3092L6.58097 14.4006C6.60635 14.2642 6.5739 14.1234 6.49139 14.0118C6.40888 13.9003 6.28372 13.828 6.14586 13.8124L6.0894 14.3092ZM6.21523 5.9626L6.18824 6.46188L6.20173 6.4626H6.21523V5.9626ZM9.75938 13.701L10.229 13.8726L9.75938 13.701ZM3.38411 19.0277L2.9762 18.7386C2.8602 18.9022 2.85322 19.1193 2.95847 19.2901C3.06372 19.4608 3.26083 19.5522 3.45914 19.5221L3.38411 19.0277ZM6.14586 13.8124C5.30247 13.7165 4.37659 13.38 3.67228 12.7945C2.98015 12.2191 2.5 11.4052 2.5 10.3037H1.5C1.5 11.7387 2.14181 12.8226 3.03302 13.5635C3.91204 14.2942 5.03086 14.6921 6.03295 14.806L6.14586 13.8124ZM2.5 10.3037C2.5 8.01378 4.18533 6.35361 6.18824 6.46188L6.24222 5.46333C3.58951 5.31994 1.5 7.52057 1.5 10.3037H2.5ZM6.21523 6.4626C8.40815 6.4626 9.84658 8.47295 9.84658 10.3037H10.8466C10.8466 8.06594 9.09529 5.4626 6.21523 5.4626V6.4626ZM9.84658 10.3037C9.84658 11.3473 9.76326 12.2337 9.28976 13.5294L10.229 13.8726C10.7518 12.4421 10.8466 11.4347 10.8466 10.3037H9.84658ZM9.28976 13.5294C9.11014 14.0209 7.7045 17.8662 3.30907 18.5334L3.45914 19.5221C8.45885 18.7632 10.0408 14.3878 10.229 13.8726L9.28976 13.5294ZM3.79202 19.3169C4.34794 18.5326 4.98077 17.7465 5.47004 16.9968C5.9777 16.2189 6.39675 15.3908 6.58097 14.4006L5.59784 14.2177C5.44652 15.0311 5.10012 15.7339 4.63261 16.4502C4.14671 17.1947 3.59466 17.8661 2.9762 18.7386L3.79202 19.3169Z" stroke="currentColor" stroke-width="1"/>
-                            <path d="M16.7432 14.2938L17.2348 14.3853C17.2602 14.2488 17.2277 14.108 17.1452 13.9965C17.0627 13.8849 16.9375 13.8127 16.7997 13.797L16.7432 14.2938ZM16.869 5.94722L16.8421 6.44649L16.8555 6.44722H16.869V5.94722ZM20.4132 13.6856L20.8828 13.8573L20.4132 13.6856ZM14.0379 19.0123L13.63 18.7232C13.514 18.8868 13.507 19.104 13.6123 19.2747C13.7175 19.4455 13.9146 19.5368 14.1129 19.5067L14.0379 19.0123ZM16.7997 13.797C15.9563 13.7012 15.0304 13.3646 14.3261 12.7791C13.634 12.2037 13.1538 11.3898 13.1538 10.2883H12.1538C12.1538 11.7233 12.7956 12.8072 13.6868 13.5481C14.5659 14.2788 15.6847 14.6767 16.6868 14.7906L16.7997 13.797ZM13.1538 10.2883C13.1538 7.9984 14.8391 6.33823 16.8421 6.44649L16.896 5.44795C14.2433 5.30456 12.1538 7.50519 12.1538 10.2883H13.1538ZM16.869 6.44722C19.062 6.44722 20.5004 8.45757 20.5004 10.2883H21.5004C21.5004 8.05056 19.7491 5.44722 16.869 5.44722V6.44722ZM20.5004 10.2883C20.5004 11.3319 20.4171 12.2183 19.9436 13.514L20.8828 13.8573C21.4056 12.4267 21.5004 11.4193 21.5004 10.2883H20.5004ZM19.9436 13.514C19.764 14.0055 18.3583 17.8508 13.9629 18.518L14.1129 19.5067C19.1127 18.7478 20.6946 14.3724 20.8828 13.8573L19.9436 13.514ZM14.4458 19.3015C15.0018 18.5172 15.6346 17.7311 16.1239 16.9814C16.6315 16.2035 17.0506 15.3754 17.2348 14.3853L16.2516 14.2023C16.1003 15.0157 15.7539 15.7185 15.2864 16.4349C14.8005 17.1794 14.2485 17.8507 13.63 18.7232L14.4458 19.3015Z" stroke="currentColor" stroke-width="1"/>
-                        </svg></i>')
-                ->nickname('quotes')
-                ->data('permission', 'quotes-list')
-                ->link->attr(['class' => 'nav-link' ])
-                ->href('#quotes');
-                
-            $menu->quotes->add('<span class="item-name">'.__('message.list_form_title',['form' => __('message.quotes')]).'</span>', ['route' => 'quotes.index'])
-                ->data('permission', 'quotes-list')
-                ->prepend('<i class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor"><g><circle cx="12" cy="12" r="8" fill="currentColor"></circle></g></svg></i>')
-                ->link->attr(['class' => activeRoute(route('quotes.index')) ? 'nav-link active' : 'nav-link']);
-
-            $menu->quotes->add('<span class="item-name">'.__('message.add_form_title',['form' => __('message.quotes')]).'</span>', ['route' => 'quotes.create'])
-                ->data('permission', [ 'quotes-add', 'quotes-edit'])
-                ->prepend('<i class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor"><g><circle cx="12" cy="12" r="8" fill="currentColor"></circle></g></svg></i>')
-                ->link->attr(['class' => activeRoute(route('quotes.create')) || request()->is('quotes/*/edit') ? 'nav-link active' : 'nav-link']);
-
-        
         $menu->add('<span class="item-name">'.__('message.setting').'</span>', ['route' => 'setting.index'])
             ->prepend('<i class="icon">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -391,9 +404,9 @@
     });
 @endphp
 <ul class="navbar-nav iq-main-menu"  id="sidebar">
-   
-    
+
+
     <li><hr class="hr-horizontal"></li>
-    
+
     @include(config('laravel-menu.views.bootstrap-items'), ['items' => $MyNavBar->roots()])
 </ul>

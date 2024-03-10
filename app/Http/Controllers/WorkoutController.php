@@ -62,6 +62,10 @@ class WorkoutController extends Controller
         }
 
         $workout = Workout::create($request->all());
+        if (auth()->user()->hasRole('user')) {
+            // Add the user_id to the data array
+            $workout['user_id'] = auth()->id();
+        }
 
 
         storeMediaFile($workout,$request->workout_image, 'workout_image');
@@ -226,6 +230,7 @@ class WorkoutController extends Controller
         }
 
         $workout = Workout::findOrFail($id);
+        $this->authorize('delete', $workout);
         $status = 'errors';
         $message = __('message.not_found_entry', ['name' => __('message.workout')]);
 

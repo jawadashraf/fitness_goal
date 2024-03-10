@@ -62,7 +62,7 @@ class BodyPartController extends Controller
 
         $bodypart = BodyPart::create($request->all());
 
-        storeMediaFile($bodypart,$request->bodypart_image, 'bodypart_image'); 
+        storeMediaFile($bodypart,$request->bodypart_image, 'bodypart_image');
 
         return redirect()->route('bodypart.index')->withSuccess(__('message.save_form', ['form' => __('message.bodypart')]));
     }
@@ -92,6 +92,8 @@ class BodyPartController extends Controller
         }
 
         $data = BodyPart::findOrFail($id);
+        $this->authorize('update', $data);
+
         $pageTitle = __('message.update_form_title',[ 'form' => __('message.bodypart') ]);
 
         return view('bodypart.form', compact('data','id','pageTitle'));
@@ -112,6 +114,7 @@ class BodyPartController extends Controller
         }
 
         $bodypart = BodyPart::findOrFail($id);
+        $this->authorize('update', $bodypart);
 
         // bodypart data...
         $bodypart->fill($request->all())->update();

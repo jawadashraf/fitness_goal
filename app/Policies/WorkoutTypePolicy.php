@@ -65,7 +65,7 @@ class WorkoutTypePolicy
      */
     public function delete(User $user, WorkoutType $workoutType)
     {
-        //
+        return $user->id === $workoutType->user_id || ($user->hasRole('admin') && $workoutType->user_id == null);
     }
 
     /**

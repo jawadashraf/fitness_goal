@@ -65,7 +65,7 @@ class ExercisePolicy
      */
     public function delete(User $user, Exercise $exercise)
     {
-        //
+        return $user->id === $exercise->user_id || ($user->hasRole('admin') && $exercise->user_id == null);
     }
 
     /**

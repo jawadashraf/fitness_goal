@@ -65,7 +65,7 @@ class EquipmentPolicy
      */
     public function delete(User $user, Equipment $equipment)
     {
-        //
+        return $user->id === $equipment->user_id || ($user->hasRole('admin') && $equipment->user_id == null);
     }
 
     /**

@@ -65,7 +65,7 @@ class BodyPartPolicy
      */
     public function delete(User $user, BodyPart $bodyPart)
     {
-        //
+        return $user->id === $bodyPart->user_id || ($user->hasRole('admin') && $bodyPart->user_id == null);
     }
 
     /**
