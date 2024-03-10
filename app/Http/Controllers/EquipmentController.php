@@ -60,10 +60,13 @@ class EquipmentController extends Controller
             $message = __('message.permission_denied_for_account');
             return redirect()->back()->withErrors($message);
         }
-
+        if (auth()->user()->hasRole('user')) {
+            // Add the user_id to the data array
+            $request['user_id'] = auth()->id();
+        }
         $equipment = Equipment::create($request->all());
 
-        storeMediaFile($equipment,$request->equipment_image, 'equipment_image'); 
+        storeMediaFile($equipment,$request->equipment_image, 'equipment_image');
 
         return redirect()->route('equipment.index')->withSuccess(__('message.save_form', ['form' => __('message.equipment')]));
     }

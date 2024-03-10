@@ -60,12 +60,12 @@ class WorkoutController extends Controller
             $message = __('message.permission_denied_for_account');
             return redirect()->back()->withErrors($message);
         }
-
-        $workout = Workout::create($request->all());
         if (auth()->user()->hasRole('user')) {
             // Add the user_id to the data array
-            $workout['user_id'] = auth()->id();
+            $request['user_id'] = auth()->id();
         }
+        $workout = Workout::create($request->all());
+
 
 
         storeMediaFile($workout,$request->workout_image, 'workout_image');

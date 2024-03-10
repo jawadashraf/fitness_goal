@@ -60,7 +60,12 @@ class BodyPartController extends Controller
             return redirect()->back()->withErrors($message);
         }
 
+        if (auth()->user()->hasRole('user')) {
+            // Add the user_id to the data array
+            $request['user_id'] = auth()->id();
+        }
         $bodypart = BodyPart::create($request->all());
+
 
         storeMediaFile($bodypart,$request->bodypart_image, 'bodypart_image');
 

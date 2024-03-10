@@ -51,7 +51,7 @@ class WorkoutDataTable extends DataTable
                 });
             })
             ->editColumn('created_at', function($query){
-                return dateAgoFormate($query->created_at, true); 
+                return dateAgoFormate($query->created_at, true);
             })
             ->editColumn('updated_at', function($query){
                 return dateAgoFormate($query->updated_at, true);
@@ -72,7 +72,7 @@ class WorkoutDataTable extends DataTable
                         $column_name = request()->columns[$column_index]['data'];
                         $direction = $order['dir'];
                     }
-    
+
                     $query->orderBy($column_name, $direction);
                 }
             })
@@ -87,8 +87,15 @@ class WorkoutDataTable extends DataTable
      */
     public function query(Workout $model)
     {
-        return $model->newQuery();
+        $userId = auth()->id(); // Get the authenticated user's ID
+
+        // Query for workouts where user_id is null (global workouts) or matches the authenticated user's ID
+        return $model->newQuery()->where(function ($query) use ($userId) {
+            $query->where('user_id', $userId)
+                ->orWhereNull('user_id');
+        });
     }
+
 
 
     /**
@@ -104,8 +111,8 @@ class WorkoutDataTable extends DataTable
                 ->title(__('message.srno'))
                 ->orderable(false),
             ['data' => 'title', 'name' => 'title', 'title' => __('message.title')],
-            ['data' => 'level.title', 'name' => 'level.title', 'title' => __('message.level'), 'orderable' => false],   
-            ['data' => 'workout_type.title', 'name' => 'workout_type.title', 'title' => __('message.workouttype'), 'orderable' => false],  
+            ['data' => 'level.title', 'name' => 'level.title', 'title' => __('message.level'), 'orderable' => false],
+            ['data' => 'workout_type.title', 'name' => 'workout_type.title', 'title' => __('message.workouttype'), 'orderable' => false],
             ['data' => 'status', 'name' => 'status', 'title' => __('message.status')],
             ['data' => 'created_at', 'name' => 'created_at', 'title' => __('message.created_at')],
             ['data' => 'updated_at', 'name' => 'updated_at', 'title' => __('message.updated_at')],

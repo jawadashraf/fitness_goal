@@ -4,7 +4,7 @@
 
 <div class="d-flex align-items-center">
     @if($auth_user->can('workouttype-edit') &&
-($auth_user->hasRole('admin') || ($auth_user->hasRole('user') && $auth_user->id == $id) ))
+($auth_user->hasRole('admin') || $workouttype->user_id === $auth_user->id ))
     <a class="btn btn-sm btn-icon btn-success me-2" href="{{ route('workouttype.edit', $id) }}" data-bs-toggle="tooltip" title="{{ __('message.update_form_title',['form' => __('message.workouttype') ]) }}">
             <span class="btn-inner">
                 <svg class="icon-20" width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -17,7 +17,7 @@
     @endif
 
     @if($auth_user->can('workouttype-delete') &&
-($auth_user->hasRole('admin') || ($auth_user->hasRole('user') && $auth_user->id == $id) ))
+($auth_user->hasRole('admin') || $workouttype->user_id === $auth_user->id ))
         <a class="btn btn-sm btn-icon btn-danger" href="javascript:void(0)" data-bs-toggle="tooltip" data--submit="workouttype{{$id}}"
             data--confirmation='true' data-title="{{ __('message.delete_form_title',[ 'form'=> __('message.workouttype') ]) }}"
             title="{{ __('message.delete_form_title',[ 'form'=>  __('message.workouttype') ]) }}"

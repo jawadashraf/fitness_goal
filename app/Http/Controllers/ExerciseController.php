@@ -92,8 +92,12 @@ class ExerciseController extends Controller
         unset($data['minute']);
         unset($data['second']);
 
+        if (auth()->user()->hasRole('user')) {
+            // Add the user_id to the data array
+            $data['user_id'] = auth()->id();
+        }
         $exercise = Exercise::create($data);
-    
+
         storeMediaFile($exercise,$request->exercise_image, 'exercise_image');
         if( $exercise->video_type == 'upload_video' ) {
             storeMediaFile($exercise,$request->exercise_video, 'exercise_video');
@@ -153,7 +157,7 @@ class ExerciseController extends Controller
         }
 
         $data = $request->all();
-        
+
         $exercise = Exercise::findOrFail($id);
         // Exercise data...
         if(request('equipment_id') == null) {
@@ -187,7 +191,7 @@ class ExerciseController extends Controller
         unset($data['minute']);
         unset($data['second']);
 
-        $exercise->fill($data)->update();           
+        $exercise->fill($data)->update();
 
         // Save exercise image...
         if (isset($request->exercise_image) && $request->exercise_image != null) {

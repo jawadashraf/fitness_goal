@@ -61,9 +61,13 @@ class WorkoutTypeController extends Controller
             return redirect()->back()->withErrors($message);
         }
 
+        if (auth()->user()->hasRole('user')) {
+            // Add the user_id to the data array
+            $request['user_id'] = auth()->id();
+        }
         $workouttype = WorkoutType::create($request->all());
 
-        storeMediaFile($workouttype,$request->workouttype_image, 'workouttype_image'); 
+        storeMediaFile($workouttype,$request->workouttype_image, 'workouttype_image');
 
         return redirect()->route('workouttype.index')->withSuccess(__('message.save_form', ['form' => __('message.workouttype')]));
     }
