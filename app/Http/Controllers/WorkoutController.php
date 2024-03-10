@@ -63,7 +63,8 @@ class WorkoutController extends Controller
 
         $workout = Workout::create($request->all());
 
-        storeMediaFile($workout,$request->workout_image, 'workout_image'); 
+
+        storeMediaFile($workout,$request->workout_image, 'workout_image');
 
         if(isset($request->is_rest) && $request->is_rest != null ){
             foreach($request->is_rest as $i => $value){
@@ -124,17 +125,20 @@ class WorkoutController extends Controller
             $message = __('message.permission_denied_for_account');
             return redirect()->back()->withErrors($message);
         }
+
         $data = Workout::findOrFail($id);
+        $this->authorize('update', $data);
+
         $pageTitle = __('message.update_form_title',[ 'form' => __('message.workout') ]);
         if(isset($id) && count($data->workoutDay) > 0){
             foreach($data->workoutDay as &$field){
                 $exercise_ids = [];
-                if($field->is_rest == 0){   
+                if($field->is_rest == 0){
                     $exercise_ids = $field->workoutDayExercise->mapWithKeys(function ($item) {
                         return [ $item->exercise_id => optional($item->exercise)->title ];
                     });
                     $field['exercise_data'] = $exercise_ids;
-                    
+
                     $exercise_id = $field->workoutDayExercise->pluck('exercise_id')->toArray();
                     $field['exercise_ids'] = array_map('strval', $exercise_id);
                 }
@@ -158,6 +162,7 @@ class WorkoutController extends Controller
         }
 
         $workout = Workout::findOrFail($id);
+        $this->authorize('update', $workout);
         // workout data...
         $workout->fill($request->all())->update();
 

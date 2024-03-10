@@ -11,7 +11,8 @@ class Exercise extends Model implements HasMedia
 {
     use HasFactory ,InteractsWithMedia;
 
-    protected $fillable = [ 'title', 'instruction', 'tips', 'video_type', 'video_url', 'bodypart_ids', 'duration', 'sets', 'equipment_id', 'level_id', 'status','is_premium', 'based', 'type' ];
+    protected $fillable = [ 'title', 'instruction', 'tips', 'video_type', 'video_url', 'bodypart_ids', 'duration',
+        'sets', 'equipment_id', 'level_id', 'status','is_premium', 'based', 'type', 'user_id' ];
 
     protected $casts = [
         'equipment_id'      => 'integer',
@@ -31,7 +32,7 @@ class Exercise extends Model implements HasMedia
 
     public function getBodypartIdsAttribute($value)
     {
-        return isset($value) ? json_decode($value, true) : null; 
+        return isset($value) ? json_decode($value, true) : null;
     }
 
     public function setBodypartIdsAttribute($value)
@@ -43,12 +44,12 @@ class Exercise extends Model implements HasMedia
     {
         return isset($value) ? json_decode($value, true) : null;
     }
-    
+
     public function setSetsAttribute($value)
     {
         $this->attributes['sets'] = isset($value) ? json_encode($value) : null;
     }
-    
+
     public function workoutDayExercise(){
         return $this->hasMany(WorkoutDayExercise::class, 'exercise_id', 'id');
     }

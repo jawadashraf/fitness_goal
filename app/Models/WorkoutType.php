@@ -11,5 +11,5 @@ class WorkoutType extends Model implements HasMedia
 {
     use HasFactory, InteractsWithMedia;
 
-    protected $fillable = [ 'title','status' ];
+    protected $fillable = [ 'title','status', 'user_id' ];
 }

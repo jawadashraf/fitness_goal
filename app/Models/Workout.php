@@ -11,12 +11,13 @@ class Workout extends Model implements HasMedia
 {
     use HasFactory, InteractsWithMedia;
 
-    protected $fillable = [ 'title', 'description', 'status', 'workout_type_id', 'level_id', 'is_premium' ];
+    protected $fillable = [ 'title', 'description', 'status', 'workout_type_id', 'level_id', 'is_premium', 'user_id' ];
 
     protected $casts = [
         'workout_type_id'   => 'integer',
         'level_id'          => 'integer',
         'is_premium'        => 'integer',
+        'user_id'        => 'integer',
     ];
 
     public function workouttype()
@@ -39,7 +40,7 @@ class Workout extends Model implements HasMedia
     {
         return $this->hasMany(WorkoutDay::class, 'workout_id', 'id');
     }
-    
+
     public function userFavouriteWorkout()
     {
         return $this->hasMany(UserFavouriteWorkout::class, 'workout_id', 'id');
@@ -63,7 +64,7 @@ class Workout extends Model implements HasMedia
             return $query->whereHas('userAssignWorkout', function ($q) use($user_id) {
                 $q->where('user_id', $user_id);
             });
-             
+
         }
 
         return $query;
