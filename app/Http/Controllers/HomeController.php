@@ -40,14 +40,14 @@ class HomeController extends Controller
             'total_workouttype' => WorkoutType::count(),
             'total_exercise'    => Exercise::count(),
             'total_workout'     => Workout::count(),
-            'total_diet'        => Diet::count(),
-            'total_post'        => Post::count(),
+//            'total_diet'        => Diet::count(),
+//            'total_post'        => Post::count(),
         ];
 
         $data['exercise'] = Exercise::orderBy('id', 'desc')->take(10)->get();
         $data['workout'] = Workout::orderBy('id', 'desc')->take(10)->get();
-        $data['diet'] = Diet::orderBy('id', 'desc')->take(10)->get();
-        $data['post'] = Post::orderBy('id', 'desc')->take(10)->get();
+//        $data['diet'] = Diet::orderBy('id', 'desc')->take(10)->get();
+//        $data['post'] = Post::orderBy('id', 'desc')->take(10)->get();
         return view('dashboards.dashboard', compact('assets', 'data', 'auth_user'));
     }
 
