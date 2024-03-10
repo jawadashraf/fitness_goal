@@ -43,7 +43,7 @@
                 @if(auth()->check())
                     <a class="nav-link btn btn-primary text-white" href="{{ route('dashboard') }}">Dashboard</a>
                 @else
-                    <a class="nav-link" href="{{ route('auth.signin') }}">Login</a>
+                    <a class="nav-link btn btn-outline-primary text-white" href="{{ route('auth.signin') }}">Login</a>
                 @endif
             </li>
         </ul>

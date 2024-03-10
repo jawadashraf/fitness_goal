@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Scopes\UserScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia;
@@ -57,6 +58,7 @@ class Exercise extends Model implements HasMedia
     protected static function boot()
     {
         parent::boot();
+        static::addGlobalScope(new UserScope);
 
         static::deleted(function ($row) {
             $row->workoutDayExercise()->delete();
