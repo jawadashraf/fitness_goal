@@ -40,8 +40,6 @@ class HomeController extends Controller
             'total_workouttype' => WorkoutType::count(),
             'total_exercise'    => Exercise::count(),
             'total_workout'     => Workout::count(),
-//            'total_diet'        => Diet::count(),
-//            'total_post'        => Post::count(),
         ];
 
         $data['exercise'] = Exercise::orderBy('id', 'desc')->take(10)->get();
