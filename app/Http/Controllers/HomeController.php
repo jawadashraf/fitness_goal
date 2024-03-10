@@ -82,7 +82,7 @@ class HomeController extends Controller
                 $message = __('message.remove_form',['form' => $message_form ]);
             }
         }
-        
+
         return json_custom_response(['message'=> $message , 'status' => true]);
     }
 
@@ -131,7 +131,7 @@ class HomeController extends Controller
             case 'post_image':
                 $data = Post::find($request->id);
                 $message = __('message.msg_removed',[ 'name' => __('message.post') ]);
-                break;   
+                break;
             case 'productcategory_image':
                 $data = ProductCategory::find($request->id);
                 $message = __('message.msg_removed',[ 'name' => __('message.productcategory') ]);
@@ -144,7 +144,7 @@ class HomeController extends Controller
                 $data = AppSetting::find($request->id);
                 $message = __('message.msg_removed',[ 'name' => __('message.image') ]);
             break;
-            
+
         }
 
         if($data != null){
@@ -167,12 +167,12 @@ class HomeController extends Controller
         session()->put('locale', $locale);
         return redirect()->back();
     }
-    
+
     public function getAjaxList(Request $request)
     {
         $items = array();
         $value = $request->q;
-        
+
         switch ($request->type) {
             case 'permission':
                 $items = Permission::select('id','name as text')->whereNull('parent_id');
@@ -243,14 +243,14 @@ class HomeController extends Controller
                         $items->where('title', 'LIKE', '%'.$value.'%');
                     }
                     $items = $items->get();
-                    break;  
+                    break;
             case 'user':
                     $items = User::select('id','id as text')->where('status','active');
                     if($value != ''){
                         $items->where('id', 'LIKE', '%'.$value.'%');
                     }
                     $items = $items->get();
-                    break;   
+                    break;
         case 'productcategory':
                 $items = ProductCategory::select('id','title as text');
                 if($value != ''){
@@ -268,7 +268,7 @@ class HomeController extends Controller
         case 'hours':
                 $data = [];
                 for ($x = 0; $x < 24; $x++) {
-                    
+
                     $val = $x < 10 ? '0'.$x : $x ;
                     $data[] = [
                         'id' => $val,
@@ -307,11 +307,11 @@ class HomeController extends Controller
                     $items->where('name', 'LIKE', '%'.$value.'%');
                 }
                 $items = $items->get();
-                break;            
+                break;
             default :
                 break;
         }
-        
+
         return response()->json(['status' => true, 'results' => $items]);
     }
 
@@ -373,7 +373,12 @@ class HomeController extends Controller
     public function termsCondition()
     {
         $data = SettingData('terms_condition', 'terms_condition');
-        
+
         return view('pages.terms-condition', compact('data'));
+    }
+
+    public function home()
+    {
+        return view('pages.home');
     }
 }

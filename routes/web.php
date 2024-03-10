@@ -67,7 +67,7 @@ Route::group(['middleware' => [ 'auth', 'useractive' ]], function () {
 	Route::resource('role', RoleController::class);
 
     // Dashboard Routes
-    Route::get('/', [HomeController::class, 'index']);
+//    Route::get('/', [HomeController::class, 'index']);
     Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
 	Route::get('changeStatus', [ HomeController::class, 'changeStatus'])->name('changeStatus');
 
@@ -88,15 +88,15 @@ Route::group(['middleware' => [ 'auth', 'useractive' ]], function () {
 
     Route::get('assignworkout-list',[ UserController::class, 'getAssignWorkoutList'])->name('get.assignworkoutlist');
 
-    //Fitness CategoryDiet 
+    //Fitness CategoryDiet
     Route::resource('categorydiet', CategoryDietController::class);
-    
-    //Fitness Workout 
+
+    //Fitness Workout
     Route::resource('workouttype', WorkoutTypeController::class);
 
     Route::resource('diet', DietController::class);
     Route::resource('category', CategoryController::class);
-    
+
     //FitnessTags
     Route::resource('tags', TagsController::class);
     //Fitnessleval
@@ -111,7 +111,7 @@ Route::group(['middleware' => [ 'auth', 'useractive' ]], function () {
     Route::post('workoutdays-exercise-delete', [ WorkoutController::class , 'workoutDaysExerciseDelete'])->name('workoutdays.exercise.delete');
 
     Route::resource('post', PostController::class);
-    
+
     //product
     Route::resource('product',ProductController::class);
     Route::resource('productcategory',ProductCategoryController::class);
@@ -119,7 +119,7 @@ Route::group(['middleware' => [ 'auth', 'useractive' ]], function () {
     Route::resource('package',PackageController::class);
 
     Route::post('remove-file',[ HomeController::class, 'removeFile' ])->name('remove.file');
-    
+
     Route::get('setting/{page?}', [ SettingController::class, 'settings'])->name('setting.index');
     Route::post('layout-page', [ SettingController::class, 'layoutPage'])->name('layout_page');
     Route::post('settings/save', [ SettingController::class , 'settingsUpdates'])->name('settingsUpdates');
@@ -172,3 +172,4 @@ Route::group(['prefix' => 'errors'], function() {
 //Extra Page Routs
 Route::get('privacy-policy',[ HomeController::class, 'privacyPolicy' ])->name('privacyPolicy');
 Route::get('terms-condition',[ HomeController::class, 'termsCondition' ])->name('termsCondition');
+Route::get('/',[ HomeController::class, 'home' ])->name('home');
