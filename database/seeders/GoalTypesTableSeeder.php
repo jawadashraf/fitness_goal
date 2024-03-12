@@ -35,7 +35,7 @@ class GoalTypesTableSeeder extends Seeder
         ];
 
         foreach ($goalTypes as $goalType) {
-            GoalType::firstOrCreate(['name' => $goalType]);
+            GoalType::firstOrCreate(['title' => $goalType]);
         }
     }
 }

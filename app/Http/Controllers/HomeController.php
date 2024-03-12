@@ -321,7 +321,6 @@ class HomeController extends Controller
 
             // Only proceed if goal_type_id is provided and not empty
             if (!empty($goal_type_id)) {
-                dd($goal_type_id);
                 $items = UnitType::select('id', 'title as text');
 
                 // Apply search filter if $value is provided
@@ -330,7 +329,7 @@ class HomeController extends Controller
                 }
 
                 // Assuming a relationship exists in the UnitType model to filter by goal type
-                $items = $items->whereHas('goalTypes', function ($query) use ($goal_type_id) {
+                $items = $items->whereHas('goal_types', function ($query) use ($goal_type_id) {
                     $query->where('id', $goal_type_id);
                 })->get();
             }

@@ -31,7 +31,7 @@ class UnitTypesTableSeeder extends Seeder
         ];
 
         foreach ($unitTypes as $unitName) {
-            UnitType::firstOrCreate(['name' => $unitName]);
+            UnitType::firstOrCreate(['title' => $unitName]);
         }
     }
 }

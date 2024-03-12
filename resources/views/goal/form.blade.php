@@ -2,6 +2,39 @@
     <script>
 
         (function($) {
+            function updateUnitTypeSelect(goalTypeId) {
+                // If Select2 was previously initialized, destroy it
+                if ($('#unit_type_id').data('select2')) {
+                    $('#unit_type_id').select2('destroy');
+                }
+
+                // Define the base URL for AJAX requests
+                let ajaxUrl = '{{ route("ajax-list", ["type" => "unit_type"]) }}';
+                if (goalTypeId) {
+                    // Update the AJAX URL with the selected goal_type_id
+                    ajaxUrl += '&goal_type_id=' + goalTypeId;
+                }
+
+                // Reinitialize Select2 with the new AJAX URL
+                $('#unit_type_id').select2({
+                    width: '100%',
+                    ajax: {
+                        url: ajaxUrl,
+                        dataType: 'json',
+                        processResults: function(data) {
+                            console.log(data);
+                            // Transform the data into the format expected by Select2
+                            return {
+                                results: data.results.map(item => ({ id: item.id, text: item.text }))
+                            };
+                        }
+                    },
+                    placeholder: 'Select a unit type',
+                    allowClear: true,
+                    minimumInputLength: 0,
+                });
+            }
+
             $(document).ready(function(){
                 tinymceEditor('.tinymce-description',' ',function (ed) {
 
@@ -12,37 +45,11 @@
                     tags: true
                 });
 
+                updateUnitTypeSelect();
+
                 $('#goal_type_id').change(function() {
-                    var goalTypeId = $(this).val(); // Get the selected goal_type_id
-
-                    var newUrl = '{{ route("ajax-list", ["type" => "unit_type"]) }}' + '&goal_type_id=' + goalTypeId; // Construct the new URL
-                    console.log('goal type changed' + newUrl);
-                    // Update the unit_type Select2 instance
-                    $('#unit_type_id').select2({
-                        width: '100%',
-                        ajax: {
-                            url: newUrl, // Use the new URL for AJAX requests
-                            processResults: function (data) {
-                                // Transform the data into the format expected by Select2.
-                                console.log(data);
-                                let items = [];
-                                if (Array.isArray(data)) {
-                                    items = data.map(item => ({ id: item.id, text: item.text }));
-                                } else if (data.items && Array.isArray(data.items)) { // Adjust based on your actual data structure
-                                    items = data.items.map(item => ({ id: item.id, text: item.text }));
-                                }
-
-                                // Return in format expected by Select2
-                                return {
-                                    results: items
-                                };
-                            }
-                        },
-                        placeholder: "{{ __('message.select_name', ['select' => __('message.unit_type')]) }}",
-                    });
-
-                    // Clear previous selections
-                    $('#unit_type_id').val(null).trigger('change');
+                    const selectedGoalTypeId = $(this).val();
+                    updateUnitTypeSelect(selectedGoalTypeId);
                 });
 
             });
@@ -92,7 +99,7 @@
                                 {{ Form::select('unit_type_id', isset($id) ? [ optional($data->unit_type)->id => optional($data->unit_type)->title ] : [], old('unit_type_id'), [
                                         'class' => 'select2js form-group unit_type',
                                         'data-placeholder' => __('message.select_name',[ 'select' => __('message.unit_type') ]),
-                                        'data-ajax--url' => route('ajax-list', ['type' => 'unit_type']),
+//                                        'data-ajax--url' => route('ajax-list', ['type' => 'unit_type', "goal_type_id"=>1]),
                                         'required',
                                         'id' => 'unit_type_id',
                                     ])

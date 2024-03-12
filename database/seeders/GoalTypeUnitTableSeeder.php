@@ -29,14 +29,14 @@ class GoalTypeUnitTableSeeder extends Seeder
         ];
 
         foreach ($relations as $goalTypeName => $unitNames) {
-            $goalType = GoalType::firstWhere('name', $goalTypeName);
+            $goalType = GoalType::firstWhere('title', $goalTypeName);
 
             if (!$goalType) {
                 continue; // Skip if the goal type doesn't exist
             }
 
             foreach ($unitNames as $unitName) {
-                $unitType = UnitType::firstWhere('name', $unitName);
+                $unitType = UnitType::firstWhere('title', $unitName);
 
                 if (!$unitType) {
                     continue; // Skip if the unit type doesn't exist

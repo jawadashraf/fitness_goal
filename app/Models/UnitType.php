@@ -13,4 +13,9 @@ class UnitType extends Model
     {
         return $this->hasMany(Goal::class, 'unit_type_id');
     }
+
+    public function goal_types()
+    {
+        return $this->belongsToMany(GoalType::class, 'goal_type_unit');
+    }
 }
