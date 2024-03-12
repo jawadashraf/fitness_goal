@@ -15,6 +15,7 @@ class CreateExerciseProgressTable extends Migration
     {
         Schema::create('exercise_progress', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained('users');
             $table->foreignId('workout_progress_id')->constrained('workout_progress')->onDelete('cascade');
             $table->foreignId('workout_exercise_id')->constrained('workout_day_exercises')->onDelete('cascade');
             $table->string('metric_type')->nullable();

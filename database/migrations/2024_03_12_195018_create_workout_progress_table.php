@@ -15,6 +15,7 @@ class CreateWorkoutProgressTable extends Migration
     {
         Schema::create('workout_progress', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained('users');
             $table->foreignId('workout_schedule_id')->constrained('workout_schedules')->onDelete('cascade');
             $table->date('date_completed')->nullable();
             $table->unsignedTinyInteger('percent_completed')->default(0); // 0-100

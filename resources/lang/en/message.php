@@ -163,6 +163,7 @@ return [
     'rate' => 'Rate',
     'exercise' => 'Exercise',
     'workout' => 'Workout',
+    'schedule' => 'Schedule',
     'workout_days' => 'Workout Days',
     'action' => 'Action',
     'is_rest' => 'Is Rest',

@@ -3,6 +3,7 @@
 // Controllers
 use App\Http\Controllers\GoalController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\Security\RolePermission;
 use App\Http\Controllers\Security\RoleController;
 use App\Http\Controllers\Security\PermissionController;
@@ -147,6 +148,18 @@ Route::group(['middleware' => [ 'auth', 'useractive' ]], function () {
     Route::resource('subscription', SubscriptionController::class);
 
     Route::resource('quotes', QuotesController::class);
+
+// Schedule Routes
+    Route::get('/schedule', [ScheduleController::class, 'index'])->name('schedule.index');
+//    Route::get('fullcalender', [ScheduleController::class, 'index']);
+    Route::get('/events', [ScheduleController::class, 'getEvents']);
+//    Route::get('/schedule/delete/{id}', [ScheduleController::class, 'deleteEvent']);
+//    Route::post('/schedule/{id}', [ScheduleController::class, 'update']);
+//    Route::post('/schedule/{id}/resize', [ScheduleController::class, 'resize']);
+//    Route::get('/events/search', [ScheduleController::class, 'search']);
+//
+//    Route::view('add-schedule', 'schedule.add');
+//    Route::post('create-schedule', [ScheduleController::class, 'create']);
 });
 
 Route::get('/ajax-list',[ HomeController::class, 'getAjaxList' ])->name('ajax-list');
