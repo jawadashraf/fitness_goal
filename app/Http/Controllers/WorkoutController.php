@@ -69,6 +69,47 @@ class WorkoutController extends Controller
 
 
         storeMediaFile($workout,$request->workout_image, 'workout_image');
+        $i=0;
+        $exercise_ids = isset($request->exercise_ids[$i]) ? $request->exercise_ids[$i] : null;
+        $save_workdays_data = [
+            'id' => null,
+            'workout_id' => $workout->id,
+            'is_rest' => 0,
+            'sequence' => $i,
+        ];
+
+        $workoutday = WorkoutDay::create($save_workdays_data);
+
+        if(!empty($exercise_ids) ) {
+            foreach ($exercise_ids as $key => $value) {
+                $days_exercise = [
+                    'id' => null,
+                    'workout_id' => $workout->id,
+                    'workout_day_id' => $workoutday->id,
+                    'exercise_id' => (int) $value,
+                    'sequence' => $key,
+                ];
+                $workout_days_exercise = WorkoutDayExercise::create($days_exercise);
+            }
+        }
+
+        return redirect()->route('workout.index')->withSuccess(__('message.save_form', ['form' => __('message.workout')]));
+    }
+    public function storeOld(WorkoutRequest $request)
+    {
+        if( !auth()->user()->can('workout-add') ) {
+            $message = __('message.permission_denied_for_account');
+            return redirect()->back()->withErrors($message);
+        }
+        if (auth()->user()->hasRole('user')) {
+            // Add the user_id to the data array
+            $request['user_id'] = auth()->id();
+        }
+        $workout = Workout::create($request->all());
+
+
+
+        storeMediaFile($workout,$request->workout_image, 'workout_image');
 
         if(isset($request->is_rest) && $request->is_rest != null ){
             foreach($request->is_rest as $i => $value){

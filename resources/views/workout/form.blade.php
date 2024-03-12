@@ -8,7 +8,7 @@
                         $(this).find('td:first').text(i + 1);
                     });
                 };
-                resetSequenceNumbers();
+                // resetSequenceNumbers();
                 $(".select2tagsjs").select2({
                     width: "100%",
                     tags: true
@@ -22,7 +22,7 @@
                     $(".select2tagsjs").select2("destroy");
                     var tableBody = $('#table_list').find("tbody");
                     var trLast = tableBody.find("tr:last");
-                    
+
                     trLast.find(".removebtn").show().fadeIn(300);
 
                     var trNew = trLast.clone();
@@ -81,7 +81,7 @@
                     } else {
                         delete_row.remove();
                     }
-                    
+
                     resetSequenceNumbers();
                 })
             });
@@ -135,7 +135,7 @@
                             </div>
 
                             <div class="form-group col-md-4">
-                                {{ Form::label('level_id', __('message.level').' <span class="text-danger">*</span>',[ 'class' => 'form-control-label' ], false) }} 
+                                {{ Form::label('level_id', __('message.level').' <span class="text-danger">*</span>',[ 'class' => 'form-control-label' ], false) }}
                                 {{ Form::select('level_id', isset($id) ? [ optional($data->level)->id => optional($data->level)->title ] : [], old('level_id'), [
                                         'class' => 'select2js form-group level',
                                         'data-placeholder' => __('message.select_name',[ 'select' => __('message.level') ]),
@@ -146,7 +146,7 @@
                             </div>
 
                             <div class="form-group col-md-4">
-                                {{ Form::label('workout_type_id', __('message.workouttype').' <span class="text-danger">*</span>',[ 'class' => 'form-control-label' ], false) }} 
+                                {{ Form::label('workout_type_id', __('message.workouttype').' <span class="text-danger">*</span>',[ 'class' => 'form-control-label' ], false) }}
                                 {{ Form::select('workout_type_id', isset($id) ? [ optional($data->workouttype)->id => optional($data->workouttype)->title ] : [], old('workout_type_id'), [
                                         'class' => 'select2js form-group workouttype',
                                         'data-placeholder' => __('message.select_name',[ 'select' => __('message.workouttype') ]),
@@ -167,7 +167,7 @@
                                     <input class="form-control file-input" type="file" name="workout_image" accept="image/*">
                                 </div>
                             </div>
-                            
+
                             @if( isset($id) && getMediaFileExit($data, 'workout_image'))
                                 <div class="col-md-2 mb-2 position-relative">
                                     <img id="workout_image_preview" src="{{ getSingleMedia($data,'workout_image') }}" alt="workout-image" class="avatar-100 mt-1">
@@ -187,111 +187,111 @@
                                     </a>
                                 </div>
                             @endif
-                            
-                            <div class="form-group col-md-4">
-                                {{ Form::label('is_premium', __('message.is_premium'), ['class' => 'form-control-label']) }}
-                                <div class="">
-                                    {!! Form::hidden('is_premium',0, null, ['class' => 'form-check-input' ]) !!}
-                                    {!! Form::checkbox('is_premium',1, null, ['class' => 'form-check-input' ]) !!}
-                                    <label class="custom-control-label" for="is_premium"></label>
-                                </div>
-                            </div>
 
-                            <div class="form-group col-md-12">
-                                {{ Form::label('description',__('message.description'), ['class' => 'form-control-label']) }}
-                                {{ Form::textarea('description', null, ['class'=> 'form-control tinymce-description' , 'placeholder'=> __('message.description') ]) }}
-                            </div>
-                        </div>
+{{--                            <div class="form-group col-md-4">--}}
+{{--                                {{ Form::label('is_premium', __('message.is_premium'), ['class' => 'form-control-label']) }}--}}
+{{--                                <div class="">--}}
+{{--                                    {!! Form::hidden('is_premium',0, null, ['class' => 'form-check-input' ]) !!}--}}
+{{--                                    {!! Form::checkbox('is_premium',1, null, ['class' => 'form-check-input' ]) !!}--}}
+{{--                                    <label class="custom-control-label" for="is_premium"></label>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
 
-                        <hr>
-                        <h5 class="mb-3">{{__('message.workout_days')}} <button type="button" id="add_button" class="btn btn-sm btn-primary float-end">{{ __('message.add',['name' => '']) }}</button></h5>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <table id="table_list" class="table workout_days_table table-responsive">
-                                    <thead>
+                            <hr>
+                            {{--                        <h5 class="mb-3">{{__('Exercises')}} <button type="button" id="add_button" class="btn btn-sm btn-primary float-end">{{ __('message.add',['name' => '']) }}</button></h5>--}}
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <table id="table_list" class="table workout_days_table table-responsive">
+                                        <thead>
                                         <tr>
-                                            <th class="col-md-1">#</th>                                            
+                                            {{--                                            <th class="col-md-1">#</th>--}}
                                             <th class="col-md-3">{{ __('message.exercise') }}</th>
-                                            <th class="col-md-3">{{ __('message.is_rest') }}</th>
-                                            <th class="col-md-2">{{ __('message.action') }}</th>
+                                            {{--                                            <th class="col-md-3">{{ __('message.is_rest') }}</th>--}}
+                                            {{--                                            <th class="col-md-2">{{ __('message.action') }}</th>--}}
                                         </tr>
-                                    </thead>
-                                    <tbody>
-                                    @if(isset($id) && count($data->workoutDay) > 0)
-                                        @foreach($data->workoutDay as $key => $field)
-                                            <tr id="row_{{ $key }}" row="{{ $key }}" data-id="{{ $field->id }}">
-                                                <td></td>
+                                        </thead>
+                                        <tbody>
+                                        @if(isset($id) && count($data->workoutDay) > 0)
+                                            @foreach($data->workoutDay as $key => $field)
+                                                <tr id="row_{{ $key }}" row="{{ $key }}" data-id="{{ $field->id }}">
+                                                    {{--                                                <td></td>--}}
+                                                    <td>
+                                                        <div class="form-group" id="exercise_ids_{{$key}}">
+                                                            <input type="hidden" name="workout_days_id[{{$key}}]" class="form-control" value="{{ $field->id }}" id="workout_days_id_{{$key}}" />
+                                                            {{ Form::select('exercise_ids['.$key.'][]', $field->exercise_data ?? [], $field->exercise_ids ?? old('exercise_ids'), [
+                                                                    'class' => 'select2tagsjs form-group exercise',
+                                                                    'multiple' => 'multiple',
+                                                                    'id' => 'exercise_ids_'.$key,
+                                                                    'data-placeholder' => __('message.select_name',[ 'select' => __('message.exercise') ]),
+                                                                    'data-ajax--url' => route('ajax-list', ['type' => 'exercise']),
+                                                                ])
+                                                            }}
+                                                        </div>
+                                                    </td>
+                                                    {{--                                                <td>--}}
+                                                    {{--                                                    <div class="form-group">--}}
+                                                    {{--                                                        <input type="hidden" name="is_rest[{{$key}}]" value="0" id="is_rest_no_{{$key}}">--}}
+                                                    {{--                                                        {!! Form::checkbox('is_rest['.$key.']', 1, $field->is_rest ?? null, ['class' => 'form-check-input' , 'id' => 'is_rest_yes_'.$key ]) !!}--}}
+                                                    {{--                                                    </div>--}}
+                                                    {{--                                                </td>--}}
+                                                    {{--                                                <td>--}}
+                                                    {{--                                                    <a href="javascript:void(0)" id="remove_{{$key}}" class="removebtn btn btn-sm btn-icon btn-danger" row="{{$key}}">--}}
+                                                    {{--                                                        <span class="btn-inner">--}}
+                                                    {{--                                                            <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor">--}}
+                                                    {{--                                                                <path d="M19.3248 9.46826C19.3248 9.46826 18.7818 16.2033 18.4668 19.0403C18.3168 20.3953 17.4798 21.1893 16.1088 21.2143C13.4998 21.2613 10.8878 21.2643 8.27979 21.2093C6.96079 21.1823 6.13779 20.3783 5.99079 19.0473C5.67379 16.1853 5.13379 9.46826 5.13379 9.46826" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>--}}
+                                                    {{--                                                                <path d="M20.708 6.23975H3.75" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>--}}
+                                                    {{--                                                                <path d="M17.4406 6.23973C16.6556 6.23973 15.9796 5.68473 15.8256 4.91573L15.5826 3.69973C15.4326 3.13873 14.9246 2.75073 14.3456 2.75073H10.1126C9.53358 2.75073 9.02558 3.13873 8.87558 3.69973L8.63258 4.91573C8.47858 5.68473 7.80258 6.23973 7.01758 6.23973" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>--}}
+                                                    {{--                                                            </svg>--}}
+                                                    {{--                                                        </span>--}}
+                                                    {{--                                                    </a>--}}
+                                                    {{--                                                </td>--}}
+                                                </tr>
+                                            @endforeach
+                                        @else
+                                            <tr id="row_0" row="0" data-id="0">
+                                                {{--                                            <td></td>--}}
                                                 <td>
-                                                    <div class="form-group" id="exercise_ids_{{$key}}">
-                                                        <input type="hidden" name="workout_days_id[{{$key}}]" class="form-control" value="{{ $field->id }}" id="workout_days_id_{{$key}}" />
-                                                        {{ Form::select('exercise_ids['.$key.'][]', $field->exercise_data ?? [], $field->exercise_ids ?? old('exercise_ids'), [
+                                                    <div class="form-group" id="exercise_ids_0">
+                                                        <input type="hidden" name="workout_days_id[0]" class="form-control" value="0" id="workout_days_id_0" />
+                                                        {{ Form::select('exercise_ids[0][]', [], old('exercise_ids'), [
                                                                 'class' => 'select2tagsjs form-group exercise',
                                                                 'multiple' => 'multiple',
-                                                                'id' => 'exercise_ids_'.$key,
+                                                                'id' => 'exercise_ids_0',
                                                                 'data-placeholder' => __('message.select_name',[ 'select' => __('message.exercise') ]),
                                                                 'data-ajax--url' => route('ajax-list', ['type' => 'exercise']),
                                                             ])
                                                         }}
                                                     </div>
                                                 </td>
-                                                <td>
-                                                    <div class="form-group">
-                                                        <input type="hidden" name="is_rest[{{$key}}]" value="0" id="is_rest_no_{{$key}}">
-                                                        {!! Form::checkbox('is_rest['.$key.']', 1, $field->is_rest ?? null, ['class' => 'form-check-input' , 'id' => 'is_rest_yes_'.$key ]) !!}
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <a href="javascript:void(0)" id="remove_{{$key}}" class="removebtn btn btn-sm btn-icon btn-danger" row="{{$key}}">
-                                                        <span class="btn-inner">
-                                                            <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor">
-                                                                <path d="M19.3248 9.46826C19.3248 9.46826 18.7818 16.2033 18.4668 19.0403C18.3168 20.3953 17.4798 21.1893 16.1088 21.2143C13.4998 21.2613 10.8878 21.2643 8.27979 21.2093C6.96079 21.1823 6.13779 20.3783 5.99079 19.0473C5.67379 16.1853 5.13379 9.46826 5.13379 9.46826" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                                                                <path d="M20.708 6.23975H3.75" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                                                                <path d="M17.4406 6.23973C16.6556 6.23973 15.9796 5.68473 15.8256 4.91573L15.5826 3.69973C15.4326 3.13873 14.9246 2.75073 14.3456 2.75073H10.1126C9.53358 2.75073 9.02558 3.13873 8.87558 3.69973L8.63258 4.91573C8.47858 5.68473 7.80258 6.23973 7.01758 6.23973" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                                                            </svg>
-                                                        </span>
-                                                    </a>
-                                                </td>
+                                                {{--                                            <td>--}}
+                                                {{--                                                <div class="form-group">--}}
+                                                {{--                                                    <input type="hidden" name="is_rest[0]" value="0" id="is_rest_no_0">--}}
+                                                {{--                                                    {!! Form::checkbox('is_rest[0]', 1, old('is_rest'), ['class' => 'form-check-input', 'id' => 'is_rest_yes_1' ]) !!}--}}
+                                                {{--                                                </div>--}}
+                                                {{--                                            </td>--}}
+                                                {{--                                            <td>--}}
+                                                {{--                                                <a href="javascript:void(0)" id="remove_0" class="removebtn btn btn-sm btn-icon btn-danger" row="0">--}}
+                                                {{--                                                    <span class="btn-inner">--}}
+                                                {{--                                                        <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor">--}}
+                                                {{--                                                            <path d="M19.3248 9.46826C19.3248 9.46826 18.7818 16.2033 18.4668 19.0403C18.3168 20.3953 17.4798 21.1893 16.1088 21.2143C13.4998 21.2613 10.8878 21.2643 8.27979 21.2093C6.96079 21.1823 6.13779 20.3783 5.99079 19.0473C5.67379 16.1853 5.13379 9.46826 5.13379 9.46826" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>--}}
+                                                {{--                                                            <path d="M20.708 6.23975H3.75" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>--}}
+                                                {{--                                                            <path d="M17.4406 6.23973C16.6556 6.23973 15.9796 5.68473 15.8256 4.91573L15.5826 3.69973C15.4326 3.13873 14.9246 2.75073 14.3456 2.75073H10.1126C9.53358 2.75073 9.02558 3.13873 8.87558 3.69973L8.63258 4.91573C8.47858 5.68473 7.80258 6.23973 7.01758 6.23973" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>--}}
+                                                {{--                                                        </svg>--}}
+                                                {{--                                                    </span>--}}
+                                                {{--                                                </a>--}}
+                                                {{--                                            </td>--}}
                                             </tr>
-                                        @endforeach
-                                    @else
-                                        <tr id="row_0" row="0" data-id="0">
-                                            <td></td>
-                                            <td>
-                                                <div class="form-group" id="exercise_ids_0">
-                                                    <input type="hidden" name="workout_days_id[0]" class="form-control" value="0" id="workout_days_id_0" />
-                                                    {{ Form::select('exercise_ids[0][]', [], old('exercise_ids'), [
-                                                            'class' => 'select2tagsjs form-group exercise',
-                                                            'multiple' => 'multiple',
-                                                            'id' => 'exercise_ids_0',
-                                                            'data-placeholder' => __('message.select_name',[ 'select' => __('message.exercise') ]),
-                                                            'data-ajax--url' => route('ajax-list', ['type' => 'exercise']),
-                                                        ])
-                                                    }}
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="form-group">
-                                                    <input type="hidden" name="is_rest[0]" value="0" id="is_rest_no_0">
-                                                    {!! Form::checkbox('is_rest[0]', 1, old('is_rest'), ['class' => 'form-check-input', 'id' => 'is_rest_yes_1' ]) !!}
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <a href="javascript:void(0)" id="remove_0" class="removebtn btn btn-sm btn-icon btn-danger" row="0">
-                                                    <span class="btn-inner">
-                                                        <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor">
-                                                            <path d="M19.3248 9.46826C19.3248 9.46826 18.7818 16.2033 18.4668 19.0403C18.3168 20.3953 17.4798 21.1893 16.1088 21.2143C13.4998 21.2613 10.8878 21.2643 8.27979 21.2093C6.96079 21.1823 6.13779 20.3783 5.99079 19.0473C5.67379 16.1853 5.13379 9.46826 5.13379 9.46826" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                                                            <path d="M20.708 6.23975H3.75" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                                                            <path d="M17.4406 6.23973C16.6556 6.23973 15.9796 5.68473 15.8256 4.91573L15.5826 3.69973C15.4326 3.13873 14.9246 2.75073 14.3456 2.75073H10.1126C9.53358 2.75073 9.02558 3.13873 8.87558 3.69973L8.63258 4.91573C8.47858 5.68473 7.80258 6.23973 7.01758 6.23973" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                                                        </svg>
-                                                    </span>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    @endif
-                                    </tbody>
-                                </table>
+                                        @endif
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-12">
+                                {{ Form::label('description',__('message.description'), ['class' => 'form-control-label']) }}
+                                {{ Form::textarea('description', null, ['class'=> 'form-control tinymce-description' , 'placeholder'=> __('message.description') ]) }}
                             </div>
                         </div>
+
                         <hr>
                         {{ Form::submit( __('message.save'), ['class' => 'btn btn-md btn-primary float-end']) }}
                     </div>
