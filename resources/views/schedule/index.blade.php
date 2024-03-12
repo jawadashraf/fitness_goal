@@ -38,14 +38,14 @@
                 // events: '/events',
                 events: [
                     {
-                        title: 'Meeting',
+                        title: 'Cardio Workout',
                         start: '2024-03-12T14:30:00',
                         extendedProps: {
                             status: 'done'
                         }
                     },
                     {
-                        title: 'Birthday Party',
+                        title: 'Strength WO',
                         start: '2024-03-13T07:00:00',
                         // backgroundColor: 'green',
                         // borderColor: 'green'
