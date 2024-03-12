@@ -15,7 +15,7 @@ class CreateUnitTypesTable extends Migration
     {
         Schema::create('unit_types', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique();
+            $table->string('title')->unique();
             $table->timestamps();
         });
     }

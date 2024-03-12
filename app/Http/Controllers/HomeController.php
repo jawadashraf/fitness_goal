@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\GoalType;
+use App\Models\UnitType;
 use Illuminate\Http\Request;
 use App\Models\Role;
 use App\Models\Permission;
@@ -170,6 +172,7 @@ class HomeController extends Controller
     {
         $items = array();
         $value = $request->q;
+        $goal_type_id = $request->goal_type_id;
 
         switch ($request->type) {
             case 'permission':
@@ -306,8 +309,34 @@ class HomeController extends Controller
                 }
                 $items = $items->get();
                 break;
-            default :
-                break;
+        case 'goal_type':
+            $items = GoalType::select('id','title as text');
+            if($value != ''){
+                $items->where('title', 'LIKE', '%'.$value.'%');
+            }
+            $items = $items->get();
+            break;
+        case 'unit_type':
+            $items = collect([]);
+
+            // Only proceed if goal_type_id is provided and not empty
+            if (!empty($goal_type_id)) {
+                dd($goal_type_id);
+                $items = UnitType::select('id', 'title as text');
+
+                // Apply search filter if $value is provided
+                if (!empty($value)) {
+                    $items->where('title', 'LIKE', '%' . $value . '%');
+                }
+
+                // Assuming a relationship exists in the UnitType model to filter by goal type
+                $items = $items->whereHas('goalTypes', function ($query) use ($goal_type_id) {
+                    $query->where('id', $goal_type_id);
+                })->get();
+            }
+        break;
+        default :
+            break;
         }
 
         return response()->json(['status' => true, 'results' => $items]);

@@ -16,6 +16,7 @@ class CreateGoalsTable extends Migration
         Schema::create('goals', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users');
+            $table->string('title', 255);
             $table->foreignId('goal_type_id')->constrained('goal_types');
             $table->foreignId('unit_type_id')->constrained('unit_types');
             $table->double('target_value', 8, 2); // The numeric target for the goal

@@ -1,6 +1,7 @@
 <?php
 
 // Controllers
+use App\Http\Controllers\GoalController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Security\RolePermission;
 use App\Http\Controllers\Security\RoleController;
@@ -101,6 +102,7 @@ Route::group(['middleware' => [ 'auth', 'useractive' ]], function () {
     Route::resource('tags', TagsController::class);
     //Fitnessleval
     Route::resource('level', LevelController::class);
+    Route::resource('goal', GoalController::class);
 
     Route::resource('bodypart', BodyPartController::class);
 

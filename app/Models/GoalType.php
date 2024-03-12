@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class GoalType extends Model
 {
     use HasFactory;
+
+    public function goals()
+    {
+        return $this->hasMany(Goal::class, 'unit_type_id');
+    }
 }
