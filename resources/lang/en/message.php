@@ -250,6 +250,8 @@ return [
     'id' => 'id',
     'opps' => 'Opps!!!',
     'done' => 'Done',
+    'created' => 'Created',
+    'deleted' => 'Deleted',
     'png' => 'png',
     'jpg' => 'jpg',
     'jpeg' => 'jpeg',

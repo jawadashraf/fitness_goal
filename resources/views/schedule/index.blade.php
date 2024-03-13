@@ -18,8 +18,9 @@
                 itemSelector: '.fc-event',
                 eventData: function(eventEl) {
                     return {
-                        id: eventEl.getAttribute('data-id'),
-                        title: eventEl.innerText
+                        id: -1,
+                        title: eventEl.innerText,
+                        workout_id: eventEl.getAttribute('data-id'),
                     };
                 }
             });
@@ -37,6 +38,10 @@
                 events: '/events',
                 // Deleting The Event
                 eventContent: function(info) {
+
+                    if(info.event.id == -1){
+                        console.log('eventContent', info);
+                    }
                     var eventTitle = info.event.title;
                     var eventElement = document.createElement('div');
                     eventElement.innerHTML = '<span style="cursor: pointer;">❌</span> ' + eventTitle;
@@ -53,6 +58,13 @@
                                 success: function(response) {
                                     console.log('Event deleted successfully.');
                                     calendar.refetchEvents(); // Refresh events after deletion
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: "{{ __('message.deleted') }}",
+                                        text: '{{ Session::get("success") }}',
+                                        confirmButtonColor: "var(--bs-primary)",
+                                        timer: 1000,
+                                    });
                                 },
                                 error: function(error) {
                                     console.error('Error deleting event:', error);
@@ -101,10 +113,21 @@
                     var dropDate = info.dateStr;
                     var allDay = info.allDay;
 
+
+
+                    // Immediately add the event to the calendar
+                    // var newEvent = calendar.addEvent({
+                    //     title: title,
+                    //     start: dropDate,
+                    //     allDay: allDay,
+                    //     // Temporarily use the workoutId or another placeholder for id
+                    //     id: -1,
+                    // });
+
                     createWorkoutSchedule(workoutId, title, dropDate, allDay);
                 },
                 eventDrop: function(info) {
-                    // console.log(info.event.title);
+                    // console.log('eventDrop ',info.event);
                     // var eventId = info.event.id;
                     // var newStartDate = info.event.start;
                     // var newEndDate = info.event.end || newStartDate;
@@ -138,6 +161,36 @@
                     .then(response => response.json())
                     .then(data => {
                         console.log('WorkoutSchedule created:', data);
+
+                        // Remove the dropped element if needed
+                        var tempEvent = calendar.getEventById(-1);
+
+                        if (tempEvent) {
+                            console.log('tempEvent:',tempEvent);
+                            tempEvent.remove();
+                        }
+                        //
+                        // // This step depends on your UI requirements
+                        //
+                        // // Add the new event to the calendar
+                        // calendar.addEvent({
+                        //     id: data.workoutSchedule.id, // Use the actual property name from your response
+                        //     title: data.workoutSchedule.title,
+                        //     start: data.workoutSchedule.start,
+                        //     end: data.workoutSchedule.end, // Assuming your server response includes the end time
+                        //     allDay: allDay
+                        // });
+
+
+                        Swal.fire({
+                            icon: 'success',
+                            title: "{{ __('message.created') }}",
+                            text: '{{ Session::get("success") }}',
+                            confirmButtonColor: "var(--bs-primary)",
+                            timer: 1000,
+                        });
+
+                        calendar.refetchEvents();
                     })
                     .catch((error) => {
                         console.error('Error:', error);
