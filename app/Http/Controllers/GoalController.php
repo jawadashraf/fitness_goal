@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\DataTables\GoalDataTable;
 use Illuminate\Http\Request;
 use App\DataTables\LevelDataTable;
-use App\Models\goal;
+use App\Models\Goal;
 use App\Helpers\AuthHelper;
 
 use App\Http\Requests\GoalRequest;
@@ -61,7 +61,7 @@ class GoalController extends Controller
             return redirect()->back()->withErrors($message);
         }
 
-        $level = goal::create($request->all());
+        $level = Goal::create($request->all());
 
         return redirect()->route('goal.index')->withSuccess(__('message.save_form', ['form' => __('message.goal')]));
     }
@@ -74,7 +74,7 @@ class GoalController extends Controller
      */
     public function show($id)
     {
-        $data = goal::findOrFail($id);
+        $data = Goal::findOrFail($id);
     }
 
     /**
@@ -90,7 +90,7 @@ class GoalController extends Controller
             return redirect()->back()->withErrors($message);
         }
 
-        $data = goal::findOrFail($id);
+        $data = Goal::findOrFail($id);
         $pageTitle = __('message.update_form_title',[ 'form' => __('message.goal') ]);
 
         return view('goal.form', compact('data','id','pageTitle'));
@@ -110,7 +110,7 @@ class GoalController extends Controller
             return redirect()->back()->withErrors($message);
         }
 
-        $level = goal::findOrFail($id);
+        $level = Goal::findOrFail($id);
 
         // goal data...
         $level->fill($request->all())->update();
@@ -135,7 +135,7 @@ class GoalController extends Controller
             return redirect()->back()->withErrors($message);
         }
 
-        $level = goal::findOrFail($id);
+        $level = Goal::findOrFail($id);
         $status = 'errors';
         $message = __('message.not_found_entry', ['name' => __('message.goal')]);
 
