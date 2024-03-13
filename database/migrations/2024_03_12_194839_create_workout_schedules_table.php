@@ -19,7 +19,10 @@ class CreateWorkoutSchedulesTable extends Migration
             $table->foreignId('workout_id')->constrained('workouts')->onDelete('cascade');
             $table->datetime('start_date');
             $table->datetime('end_date');
-            $table->integer('duration'); // Duration in minutes
+            $table->date('date_completed')->nullable();
+            $table->unsignedTinyInteger('percent_completed')->default(0); // 0-100
+            $table->text('notes')->nullable();
+            $table->string('color')->nullable();
             $table->timestamps();
         });
     }
