@@ -20,31 +20,45 @@ class GoalDataTable extends DataTable
      */
     public function dataTable($query)
     {
-        return datatables()
+        $temp =  datatables()
             ->eloquent($query)
 
             ->editColumn('status', function($query) {
                 $status = 'warning';
                 switch ($query->status) {
-                    case 'active':
+                    case 'ACTIVE':
                         $status = 'primary';
                         break;
-                    case 'completed':
+                    case 'COMPLETED':
                         $status = 'success';
                         break;
-                    case 'failed':
+                    case 'FAILED':
                         $status = 'danger';
                         break;
                 }
                 return '<span class="text-capitalize badge bg-'.$status.'">'.$query->status.'</span>';
             })
-            ->editColumn('goal_type.name', function($query) {
-                return optional($query->goal_type)->name ?? '-';
+            ->editColumn('goal_type.title', function($query) {
+                return optional($query->goal_type)->title ?? '-';
             })
-            ->filterColumn('goal_type.name', function($query, $keyword) {
+            ->filterColumn('goal_type.title', function($query, $keyword) {
                 return $query->orWhereHas('goal_type', function($q) use($keyword) {
-                    $q->where('name', 'like', "%{$keyword}%");
+                    $q->where('title', 'like', "%{$keyword}%");
                 });
+            })
+            ->editColumn('unit_type.title', function($query) {
+                return optional($query->unit_type)->title ?? '-';
+            })
+            ->filterColumn('unit_type.title', function($query, $keyword) {
+                return $query->orWhereHas('unit_type', function($q) use($keyword) {
+                    $q->where('title', 'like', "%{$keyword}%");
+                });
+            })
+            ->editColumn('start_date', function ($query) {
+                return dateAgoFormate($query->start_date, true);
+            })
+            ->editColumn('end_date', function ($query) {
+                return dateAgoFormate($query->end_date, true);
             })
             ->editColumn('created_at', function ($query) {
                 return dateAgoFormate($query->created_at, true);
@@ -73,6 +87,8 @@ class GoalDataTable extends DataTable
                 }
             })
             ->rawColumns(['action','status']);
+
+        return $temp;
     }
 
     /**
@@ -98,7 +114,7 @@ class GoalDataTable extends DataTable
         return [
             Column::make('DT_RowIndex')
                 ->searchable(false)
-                ->title(__('message.srno'))
+                ->title(__('S#'))
                 ->orderable(false),
             ['data' => 'title', 'name' => 'title', 'title' => __('message.title')],
             ['data' => 'status', 'name' => 'status', 'title' => __('message.status')],

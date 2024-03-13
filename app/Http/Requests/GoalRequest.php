@@ -39,6 +39,7 @@ class GoalRequest extends FormRequest
                     'target_value' => 'required',
                     'start_date' => 'required',
                     'end_date' => 'required',
+                    'user_id' => 'required'
                 ];
                 break;
             case 'patch':
@@ -49,6 +50,7 @@ class GoalRequest extends FormRequest
                     'target_value' => 'required',
                     'start_date' => 'required',
                     'end_date' => 'required',
+                    'user_id' => 'required'
                 ];
                 break;
         }

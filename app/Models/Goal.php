@@ -9,14 +9,14 @@ class Goal extends Model
 {
     use HasFactory;
 
-    protected $fillable = [ 'name','user_id','goal_type_id', 'unit_type_id', 'target_value', 'start_date',
+    protected $fillable = [ 'title','user_id','goal_type_id', 'unit_type_id', 'target_value', 'start_date',
         'end_date', 'status'];
 
     protected $casts = [
         'user_id'      => 'integer',
         'goal_type_id'      => 'integer',
         'unit_type_id'      => 'integer',
-        'target_value' => 'decimal',
+        'target_value' => 'integer',
         'start_date' => 'date',
         'end_date' => 'date',
 
@@ -24,7 +24,7 @@ class Goal extends Model
 
     public function goal_type()
     {
-        return $this->belongsTo(GoalType::class, 'goal_type_id');
+        return $this->belongsTo(GoalType::class, 'goal_type_id', 'id');
     }
 
     /**
@@ -32,6 +32,6 @@ class Goal extends Model
      */
     public function unit_type()
     {
-        return $this->belongsTo(UnitType::class, 'unit_type_id');
+        return $this->belongsTo(UnitType::class, 'unit_type_id', 'id');
     }
 }

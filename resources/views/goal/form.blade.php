@@ -64,6 +64,8 @@
         @else
             {!! Form::open(['route' => ['goal.store'], 'method' => 'post', 'enctype' => 'multipart/form-data' ]) !!}
         @endif
+        {!! Form::hidden('user_id', auth()->id()) !!}
+
         <div class="row">
             <div class="col-lg-12">
                 <div class="card">
@@ -111,15 +113,20 @@
                                 {{ Form::label('target_value', __('Target').' <span class="text-danger">*</span>',[ 'class' => 'form-control-label' ], false ) }}
                                 {{ Form::number('target_value', old('target_value'),[ 'placeholder' => __('Target'),'class' =>'form-control','required']) }}
                             </div>
+
+                            <div class="form-group col-md-6">
+                                {{ Form::label('start_date', __('Start Date').' <span class="text-danger">*</span>',[ 'class' => 'form-control-label' ], false ) }}
+                                {{ Form::date('start_date', old('start_date'),[ 'placeholder' => __('Start Date'),'class' =>'form-control','required']) }}
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                {{ Form::label('end_date', __('End Date').' <span class="text-danger">*</span>',[ 'class' => 'form-control-label' ], false ) }}
+                                {{ Form::date('end_date', old('end_date'),[ 'placeholder' => __('End Date'),'class' =>'form-control','required']) }}
+                            </div>
+
                             <div class="form-group col-md-6">
                                 {{ Form::label('status',__('message.status').' <span class="text-danger">*</span>',['class'=>'form-control-label'],false) }}
                                 {{ Form::select('status',[ 'active' => __('message.active'), 'inactive' => __('message.inactive') ], old('status'), [ 'class' =>'form-control select2js','required']) }}
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label class="form-control-label" for="image">{{ __('message.image') }} </label>
-                                <div class="">
-                                    <input class="form-control file-input" type="file" name="level_image" accept="image/*">
-                                </div>
                             </div>
 
                         </div>

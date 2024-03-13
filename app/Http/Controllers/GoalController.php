@@ -60,6 +60,7 @@ class GoalController extends Controller
             $message = __('message.permission_denied_for_account');
             return redirect()->back()->withErrors($message);
         }
+
         $level = goal::create($request->all());
 
         return redirect()->route('goal.index')->withSuccess(__('message.save_form', ['form' => __('message.goal')]));
