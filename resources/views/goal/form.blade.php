@@ -126,7 +126,7 @@
 
                             <div class="form-group col-md-6">
                                 {{ Form::label('status',__('message.status').' <span class="text-danger">*</span>',['class'=>'form-control-label'],false) }}
-                                {{ Form::select('status',[ 'active' => __('message.active'), 'inactive' => __('message.inactive') ], old('status'), [ 'class' =>'form-control select2js','required']) }}
+                                {{ Form::select('status',[ 'active' => __('message.active'), 'completed' => __('message.completed'), 'failed' => __('message.failed') ], old('status'), [ 'class' =>'form-control select2js','required']) }}
                             </div>
 
                         </div>

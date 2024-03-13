@@ -43,6 +43,8 @@ return [
     'user' => 'User',
     'account_setting' => 'Account Setting',
     'active' => 'Active',
+    'completed' => 'Completed',
+    'failed' => 'Failed',
     'inactive' => 'Inactive',
     'pending' => 'Pending',
     'banned' => 'Banned',

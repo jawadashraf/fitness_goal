@@ -61,7 +61,7 @@ class GoalController extends Controller
             return redirect()->back()->withErrors($message);
         }
 
-        $level = Goal::create($request->all());
+        $goal = Goal::create($request->all());
 
         return redirect()->route('goal.index')->withSuccess(__('message.save_form', ['form' => __('message.goal')]));
     }
@@ -110,10 +110,10 @@ class GoalController extends Controller
             return redirect()->back()->withErrors($message);
         }
 
-        $level = Goal::findOrFail($id);
+        $goal = Goal::findOrFail($id);
 
         // goal data...
-        $level->fill($request->all())->update();
+        $goal->fill($request->all())->update();
 
         if(auth()->check()){
             return redirect()->route('goal.index')->withSuccess(__('message.update_form',['form' => __('message.goal')]));
@@ -135,12 +135,12 @@ class GoalController extends Controller
             return redirect()->back()->withErrors($message);
         }
 
-        $level = Goal::findOrFail($id);
+        $goal = Goal::findOrFail($id);
         $status = 'errors';
         $message = __('message.not_found_entry', ['name' => __('message.goal')]);
 
-        if($level != '') {
-            $level->delete();
+        if($goal != '') {
+            $goal->delete();
             $status = 'success';
             $message = __('message.delete_form', ['form' => __('message.goal')]);
         }
