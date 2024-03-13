@@ -153,13 +153,13 @@ Route::group(['middleware' => [ 'auth', 'useractive' ]], function () {
     Route::get('/schedule', [ScheduleController::class, 'index'])->name('schedule.index');
 //    Route::get('fullcalender', [ScheduleController::class, 'index']);
     Route::get('/events', [ScheduleController::class, 'getEvents']);
-//    Route::get('/schedule/delete/{id}', [ScheduleController::class, 'deleteEvent']);
+    Route::get('/schedule/delete/{id}', [ScheduleController::class, 'deleteEvent']);
 //    Route::post('/schedule/{id}', [ScheduleController::class, 'update']);
 //    Route::post('/schedule/{id}/resize', [ScheduleController::class, 'resize']);
 //    Route::get('/events/search', [ScheduleController::class, 'search']);
 //
 //    Route::view('add-schedule', 'schedule.add');
-//    Route::post('create-schedule', [ScheduleController::class, 'create']);
+    Route::post('/schedule/create-from-drop', [ScheduleController::class, 'createFromDrop']);
 });
 
 Route::get('/ajax-list',[ HomeController::class, 'getAjaxList' ])->name('ajax-list');

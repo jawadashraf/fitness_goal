@@ -70,6 +70,12 @@ class Workout extends Model implements HasMedia
 
         return $query;
     }
+
+    public function scopeActive($query)
+    {
+        return $query->where('status', 'active');
+    }
+
     public function scopeMyAssignWorkout($query, $user_id =null)
     {
         $user = auth()->user();
