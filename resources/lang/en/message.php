@@ -159,6 +159,7 @@ return [
     'tags' => 'Tags',
     'level'=>'Level',
     'goal'=>'Goal',
+    'goal_progress'=>'Goal Progress',
     'goal_type'=>'Goal Type',
     'unit_type'=>'Unit Type',
     'bodypart' => 'Body Part',

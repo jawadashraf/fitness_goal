@@ -39,9 +39,6 @@
                 // Deleting The Event
                 eventContent: function(info) {
 
-                    if(info.event.id == -1){
-                        console.log('eventContent', info);
-                    }
                     var eventTitle = info.event.title;
                     var eventElement = document.createElement('div');
                     eventElement.innerHTML = '<span style="cursor: pointer;">❌</span> ' + eventTitle;
@@ -135,10 +132,10 @@
                     // var newEndDateUTC = newEndDate.toISOString().slice(0, 10);
                 },
                 navLinks: true,
-                navLinkDayClick: function(date, jsEvent) {
-                    console.log('day', date.toISOString());
-                    console.log('coords', jsEvent.pageX, jsEvent.pageY);
-                }
+                // navLinkDayClick: function(date, jsEvent) {
+                //     console.log('day', date.toISOString());
+                //     console.log('coords', jsEvent.pageX, jsEvent.pageY);
+                // }
             });
             calendar.render();
 

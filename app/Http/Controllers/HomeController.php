@@ -46,9 +46,10 @@ class HomeController extends Controller
 
         $data['exercise'] = Exercise::orderBy('id', 'desc')->take(10)->get();
         $data['workout'] = Workout::orderBy('id', 'desc')->take(10)->get();
-//        $data['diet'] = Diet::orderBy('id', 'desc')->take(10)->get();
-//        $data['post'] = Post::orderBy('id', 'desc')->take(10)->get();
-        return view('dashboards.dashboard', compact('assets', 'data', 'auth_user'));
+        if(auth()->user()->user_type == 'user')
+            return view('dashboards.user_dashboard', compact('assets', 'data', 'auth_user'));
+        else
+            return view('dashboards.dashboard', compact('assets', 'data', 'auth_user'));
     }
 
     public function changeStatus(Request $request)

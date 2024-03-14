@@ -2,6 +2,7 @@
 
 // Controllers
 use App\Http\Controllers\GoalController;
+use App\Http\Controllers\GoalProgressController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\Security\RolePermission;
@@ -104,6 +105,12 @@ Route::group(['middleware' => [ 'auth', 'useractive' ]], function () {
     //Fitnessleval
     Route::resource('level', LevelController::class);
     Route::resource('goal', GoalController::class);
+
+    Route::get('/goal/{goal}/goal_progress',[GoalProgressController::class, 'index'])->name('goal_progress.index');
+    Route::get('/goal/{goal}/goal_progress/create', [GoalProgressController::class, 'create'])->name('goal_progress.create');
+    Route::post('/goal_progress/store', [GoalProgressController::class, 'store'])->name('goal_progress.store');
+    Route::get('/goal/{goal}/goal_progress/{goalProgress}/edit', [GoalProgressController::class, 'edit'])->name('goal_progress.edit');
+    Route::patch('/goal/{goal}/goal_progress/update', [GoalProgressController::class, 'edit'])->name('goal_progress.update');
 
     Route::resource('bodypart', BodyPartController::class);
 

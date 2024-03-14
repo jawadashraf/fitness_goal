@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Goal extends Model
 {
@@ -33,5 +34,10 @@ class Goal extends Model
     public function unit_type()
     {
         return $this->belongsTo(UnitType::class, 'unit_type_id', 'id');
+    }
+
+    public function progress(): HasMany
+    {
+        return $this->hasMany(GoalProgress::class);
     }
 }

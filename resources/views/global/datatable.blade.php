@@ -10,6 +10,11 @@
                <div class="header-title">
                   <h4 class="card-title">{{ $pageTitle ?? 'List'}}</h4>
                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h6>{{ $parentDetail ?? '' }}</h6>
+                    </div>
+                </div>
                 <div class="card-action">
                     {!! $headerAction ?? '' !!}
                 </div>
