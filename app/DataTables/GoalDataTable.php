@@ -60,12 +60,12 @@ class GoalDataTable extends DataTable
             ->editColumn('end_date', function ($query) {
                 return dateAgoFormate($query->end_date, true);
             })
-            ->editColumn('created_at', function ($query) {
-                return dateAgoFormate($query->created_at, true);
-            })
-            ->editColumn('updated_at', function ($query) {
-                return dateAgoFormate($query->updated_at, true);
-            })
+//            ->editColumn('created_at', function ($query) {
+//                return dateAgoFormate($query->created_at, true);
+//            })
+//            ->editColumn('updated_at', function ($query) {
+//                return dateAgoFormate($query->updated_at, true);
+//            })
             ->addColumn('action', function($goal){
                 $id = $goal->id;
                 return view('goal.action',compact('goal','id'))->render();
@@ -123,8 +123,8 @@ class GoalDataTable extends DataTable
             ['data' => 'target_value', 'name' => 'target_value', 'title' => __('Target')],
             ['data' => 'start_date', 'name' => 'start_date', 'title' => __('Start Date')],
             ['data' => 'end_date', 'name' => 'end_date', 'title' => __('End Date')],
-            ['data' => 'created_at', 'name' => 'created_at', 'title' => __('message.created_at')],
-            ['data' => 'updated_at', 'name' => 'updated_at', 'title' => __('message.updated_at')],
+//            ['data' => 'created_at', 'name' => 'created_at', 'title' => __('message.created_at')],
+//            ['data' => 'updated_at', 'name' => 'updated_at', 'title' => __('message.updated_at')],
             Column::computed('action')
                   ->exportable(false)
                   ->printable(false)

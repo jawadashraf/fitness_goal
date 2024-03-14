@@ -40,4 +40,9 @@ class Goal extends Model
     {
         return $this->hasMany(GoalProgress::class);
     }
+
+    public function getDescription()
+    {
+        return "<span class='text-success'>{$this->title}</span>  | {$this->goal_type->title} | {$this->unit_type->title} | {$this->target_value}";
+    }
 }

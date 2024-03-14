@@ -4,7 +4,7 @@
 
 <div class="d-flex align-items-center">
     @if($auth_user->can('goal-edit'))
-    <a class="btn btn-sm btn-icon btn-success me-2" href="{{ route('goal.edit', $id) }}" data-bs-toggle="tooltip" title="{{ __('message.update_form_title',['form' => __('message.goal') ]) }}">
+    <a class="btn btn-sm btn-icon btn-success me-2" href="{{ route('goal_progress.edit', $id) }}" data-bs-toggle="tooltip" title="{{ __('message.update_form_title',['form' => __('message.goal_progress') ]) }}">
             <span class="btn-inner">
                 <svg class="icon-20" width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M11.4925 2.78906H7.75349C4.67849 2.78906 2.75049 4.96606 2.75049 8.04806V16.3621C2.75049 19.4441 4.66949 21.6211 7.75349 21.6211H16.5775C19.6625 21.6211 21.5815 19.4441 21.5815 16.3621V12.3341" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
@@ -15,9 +15,9 @@
         </a>
     @endif
     @if($auth_user->can('goal-delete'))
-        <a class="btn btn-sm btn-icon btn-danger" href="javascript:void(0)" data-bs-toggle="tooltip" data--submit="goal{{$id}}"
-            data--confirmation='true' data-title="{{ __('message.delete_form_title',[ 'form'=> __('message.goal') ]) }}"
-            title="{{ __('message.delete_form_title',[ 'form'=>  __('message.goal') ]) }}"
+        <a class="btn btn-sm btn-icon btn-danger" href="javascript:void(0)" data-bs-toggle="tooltip" data--submit="goal_progress{{$id}}"
+            data--confirmation='true' data-title="{{ __('message.delete_form_title',[ 'form'=> __('message.goal_progress') ]) }}"
+            title="{{ __('message.delete_form_title',[ 'form'=>  __('message.goal_progress') ]) }}"
             data-message='{{ __("message.delete_msg") }}'>
             <span class="btn-inner">
                 <svg class="icon-20" width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor">
@@ -28,6 +28,6 @@
             </span>
         </a>
     @endif
-    {{ Form::open([ 'route' => [ 'goal.destroy', $id ], 'method' => 'delete', 'data--submit' => 'goal'.$id ] ) }}
+    {{ Form::open([ 'route' => [ 'goal_progress.destroy', $id ], 'method' => 'delete', 'data--submit' => 'goal_progress'.$id ] ) }}
     {{ Form::close() }}
 </div>

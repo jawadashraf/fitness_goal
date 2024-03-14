@@ -23,14 +23,14 @@ class GoalProgressDataTable extends DataTable
     {
         $temp =  datatables()
             ->eloquent($query)
-            ->editColumn('goal.goal_type.title', function($query) {
-                return optional($query->goal->goal_type)->title ?? '-';
-            })
-            ->filterColumn('goal.goal_type.title', function($query, $keyword) {
-                return $query->orWhereHas('goal.goal_type', function($q) use($keyword) {
-                    $q->where('title', 'like', "%{$keyword}%");
-                });
-            })
+//            ->editColumn('goal.goal_type.title', function($query) {
+//                return optional($query->goal->goal_type)->title ?? '-';
+//            })
+//            ->filterColumn('goal.goal_type.title', function($query, $keyword) {
+//                return $query->orWhereHas('goal.goal_type', function($q) use($keyword) {
+//                    $q->where('title', 'like', "%{$keyword}%");
+//                });
+//            })
 //            ->editColumn('unit_type.title', function($query) {
 //                return optional($query->unit_type)->title ?? '-';
 //            })
@@ -98,11 +98,7 @@ class GoalProgressDataTable extends DataTable
                 ->searchable(false)
                 ->title(__('S#'))
                 ->orderable(false),
-            ['data' => 'goal.title', 'name' => 'goal.title', 'title' => __('message.goal')],
-            ['data' => 'goal.status', 'name' => 'goal.status', 'title' => __('message.status')],
-            ['data' => 'goal.goal_type.title', 'name' => 'goal.goal_type.title', 'title' => __('message.goal_type'), 'orderable' => false],
-//            ['data' => 'unit_type.title', 'name' => 'unit_type.title', 'title' => __('message.unit_type'), 'orderable' => false],
-//            ['data' => 'target_value', 'name' => 'target_value', 'title' => __('Target')],
+            ['data' => 'progress_value', 'name' => 'progress_value', 'title' => __('Progress')],
             ['data' => 'date', 'name' => 'date', 'title' => __('Recording Date')],
             ['data' => 'created_at', 'name' => 'created_at', 'title' => __('message.created_at')],
             ['data' => 'updated_at', 'name' => 'updated_at', 'title' => __('message.updated_at')],
@@ -122,6 +118,6 @@ class GoalProgressDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'Goal' . date('YmdHis');
+        return 'GoalProgress' . date('YmdHis');
     }
 }
