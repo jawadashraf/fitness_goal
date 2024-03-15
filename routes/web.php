@@ -158,9 +158,13 @@ Route::group(['middleware' => [ 'auth', 'useractive' ]], function () {
 
 // Schedule Routes
     Route::get('/schedule', [ScheduleController::class, 'index'])->name('schedule.index');
+    Route::get('/schedule/calendar', [ScheduleController::class, 'calendar'])->name('schedule.calendar');
+    Route::get('/schedule/create', [ScheduleController::class, 'create'])->name('schedule.create');
+    Route::post('/schedule/store', [ScheduleController::class, 'store'])->name('schedule.store');
 //    Route::get('fullcalender', [ScheduleController::class, 'index']);
     Route::get('/events', [ScheduleController::class, 'getEvents']);
     Route::get('/schedule/delete/{id}', [ScheduleController::class, 'deleteEvent']);
+    Route::delete('/schedule/destroy/{id}', [ScheduleController::class, 'destroy'])->name('schedule.destroy');
 //    Route::post('/schedule/{id}', [ScheduleController::class, 'update']);
 //    Route::post('/schedule/{id}/resize', [ScheduleController::class, 'resize']);
 //    Route::get('/events/search', [ScheduleController::class, 'search']);

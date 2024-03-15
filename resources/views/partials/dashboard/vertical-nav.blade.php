@@ -132,6 +132,11 @@
                 ->prepend('<i class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor"><g><circle cx="12" cy="12" r="8" fill="currentColor"></circle></g></svg></i>')
                 ->link->attr(['class' => activeRoute(route('schedule.index')) ? 'nav-link active' : 'nav-link']);
 
+            $menu->schedule->add('<span class="item-name">'.__('Calendar',['form' => __('message.schedule')]).'</span>', ['route' => 'schedule.calendar'])
+                ->data('permission', 'workout-list')
+                ->prepend('<i class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor"><g><circle cx="12" cy="12" r="8" fill="currentColor"></circle></g></svg></i>')
+                ->link->attr(['class' => activeRoute(route('schedule.calendar')) ? 'nav-link active' : 'nav-link']);
+
 //            $menu->workout->add('<span class="item-name">'.__('message.add_form_title',['form' => __('message.workout')]).'</span>', ['route' => 'workout.create'])
 //                ->data('permission', [ 'workout-add', 'workout-edit'])
 //                ->prepend('<i class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor"><g><circle cx="12" cy="12" r="8" fill="currentColor"></circle></g></svg></i>')

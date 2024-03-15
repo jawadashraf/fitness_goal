@@ -96,6 +96,13 @@ class Workout extends Model implements HasMedia
         );
     }
 
+    public function exercises() {
+        return $this->hasManyThrough(
+            WorkoutDayExercise::class,
+            WorkoutDay::class,
+        );
+    }
+
     protected static function boot()
     {
         parent::boot();

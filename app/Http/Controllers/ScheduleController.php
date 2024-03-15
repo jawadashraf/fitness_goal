@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\WorkoutDataTable;
+use App\DataTables\WorkoutScheduleDataTable;
+use App\Helpers\AuthHelper;
 use App\Models\Workout;
 use App\Models\WorkoutSchedule;
 use Carbon\Carbon;
@@ -9,11 +12,28 @@ use Illuminate\Http\Request;
 
 class ScheduleController extends Controller
 {
-    public function index()
+    public function index(WorkoutScheduleDataTable $dataTable, $workOutId)
+    {
+
+        $pageTitle = __('message.list_form_title',['form' => __('message.schedule')] );
+        $auth_user = AuthHelper::authSession();
+        if( !$auth_user->can('workout-list') ) {
+            $message = __('message.permission_denied_for_account');
+            return redirect()->back()->withErrors($message);
+        }
+        $assets = ['data-table'];
+
+        $headerAction = $auth_user->can('workout-add') ? '<a href="'.route('schedule.create').'" class="btn btn-sm btn-primary" role="button">'.__('message.add_form_title', [ 'form' => __('message.workout')]).'</a>' : '';
+
+        return $dataTable->render('global.datatable', compact('pageTitle', 'auth_user', 'assets', 'headerAction'));
+
+
+    }
+    public function calendar()
     {
 
         $workouts = Workout::active()->get();
-        return view('schedule.index', compact('workouts'));
+        return view('schedule.calendar', compact('workouts'));
 
     }
 
@@ -71,5 +91,31 @@ class ScheduleController extends Controller
             return response()->json(['message' => 'An error occurred'], 500);
         }
 
+    }
+
+    public function destroy($id)
+    {
+        if( !auth()->user()->can('workout-delete') ) {
+            $message = __('message.permission_denied_for_account');
+            return redirect()->back()->withErrors($message);
+        }
+
+        $workout = WorkoutSchedule::findOrFail($id);
+        $this->authorize('delete', $workout);
+
+        $status = 'errors';
+        $message = __('message.not_found_entry', ['name' => __('message.schedule')]);
+
+        if($workout != '') {
+            $workout->delete();
+            $status = 'success';
+            $message = __('message.delete_form', ['form' => __('message.schedule')]);
+        }
+
+        if(request()->ajax()) {
+            return response()->json(['status' => true, 'message' => $message ]);
+        }
+
+        return redirect()->back()->with($status,$message);
     }
 }
