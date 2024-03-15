@@ -12,7 +12,7 @@
                </div>
                 <div class="card">
                     <div class="card-body">
-                        <h6>{{ $parentDetail ?? '' }}</h6>
+                        <h6>{!! $parentDetail ?? '' !!}</h6>
                     </div>
                 </div>
                 <div class="card-action">

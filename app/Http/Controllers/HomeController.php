@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Goal;
+use App\Models\GoalProgress;
 use App\Models\GoalType;
 use App\Models\UnitType;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\Role;
 use App\Models\Permission;
@@ -44,12 +47,32 @@ class HomeController extends Controller
             'total_workout'     => Workout::count(),
         ];
 
-        $data['exercise'] = Exercise::orderBy('id', 'desc')->take(10)->get();
-        $data['workout'] = Workout::orderBy('id', 'desc')->take(10)->get();
-        if(auth()->user()->user_type == 'user')
-            return view('dashboards.user_dashboard', compact('assets', 'data', 'auth_user'));
-        else
+
+        if(auth()->user()->user_type == 'user') {
+            $activeGoals = Goal::where('status', 'ACTIVE')->get();
+
+            $goalsProgressData = $activeGoals->map(function ($goal) {
+                $todaysProgress = GoalProgress::where('goal_id', $goal->id)
+                    ->whereDate('date', Carbon::today())
+                    ->sum('progress_value');
+
+                return [
+                    'category' => $goal->title,
+                    'value' => $todaysProgress,
+                    'full' => 100, // Assuming the full scale is 100
+                    'columnSettings' => [
+                        'fill' => '#someColor' // Optional: Define color or other settings
+                    ]
+                ];
+            })->toArray();
+            return view('dashboards.user_dashboard', compact('assets',
+                'data', 'auth_user', 'goalsProgressData'));
+        }
+        else {
+            $data['exercise'] = Exercise::orderBy('id', 'desc')->take(10)->get();
+            $data['workout'] = Workout::orderBy('id', 'desc')->take(10)->get();
             return view('dashboards.dashboard', compact('assets', 'data', 'auth_user'));
+        }
     }
 
     public function changeStatus(Request $request)

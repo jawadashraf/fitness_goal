@@ -108,9 +108,12 @@ Route::group(['middleware' => [ 'auth', 'useractive' ]], function () {
 
     Route::get('/goal/{goal}/goal_progress',[GoalProgressController::class, 'index'])->name('goal_progress.index');
     Route::get('/goal/{goal}/goal_progress/create', [GoalProgressController::class, 'create'])->name('goal_progress.create');
-    Route::post('/goal_progress/store', [GoalProgressController::class, 'store'])->name('goal_progress.store');
-    Route::get('/goal/{goal}/goal_progress/{goalProgress}/edit', [GoalProgressController::class, 'edit'])->name('goal_progress.edit');
-    Route::patch('/goal/{goal}/goal_progress/update', [GoalProgressController::class, 'edit'])->name('goal_progress.update');
+    Route::post('/goal/{goal}/goal_progress/store', [GoalProgressController::class, 'store'])->name('goal_progress.store');
+//    Route::get('/goal/{goal}/goal_progress/{goalProgress}/edit', [GoalProgressController::class, 'edit'])->name('goal_progress.edit');
+    Route::get('/goal_progress/{id}/edit', [GoalProgressController::class, 'edit'])->name('goal_progress.edit');
+    Route::patch('/goal/{goal}/goal_progress/update', [GoalProgressController::class, 'update'])->name('goal_progress.update');
+    Route::delete('/goal_progress/{id}', [GoalProgressController::class, 'destroy'])->name('goal_progress.destroy');
+
 
     Route::resource('bodypart', BodyPartController::class);
 

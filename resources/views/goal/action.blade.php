@@ -14,6 +14,16 @@
             </span>
         </a>
     @endif
+        @if($auth_user->can('goal-edit'))
+            <a class="btn btn-sm btn-icon btn-success me-2" href="{{ route('goal_progress.index', ['goal' => $id]) }}" data-bs-toggle="tooltip" title="{{ __('message.goal_progress',['form' => __('message.goal_progress') ]) }}">
+            <span class="btn-inner">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M12 2.75C6.89175 2.75 2.75 6.89175 2.75 12C2.75 17.1082 6.89175 21.25 12 21.25C17.1082 21.25 21.25 17.1082 21.25 12C21.25 6.89175 17.1082 2.75 12 2.75Z" />
+    <path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M7.75 12L10.58 14.83L16.25 9.17004" />
+</svg>
+            </span>
+            </a>
+        @endif
     @if($auth_user->can('goal-delete'))
         <a class="btn btn-sm btn-icon btn-danger" href="javascript:void(0)" data-bs-toggle="tooltip" data--submit="goal{{$id}}"
             data--confirmation='true' data-title="{{ __('message.delete_form_title',[ 'form'=> __('message.goal') ]) }}"

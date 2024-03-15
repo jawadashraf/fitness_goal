@@ -1,9 +1,171 @@
+@push('scripts')
+    <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/radar.js"></script>
+
+    <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/locales/de_DE.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/geodata/germanyLow.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/fonts/notosans-sc.js"></script>
+    <script>
+        var goalsProgressData = @json($goalsProgressData);
+        console.log(goalsProgressData);
+    </script>
+
+    <script>
+        am5.ready(function() {
+            function getRandomColor() {
+                const letters = '0123456789ABCDEF';
+                let color = '#';
+                for (let i = 0; i < 6; i++) {
+                    color += letters[Math.floor(Math.random() * 16)];
+                }
+
+                console.log(color);
+                return color;
+            }
+            function createGauge(containerId, goalData) {
+                var root = am5.Root.new(containerId);
+
+                root.setThemes([
+                    am5themes_Animated.new(root)
+                ]);
+
+                var chart = root.container.children.push(am5radar.RadarChart.new(root, {
+                    panX: false,
+                    panY: false,
+                    wheelX: "panX",
+                    wheelY: "zoomX",
+                    innerRadius: am5.percent(70),
+                    startAngle: -90,
+                    endAngle: 245
+                }));
+
+                var cursor = chart.set("cursor", am5radar.RadarCursor.new(root, {
+                    behavior: "zoomX"
+                }));
+                cursor.lineY.set("visible", false);
+
+                var xRenderer = am5radar.AxisRendererCircular.new(root, {
+                    //minGridDistance: 50
+                });
+
+                xRenderer.labels.template.setAll({
+                    radius: 10
+                });
+
+                xRenderer.grid.template.setAll({
+                    forceHidden: true
+                });
+
+                var xAxis = chart.xAxes.push(am5xy.ValueAxis.new(root, {
+                    renderer: xRenderer,
+                    min: 0,
+                    max: 100,
+                    strictMinMax: true,
+                    numberFormat: "#'%'",
+                    tooltip: am5.Tooltip.new(root, {})
+                }));
+
+                var yAxis = chart.yAxes.push(am5xy.CategoryAxis.new(root, {
+                    categoryField: "category",
+                    renderer: am5radar.AxisRendererRadial.new(root, {})
+                }));
+                yAxis.data.setAll([goalData]);
+
+                var series1 = chart.series.push(am5radar.RadarColumnSeries.new(root, {
+                    xAxis: xAxis,
+                    yAxis: yAxis,
+                    clustered: false,
+                    valueXField: "full",
+                    categoryYField: "category",
+                    fill: root.interfaceColors.get("alternativeBackground")
+                }));
+                series1.columns.template.setAll({
+                    width: am5.p20,
+                    fillOpacity: 0.08,
+                    strokeOpacity: 0,
+                    cornerRadius: 20
+                });
+                series1.data.setAll([goalData]);
+
+                var series2 = chart.series.push(am5radar.RadarColumnSeries.new(root, {
+                    xAxis: xAxis,
+                    yAxis: yAxis,
+                    clustered: false,
+                    valueXField: "value",
+                    categoryYField: "category"
+                }));
+                series2.columns.template.setAll({
+                    width: am5.percent(20),
+                    strokeOpacity: 0,
+                    tooltipText: "{category}: {valueX}%",
+                    cornerRadius: 30,
+                    // templateField: "columnSettings"
+                    fill: am5.color(getRandomColor()),
+
+                });
+                series2.data.setAll([goalData]);
+
+                series1.appear(1000);
+                series2.appear(1000);
+                chart.appear(1000, 100);
+            }
+
+            // Example data for each goal
+            // var goals = [{
+            //     category: "Goal 1",
+            //     value: 80,
+            //     full: 100,
+            //     columnSettings: {
+            //         fill: am5.color(0x845EC2)
+            //     }
+            // }, {
+            //     category: "Goal 2",
+            //     value: 35,
+            //     full: 100,
+            //     columnSettings: {
+            //         fill: am5.color(0xD65DB1)
+            //     }
+            // }, {
+            //     category: "Goal 3",
+            //     value: 92,
+            //     full: 100,
+            //     columnSettings: {
+            //         fill: am5.color(0xFF6F91)
+            //     }
+            // }];
+
+            // Create a gauge for each goal
+            goalsProgressData.forEach(function(goal, index) {
+                createGauge("chartdiv" + (index + 1), goal);
+            });
+
+        }); // end am5.ready()
+    </script>
+
+
+@endpush
 <x-app-layout :assets="$assets ?? []">
     <h1>User Dashboard</h1>
    	<div class="row">
       	<div class="col-md-12 col-lg-12" style="padding-top: 20px;">
-         	<div class="row ">
-				<div class="col-lg-3 col-md-6" >
+
+
+            <div class="row ">
+
+                @foreach($goalsProgressData as $index => $goal)
+                    <div class="col-lg-4 col-md-6" >
+                        <div class="swiper-slide card card-slide" data-aos="fade-up" data-aos-delay="700">
+                            <div class="card-body">
+                                <div id="chartdiv{{ $index + 1 }}" style="width: 100%; height: 300px;"></div>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+                    <div class="row ">
+                <div class="col-lg-3 col-md-6" >
 					<div class="swiper-slide card card-slide" data-aos="fade-up" data-aos-delay="700">
 						<div class="card-body">
 							<div class="d-flex align-items-center gap-3">
@@ -115,86 +277,7 @@
 		</div>
       	<div class="col-md-12 col-lg-12">
          	<div class="row">
-				@if($auth_user->can('exercise-list'))
-					<div class="col-md-6">
-						<div class="card" data-aos="fade-up" data-aos-delay="800">
-							<div class="card-header d-flex justify-content-between flex-wrap">
-								<div class="header-title">
-									<h4 class="card-title">{{ __('message.list_form_title',['form' => __('message.exercise')] ) }}</h4>
-								</div>
-								<div class="card-action">
-									<a href="{{ route('exercise.index') }}" data-bs-toggle="tooltip" title="{{ __('message.list_form_title', [ 'form' => __('message.exercise') ]) }}">{{ __('message.see_all') }}</a>
-								</div>
-							</div>
-							<div class="card-body p-0">
-								<div class="table-responsive mt-4 dashboard_table_list">
-									<table id="basic-table" class="table table-striped mb-0 " role="grid">
-										<thead>
-											<tr>
-												<th>{{ __('message.image') }}</th>
-												<th>{{ __('message.title') }}</th>
-											</tr>
-										</thead>
-										<tbody>
-											@if( count($data['exercise']) > 0 )
-												@foreach ($data['exercise'] as $exercise)
-												<tr>
-													<td><img src="{{ getSingleMedia($exercise, 'exercise_image') }}" alt="exercise-image" class="bg-soft-primary rounded img-fluid avatar-40 me-3"></td>
-													<td>{{ $exercise->title }}</td>
-												</tr>
-												@endforeach
-											@else
-												<tr>
-													<td colspan="2">{{ __('message.not_found_entry', [ 'name' => __('message.exercise') ]) }}</td>
-												</tr>
-											@endif
-										</tbody>
-									</table>
-								</div>
-							</div>
-						</div>
-					</div>
-				@endif
-				@if($auth_user->can('workout-list'))
-					<div class="col-md-6">
-						<div class="card" data-aos="fade-up" data-aos-delay="900">
-							<div class="card-header d-flex justify-content-between flex-wrap">
-								<div class="header-title">
-									<h4 class="card-title">{{ __('message.list_form_title',['form' => __('message.workout')] ) }}</h4>
-								</div>
-								<div class="card-action">
-									<a href="{{ route('workout.index') }}" data-bs-toggle="tooltip" title="{{ __('message.list_form_title',['form' => __('message.workout') ]) }}">{{ __('message.see_all') }}</a>
-								</div>
-							</div>
-							<div class="card-body p-0">
-								<div class="table-responsive mt-4 dashboard_table_list">
-									<table id="basic-table" class="table table-striped mb-0" role="grid">
-										<thead>
-											<tr>
-												<th>{{ __('message.image') }}</th>
-												<th>{{ __('message.title') }}</th>
-											</tr>
-										</thead>
-										<tbody>
-											@if( count($data['workout']) > 0 )
-												@foreach ($data['workout'] as $workout)
-												<tr>
-													<td><img src="{{ getSingleMedia($workout, 'workout_image') }}" alt="workout-image" class="bg-soft-primary rounded img-fluid avatar-40 me-3"></td>
-													<td>{{ $workout->title }}</td>
-												</tr>
-												@endforeach
-											@else
-												<tr>
-													<td colspan="2">{{ __('message.not_found_entry', [ 'name' => __('message.workout') ]) }}</td>
-												</tr>
-											@endif
-										</tbody>
-									</table>
-								</div>
-							</div>
-						</div>
-					</div>
-				@endif
+
          	</div>
       	</div>
    	</div>

@@ -18,6 +18,8 @@ class GoalProgress extends Model
         'date' => 'datetime',
     ];
 
+    protected $with = ['goal'];
+
     public function goal(): BelongsTo
     {
         return $this->belongsTo(Goal::class);
