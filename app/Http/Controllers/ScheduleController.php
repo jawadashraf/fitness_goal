@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\DataTables\WorkoutDataTable;
 use App\DataTables\WorkoutScheduleDataTable;
 use App\Helpers\AuthHelper;
+use App\Models\Goal;
+use App\Models\GoalAchievement;
+use App\Models\GoalProgress;
 use App\Models\Workout;
 use App\Models\WorkoutSchedule;
 use App\Models\WorkoutScheduleProgress;
@@ -189,8 +192,100 @@ class ScheduleController extends Controller
         return view('schedule.form', compact('data','id','pageTitle'));
     }
 
-    public function update(Request $request)
+
+    public function update(Request $request, $id)
     {
+        if( !auth()->user()->can('goal-edit') ) {
+            $message = __('message.permission_denied_for_account');
+            return redirect()->back()->withErrors($message);
+        }
+
+        $data = $request->validate([
+            'start' => 'required|date',
+            'end' => 'required|date|after:start',
+            'schedule_progress.*' => 'required|numeric|min:0',
+        ]);
+
+
+        $start = Carbon::parse($data['start']);
+        $end = Carbon::parse($data['end']);
+
+        if (!$start->isSameDay($end)) {
+            // If not on the same day, redirect back with an error
+            return back()->withErrors(['end' => 'The end time must be on the same day as the start time.'])->withInput();
+        }
+
+        $workoutSchedule = WorkoutSchedule::findOrFail($id);
+
+
+        $workoutSchedule->fill($request->all())->update();
+
+        $today = Carbon::today();
+
+        DB::transaction(function () use ($request, $workoutSchedule, $today) {
+            foreach ($request->schedule_progress as $progressId => $progressValue) {
+                $scheduleProgress = WorkoutScheduleProgress::with('exercise.goal_type')
+                    ->where('id', $progressId)
+                    ->where('workout_schedule_id', $workoutSchedule->id)
+                    ->first();
+
+                if ($scheduleProgress) {
+                    $scheduleProgress->update([
+
+                        'progress' => $progressValue,
+                    ]);
+
+                    // Check for an active goal for the exercise's goal type
+                    $activeGoals = Goal::where('goal_type_id', $scheduleProgress->exercise->goal_type_id)
+                        ->where('status', 'active')
+                        ->whereDate('start_date', '<=', $today)
+                        ->whereDate('end_date', '>=', $today)
+                        ->get();
+
+                    if ($activeGoals) {
+                        // Update or create goal progress for today
+                        foreach ($activeGoals as $activeGoal){
+
+                            $goalProgress = GoalProgress::updateOrCreate([
+                                'goal_id' => $activeGoal->id,
+                                'date' => $today,
+                            ], [
+                                'progress_value' => DB::raw("progress_value + $progressValue"),
+                                'user_id' => auth()->id()
+                            ]);
+
+                            $goalProgress->refresh();
+
+                            if ($goalProgress->progress_value >= $activeGoal->tagret_value) {
+                                // Check if an achievement for this goal has already been recorded today
+                                $achievementExists = GoalAchievement::where('goal_id', $activeGoal->id)
+                                    ->where('user_id', auth()->id())
+                                    ->whereDate('achieved_at', '=', $today)
+                                    ->exists();
+
+                                if (!$achievementExists) {
+                                    // If no achievement has been recorded today, record this achievement
+                                    GoalAchievement::create([
+                                        'user_id'=>auth()->id(),
+                                        'goal_id' => $activeGoal->id,
+                                        'achieved_at' => $today, // Record the date (time part is 00:00:00)
+                                    ]);
+
+                                    // Handle any associated rewards here, as necessary
+                                }
+                            }
+
+                        }
+                    }
+                }
+            }
+        });
+
+
+        if(auth()->check()){
+            return redirect()->route('schedule.index', ['workout_id'=>$workoutSchedule->workout_id])->withSuccess(__('message.update_form',['form' => __('message.goal')]));
+        }
+        return redirect()->back()->withSuccess(__('message.update_form',['form' => __('message.goal') ] ));
 
     }
 
