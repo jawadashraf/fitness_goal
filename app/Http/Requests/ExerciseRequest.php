@@ -35,12 +35,14 @@ class ExerciseRequest extends FormRequest
                 $rules = [
                     'title' => 'required',
                     'level_id' => 'required',
+                    'goal_type_id' => 'required',
                 ];
                 break;
             case 'patch':
                 $rules = [
                     'title' => 'required',
                     'level_id' => 'required',
+                    'goal_type_id' => 'required',
                 ];
                 break;
         }
@@ -50,7 +52,7 @@ class ExerciseRequest extends FormRequest
 
     public function messages()
     {
-        return [ 
+        return [
             'equipment_id.required' => __('validation.required', ['attribute' => __('message.equipment')]),
             'level_id.required' => __('validation.required', ['attribute' => __('message.level')])
         ];

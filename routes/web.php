@@ -168,7 +168,8 @@ Route::group(['middleware' => [ 'auth', 'useractive' ]], function () {
     Route::get('/events', [ScheduleController::class, 'getEvents']);
     Route::get('/schedule/delete/{id}', [ScheduleController::class, 'deleteEvent']);
     Route::delete('/schedule/destroy/{id}', [ScheduleController::class, 'destroy'])->name('schedule.destroy');
-//    Route::post('/schedule/{id}', [ScheduleController::class, 'update']);
+    Route::get('/schedule/{id}/edit', [ScheduleController::class, 'edit'])->name('schedule.edit');
+    Route::patch('/schedule/{id}/update', [ScheduleController::class, 'update'])->name('schedule.update');
 //    Route::post('/schedule/{id}/resize', [ScheduleController::class, 'resize']);
 //    Route::get('/events/search', [ScheduleController::class, 'search']);
 //

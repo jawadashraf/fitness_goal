@@ -7,8 +7,11 @@ use App\DataTables\WorkoutScheduleDataTable;
 use App\Helpers\AuthHelper;
 use App\Models\Workout;
 use App\Models\WorkoutSchedule;
+use App\Models\WorkoutScheduleProgress;
 use Carbon\Carbon;
+use DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class ScheduleController extends Controller
 {
@@ -34,7 +37,7 @@ class ScheduleController extends Controller
         }
         $assets = ['data-table'];
 
-        $headerAction = $auth_user->can('workout-add') ? '<a href="'.route('schedule.create').'" class="btn btn-sm btn-primary" role="button">'.__('message.add_form_title', [ 'form' => __('message.workout')]).'</a>' : '';
+        $headerAction = $auth_user->can('workout-add') ? '<a href="'.route('schedule.create').'" class="btn btn-sm btn-primary" role="button">'.__('message.add_form_title', [ 'form' => __('message.schedule')]).'</a>' : '';
 
         return $dataTable->render('global.datatable', compact('pageTitle', 'auth_user', 'assets', 'headerAction'));
 
@@ -52,6 +55,72 @@ class ScheduleController extends Controller
     {
         $schedules = WorkoutSchedule::where('user_id', auth()->id())->get();
         return response()->json($schedules);
+    }
+
+    public function create()
+    {
+        if( !auth()->user()->can('workout-add') ) {
+            $message = __('message.permission_denied_for_account');
+            return redirect()->back()->withErrors($message);
+        }
+        $pageTitle = __('message.add_form_title',[ 'form' => __('message.schedule')]);
+
+        return view('schedule.form', compact('pageTitle'));
+    }
+
+    public function store(Request $request)
+    {
+        $data = $request->validate([
+            // validation rules
+            'workout_id' => 'required',
+            'start' => 'required|date',
+            'end' => 'required|date|after:start',
+            // add other fields as necessary
+        ]);
+
+
+        $start = Carbon::parse($data['start']);
+        $end = Carbon::parse($data['end']);
+
+        if (!$start->isSameDay($end)) {
+            // If not on the same day, redirect back with an error
+            return back()->withErrors(['end' => 'The end time must be on the same day as the start time.'])->withInput();
+        }
+
+        $workout = Workout::find($request['workout_id']);
+        $request['title'] = $workout->title;
+
+        $workoutSchedule = WorkoutSchedule::create($request->all());
+
+        $workoutScheduleId = $workoutSchedule->id;
+        $workoutId = $workoutSchedule->workout_id;
+
+        DB::transaction(function () use ($workoutScheduleId, $workoutId) {
+            $workoutSchedule = WorkoutSchedule::find($workoutScheduleId);
+            $workout = Workout::find($workoutId);
+
+            $workoutDayExercises = $workout->exercises; // Assuming you have a 'exercises' relationship defined in your Workout model
+
+            $exercises = collect();
+            foreach ($workoutDayExercises as $workoutDayExercise) {
+                // Access the Exercise model from the WorkoutDayExercise model
+                $exercise = $workoutDayExercise->exercise;
+                $exercises->push($exercise);
+            }
+
+            foreach ($exercises as $exercise) {
+                WorkoutScheduleProgress::create([
+                    'workout_schedule_id' => $workoutSchedule->id,
+                    'exercise_id' => $exercise->id,
+                    'progress' => 0, // Initial progress, adjust as needed
+                ]);
+            }
+        });
+
+
+
+        return redirect()->route('schedule.index', ['workout_id' => $workoutSchedule->workout_id])->withSuccess(__('message.save_form', ['form' => __('message.schedule')]));
+
     }
 
     public function createFromDrop(Request $request)
@@ -77,10 +146,53 @@ class ScheduleController extends Controller
             // Set other fields as necessary
         ]);
 
+        $workoutScheduleId = $workoutSchedule->id;
+        $workoutId = $workoutSchedule->workout_id;
+        DB::transaction(function () use ($workoutScheduleId, $workoutId) {
+            $workoutSchedule = WorkoutSchedule::find($workoutScheduleId);
+            $workout = Workout::find($workoutId);
+
+            $workoutDayExercises = $workout->exercises; // Assuming you have a 'exercises' relationship defined in your Workout model
+
+            $exercises = collect();
+            foreach ($workoutDayExercises as $workoutDayExercise) {
+                // Access the Exercise model from the WorkoutDayExercise model
+                $exercise = $workoutDayExercise->exercise;
+                $exercises->push($exercise);
+            }
+
+            foreach ($exercises as $exercise) {
+                WorkoutScheduleProgress::create([
+                    'workout_schedule_id' => $workoutSchedule->id,
+                    'exercise_id' => $exercise->id,
+                    'progress' => 0, // Initial progress, adjust as needed
+                ]);
+            }
+        });
+
         // Return a response
         return response()->json(['message' => 'WorkoutSchedule created successfully', 'workoutSchedule' => $workoutSchedule]);
     }
 
+    public function edit($id)
+    {
+        if( !auth()->user()->can('workout-edit') ) {
+            $message = __('message.permission_denied_for_account');
+            return redirect()->back()->withErrors($message);
+        }
+
+        $data = WorkoutSchedule::with('workout_schedule_progress.exercise')->findOrFail($id);
+        $this->authorize('update', $data);
+
+        $pageTitle = __('message.update_form_title',[ 'form' => __('message.schedule') ]);
+
+        return view('schedule.form', compact('data','id','pageTitle'));
+    }
+
+    public function update(Request $request)
+    {
+
+    }
 
     public function deleteEvent($id)
     {

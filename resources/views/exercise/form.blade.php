@@ -42,7 +42,7 @@
                 if (!user_response) {
                     return false;
                 }
-                
+
                 if (total_row == 1) {
                     $(document).find('#add_button').trigger('click');
                 }
@@ -51,8 +51,8 @@
 
             var type = "{{ isset($id) ? $data->type : 'sets' }}";
             changeTabValue(type)
-            
-            $('#exercise-pills-tab').on('show.bs.tab', function (e) { 
+
+            $('#exercise-pills-tab').on('show.bs.tab', function (e) {
                 changeTabValue($(e.target).attr('data-type'))
             });
         });
@@ -62,7 +62,7 @@
             console.log(type)
             $('input[name=type]').val(type);
         }
-        
+
         function changeUploadFile(type) {
             if (jQuery.inArray(type, ['url']) !== -1) {
                 $('.video_url').removeClass('d-none');
@@ -86,7 +86,7 @@
             $('.normal_row').show();
             clearDurationSet();
         });
-        
+
         $(document).on('click', '#sets_clear', function () {
             clearDurationSet('set');
         });
@@ -171,6 +171,16 @@
                                 }}
                             </div>
                             <div class="form-group col-md-4">
+                                {{ Form::label('goal_type_id', __('message.goal_type').' <span class="text-danger">*</span>',[ 'class' => 'form-control-label' ], false) }}
+                                {{ Form::select('goal_type_id', isset($id) ? [ optional($data->goal_type)->id => optional($data->goal_type)->title ] : [], old('goal_type_id'), [
+                                        'class' => 'select2js form-group goal_type',
+                                        'data-placeholder' => __('message.select_name',[ 'select' => __('message.goal_type') ]),
+                                        'data-ajax--url' => route('ajax-list', ['type' => 'goal_type']),
+                                        'required'
+                                    ])
+                                }}
+                            </div>
+                            <div class="form-group col-md-4">
                                 {{ Form::label('level_id', __('message.level').' <span class="text-danger">*</span>',[ 'class' => 'form-control-label' ], false) }}
                                 {{ Form::select('level_id', isset($id) ? [ optional($data->level)->id => optional($data->level)->title ] : [], old('level_id'), [
                                         'class' => 'select2js form-group level',
@@ -215,7 +225,7 @@
                                 <?php
                                         $file_extention = config('constant.IMAGE_EXTENTIONS');
                                         $image = getSingleMedia($data, 'exercise_video');
-                                        
+
                                         $extention = in_array(strtolower(imageExtention($image)), $file_extention);
                                     ?>
                                 @if($extention)
@@ -277,7 +287,7 @@
                         @endphp
                         <h5 class="text-danger"> <i><u>{{ __('message.notes')}}:</u></i> {{ __('message.exercise_info') }}</h5>
                         <hr>
-                        
+
                         <ul class="d-flex nav nav-pills nav-fill mb-3 text-center exercise-tab "  id="exercise-pills-tab" role="tablist">
                             <li class="nav-item" role="presentation">
                                 <a class="nav-link {{ $type == 'sets' ? 'active show' : '' }}" data-bs-toggle="tab" href="#exercise-sets" data-type="sets" role="tab" aria-selected="{{ $type == 'sets' ? 'true' : 'false' }}">{{ __('message.sets') }}</a>
@@ -290,7 +300,7 @@
                             <div id="exercise-sets" class="tab-pane fade {{ $type == 'sets' ? 'active show' : '' }}" role="tabpanel">
                                 <div class="row normal_row">
                                     <div class="col-md-4">
-                                        <h5 class="mb-3">{{__('message.sets')}} 
+                                        <h5 class="mb-3">{{__('message.sets')}}
                                             <span class="text-danger" data-bs-toggle="tooltip" title="{{ __('message.exercise_sets_based_info') }}">
                                                 <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                     <path fill-rule="evenodd" clip-rule="evenodd" d="M16.334 2.75H7.665C4.644 2.75 2.75 4.889 2.75 7.916V16.084C2.75 19.111 4.635 21.25 7.665 21.25H16.333C19.364 21.25 21.25 19.111 21.25 16.084V7.916C21.25 4.889 19.364 2.75 16.334 2.75Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
@@ -314,7 +324,7 @@
                                     </div>
                                     <div class="col-md-4">
                                         <button type="button" id="add_button" class="btn btn-sm btn-primary float-end me-2">{{ __('message.add',['name' => '']) }}</button>
-                                        <a id="sets_clear" class="float-end me-2" href="javascript:void(0)" title="{{ __('message.clear_sets') }}">{{ __('message.l_clear') }}</a> 
+                                        <a id="sets_clear" class="float-end me-2" href="javascript:void(0)" title="{{ __('message.clear_sets') }}">{{ __('message.l_clear') }}</a>
                                     </div>
                                     <div class="col-md-12">
                                         <table id="table_list" class="table table-responsive">
@@ -429,7 +439,7 @@
                             <div id="exercise-duration" class="tab-pane fade {{ $type == 'duration' ? 'active show' : '' }}" role="tabpanel">
                                 <div class="row duration_row">
                                     <h5 class="mb-3">{{__('message.duration')}}
-                                        <a id="duration_clear" class="float-end" href="javascript:void(0)" title="{{ __('message.clear_duration') }}">{{ __('message.l_clear') }}</a> 
+                                        <a id="duration_clear" class="float-end" href="javascript:void(0)" title="{{ __('message.clear_duration') }}">{{ __('message.l_clear') }}</a>
                                     </h5>
                                     <div class="form-group col-md-2">
 
@@ -439,7 +449,7 @@
                                             'data-ajax--url' => route('ajax-list', ['type' => 'hours']),
                                                 ] ) }}
                                     </div>
-                                    
+
                                     <div class="form-group col-md-2">
                                         {{ Form::label('minute',__('message.minute').' <span class="text-danger">*</span>',['class'=>'form-control-label'],false) }}
                                         {{ Form::select('minute', isset($duration) ? [$duration[1] => $duration[1] ] : [], old('minute'), [ 'class' => 'form-control select2js',
@@ -465,7 +475,7 @@
                         <div class="form-group col-md-12">
                             {{ Form::label('tips',__('message.tips'), ['class' => 'form-control-label']) }}
                             {{ Form::textarea('tips', null, ['class'=> 'form-control tinymce-tips' , 'placeholder'=> __('message.tips') ]) }}
-                        </div>                        
+                        </div>
                         <hr>
                         {{ Form::submit( __('message.save'), ['class'=>'btn btn-md btn-primary float-end']) }}
                     </div>

@@ -6,6 +6,8 @@ use App\Scopes\UserScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use phpDocumentor\Reflection\DocBlock\Tags\TagWithType;
 
 class WorkoutSchedule extends Model
 {
@@ -21,9 +23,16 @@ class WorkoutSchedule extends Model
         'end'        => 'datetime',
     ];
 
+    protected $with = ['workout'];
+
     public function workout(): BelongsTo
     {
         return $this->belongsTo(Workout::class);
+    }
+
+    public function workout_schedule_progress(): HasMany
+    {
+        return $this->hasMany(WorkoutScheduleProgress::class);
     }
 
     protected static function boot()

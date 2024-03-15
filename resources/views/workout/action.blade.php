@@ -16,6 +16,18 @@
         </a>
 
     @endif
+
+        @if($auth_user->can('workout-edit') &&
+   ($auth_user->hasRole('admin') || $workout->user_id === $auth_user->id ))
+            <a class="btn btn-sm btn-icon btn-info me-2" href="{{ route('schedule.index',['workout_id'=>  $id] ) }}" data-bs-toggle="tooltip" title="{{ __('message.schedule') }}">
+            <span class="btn-inner">
+                <img class="icon-20 text-white" src="{{ asset('images/svg/watch.svg') }}" alt="icon description" width="20" height="20">
+            </span>
+            </a>
+
+        @endif
+
+
     @if($auth_user->can('workout-delete') &&
 ($auth_user->hasRole('admin') || $workout->user_id === $auth_user->id ))
         <a class="btn btn-sm btn-icon btn-danger" href="javascript:void(0)" data-bs-toggle="tooltip" data--submit="workout{{$id}}"

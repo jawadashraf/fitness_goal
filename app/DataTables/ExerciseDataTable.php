@@ -46,11 +46,11 @@ class ExerciseDataTable extends DataTable
                 });
             })
 
-            ->editColumn('level.title', function($query) {
-                return optional($query->level)->title ?? '-';
+            ->editColumn('goal_type.title', function($query) {
+                return optional($query->goal_type)->title ?? '-';
             })
-            ->filterColumn('level.title', function($query, $keyword) {
-                return $query->orWhereHas('level', function($q) use($keyword) {
+            ->filterColumn('goal_type.title', function($query, $keyword) {
+                return $query->orWhereHas('goal_type', function($q) use($keyword) {
                     $q->where('title', 'like', "%{$keyword}%");
                 });
             })
@@ -76,7 +76,7 @@ class ExerciseDataTable extends DataTable
                         $column_name = request()->columns[$column_index]['data'];
                         $direction = $order['dir'];
                     }
-    
+
                     $query->orderBy($column_name, $direction);
                 }
             })
@@ -91,7 +91,7 @@ class ExerciseDataTable extends DataTable
      */
     public function query(Exercise $model)
     {
-        $model = Exercise::query()->with('equipment','level');
+        $model = Exercise::query()->with('equipment','level', 'goal_type');
         return $this->applyScopes($model);
     }
 
@@ -107,9 +107,9 @@ class ExerciseDataTable extends DataTable
                 ->searchable(false)
                 ->title(__('message.srno'))
                 ->orderable(false),
-            ['data' => 'title', 'name' => 'title', 'title' => __('message.title')],   
-            ['data' => 'equipment.title', 'name' => 'equipment.title', 'title' => __('message.equipment'), 'orderable' => false], 
-            ['data' => 'level.title', 'name' => 'level.title', 'title' => __('message.level'), 'orderable' => false],   
+            ['data' => 'title', 'name' => 'title', 'title' => __('message.title')],
+            ['data' => 'equipment.title', 'name' => 'equipment.title', 'title' => __('message.equipment'), 'orderable' => false],
+            ['data' => 'goal_type.title', 'name' => 'goal_type.title', 'title' => __('message.goal_type'), 'orderable' => false],
             ['data' => 'status', 'name' => 'status', 'title' => __('message.status')],
             ['data' => 'created_at', 'name' => 'created_at', 'title' => __('message.created_at')],
             ['data' => 'updated_at', 'name' => 'updated_at', 'title' => __('message.updated_at')],

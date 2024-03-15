@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Scopes\UserScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
@@ -13,7 +14,7 @@ class Exercise extends Model implements HasMedia
     use HasFactory ,InteractsWithMedia;
 
     protected $fillable = [ 'title', 'instruction', 'tips', 'video_type', 'video_url', 'bodypart_ids', 'duration',
-        'sets', 'equipment_id', 'level_id', 'status','is_premium', 'based', 'type', 'user_id' ];
+        'sets', 'equipment_id', 'level_id', 'status','is_premium', 'based', 'type', 'user_id', 'goal_type_id' ];
 
     protected $casts = [
         'equipment_id'      => 'integer',
@@ -31,6 +32,10 @@ class Exercise extends Model implements HasMedia
         return $this->belongsTo(Level::class, 'level_id', 'id');
     }
 
+    public function goal_type(): BelongsTo
+    {
+        return $this->belongsTo(GoalType::class);
+    }
     public function getBodypartIdsAttribute($value)
     {
         return isset($value) ? json_decode($value, true) : null;
