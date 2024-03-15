@@ -10,8 +10,10 @@ use Illuminate\Http\Request;
 
 class GoalProgressController extends Controller
 {
-    public function index(Goal $goal, GoalProgressDataTable $dataTable)
+    public function index(Goal $goal)
     {
+        $dataTable = new GoalProgressDataTable($goal);
+
         $pageTitle = __('message.list_form_title',['form' => __('message.goal_progress')] );
         $auth_user = AuthHelper::authSession();
         if( !$auth_user->can('goal-list') ) {

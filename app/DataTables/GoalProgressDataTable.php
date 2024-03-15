@@ -13,6 +13,13 @@ use App\Traits\DataTableTrait;
 class GoalProgressDataTable extends DataTable
 {
     use DataTableTrait;
+
+    protected $goal;
+    public function __construct(Goal $goal)
+    {
+        $this->goal = $goal;
+    }
+
     /**
      * Build DataTable class.
      *
@@ -82,7 +89,7 @@ class GoalProgressDataTable extends DataTable
 
     public function query(GoalProgress $model)
     {
-        $model = GoalProgress::query()->with('goal.goal_type', 'goal.unit_type');
+        $model = GoalProgress::query()->where('goal_id', $this->goal->id)->with('goal.goal_type', 'goal.unit_type');
         return $this->applyScopes($model);
     }
 

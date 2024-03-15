@@ -12,8 +12,19 @@ use Illuminate\Http\Request;
 
 class ScheduleController extends Controller
 {
-    public function index(WorkoutScheduleDataTable $dataTable, $workOutId)
+    public function index(Request $request)
     {
+
+        $workoutId = $request->input('workout_id', null);
+        $workout = null;
+
+        if (!is_null($workoutId)) {
+            $workout = Workout::find($workoutId);
+            // Optionally, handle the case where $workout is null if the ID does not exist
+        }
+
+        $dataTable = new WorkoutScheduleDataTable($workout);
+
 
         $pageTitle = __('message.list_form_title',['form' => __('message.schedule')] );
         $auth_user = AuthHelper::authSession();

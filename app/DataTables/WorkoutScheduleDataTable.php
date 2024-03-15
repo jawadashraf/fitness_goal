@@ -12,6 +12,12 @@ use App\Traits\DataTableTrait;
 class WorkoutScheduleDataTable extends DataTable
 {
     use DataTableTrait;
+
+    protected $workout;
+    public function __construct(Workout $workout=null)
+    {
+        $this->workout = $workout;
+    }
     /**
      * Build DataTable class.
      *
@@ -70,7 +76,13 @@ class WorkoutScheduleDataTable extends DataTable
      */
     public function query(WorkoutSchedule $model)
     {
-        $model = WorkoutSchedule::query()->with('workout.exercises');
+        if($this->workout == null){
+
+            $model = WorkoutSchedule::query()->with('workout.exercises');
+        } else {
+            $model = WorkoutSchedule::query()->where('workout_id', $this->workout->id)->with('workout.exercises');
+        }
+
         return $this->applyScopes($model);
     }
 
