@@ -178,7 +178,7 @@ $badge = "<span class='badge bg-info' id='unread-badge' style='display: " . ($un
 //                ->link->attr(['class' => activeRoute(route('categorydiet.index')) ? 'nav-link active' : 'nav-link']);
 
         $menu->add('<span class="item-name">'.__('goal').'</span>', ['class' => ''])
-            ->prepend('<i class="icon"><img src="images/svg/goal.svg" width="30"/>
+            ->prepend('<i class="icon"><img src="/images/svg/goal.svg" width="30"/>
                     </i>')
             ->nickname('goal')
             ->data('permission', 'goal-list')
@@ -449,12 +449,12 @@ $badge = "<span class='badge bg-info' id='unread-badge' style='display: " . ($un
 
             $menu->add('<span class="item-name">'.__('message.achievements').'</span>', ['route' => 'achievements'])
             ->prepend('<i class="icon">
-                    <img src="images/svg/goal.svg" width="24"/></i>')
+                    <img src="/images/svg/goal.svg" width="24"/></i>')
             ->link->attr([ 'class' => activeRoute(route('achievements')) ? 'nav-link active' : 'nav-link' ]);
 
                         $menu->add('<span class="item-name">'.__('message.rewards').'</span>', ['route' => 'rewards'])
             ->prepend('<i class="icon">
-                    <img src="images/badges/TROPHY.svg" width="24"/></i>')
+                    <img src="/images/badges/TROPHY.svg" width="24"/></i>')
             ->link->attr([ 'class' => activeRoute(route('rewards')) ? 'nav-link active' : 'nav-link' ]);
 
             $menu->add('<span class="item-name">'.__('message.notifications').$badge.'</span>', ['route' => 'notifications'])
