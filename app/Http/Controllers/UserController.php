@@ -32,7 +32,7 @@ class UserController extends Controller
         }
 
         $assets = ['data-table'];
-        
+
         $headerAction = $auth_user->can('user-add') ? '<a href="'.route('users.create').'" class="btn btn-sm btn-primary" role="button">'.__('message.add_form_title', [ 'form' => __('message.user')]).'</a>' : '';
 
         return $dataTable->render('global.datatable', compact('pageTitle', 'auth_user', 'assets', 'headerAction'));
@@ -98,9 +98,9 @@ class UserController extends Controller
         }
 
         $data = User::with('userProfile','roles')->findOrFail($id);
-        
+
         $subscriptions = Subscription::where('user_id', $id)->get();
-    
+
         $profileImage = getSingleMedia($data, 'profile_image');
         return $dataTable->with('user_id',$id)->render('users.profile', compact('data', 'profileImage','subscriptions'));
     }
@@ -121,7 +121,7 @@ class UserController extends Controller
         $data = User::with('userProfile')->findOrFail($id);
 
         $pageTitle = __('message.update_form_title',[ 'form' => __('message.user')]);
-        
+
         $profileImage = getSingleMedia($data, 'profile_image');
         $roles = Role::where('status', 1)->whereNotIn('name', ['admin'])->get()->pluck('title', 'name');
 
@@ -142,10 +142,10 @@ class UserController extends Controller
             return redirect()->back()->withErrors($message);
         }
 
-        $user = User::with('userProfile')->findOrFail($id);      
+        $user = User::with('userProfile')->findOrFail($id);
         $request['display_name'] = $request['first_name']." ".$request['last_name'];
         $user->removeRole($user->user_type);
-        
+
         // User user data..
         $user->fill($request->all())->update();
 
@@ -212,13 +212,13 @@ class UserController extends Controller
         $view = view('users.assign-diet-list',compact('user_id', 'data'))->render();
         return response()->json([ 'data' => $view, 'status' => true ]);
     }
- 
+
     public function assignDietSave(Request $request)
     {
         $data = $request->all();
         unset($data['_token']);
         AssignDiet::updateOrCreate([ 'user_id' => request('user_id'), 'diet_id' => request('diet_id') ]);
-        
+
         $message = __('message.assigndiet');
 
         return response()->json(['status' => true, 'type' => 'diet', 'event' => 'norefresh', 'message' => $message]);
@@ -262,7 +262,7 @@ class UserController extends Controller
         $data = $request->all();
         unset($data['_token']);
         AssignWorkout::updateOrCreate([ 'user_id' => request('user_id'), 'workout_id' => request('workout_id') ]);
-        
+
         $message = __('message.assignworkout');
 
         return response()->json(['status' => true,  'type' => 'workout', 'event' => 'norefresh', 'message' => $message]);
@@ -285,5 +285,18 @@ class UserController extends Controller
         }
 
         return redirect()->back()->with($status,$message);
+    }
+
+    public function savePlayerId(Request $request)
+    {
+        $user = auth()->user(); // Get the authenticated user
+        $deviceId = $request->input('device_id');
+
+        // Update the player_id for the user
+        $user->update([
+            'player_id' => $deviceId,
+        ]);
+
+        return response()->json(['success' => true]);
     }
 }

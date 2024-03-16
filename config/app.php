@@ -123,6 +123,29 @@ return [
 
     'cipher' => 'AES-256-CBC',
 
+    'app_id' => env('ONESIGNAL_APP_ID'),
+
+    /*
+	|--------------------------------------------------------------------------
+	| Rest API Key
+	|--------------------------------------------------------------------------
+	|
+    |
+	|
+	*/
+    'rest_api_key' => env('ONESIGNAL_REST_API_KEY'),
+    'user_auth_key' => env('ONESIGNAL_REST_API_KEY'),
+
+    /*
+	|--------------------------------------------------------------------------
+	| Guzzle Timeout
+	|--------------------------------------------------------------------------
+	|
+    |
+	|
+	*/
+    'guzzle_client_timeout' => env('ONESIGNAL_GUZZLE_CLIENT_TIMEOUT', 0),
+
     /*
     |--------------------------------------------------------------------------
     | Autoloaded Service Providers
@@ -178,6 +201,8 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        Berkayk\OneSignal\OneSignalServiceProvider::class
+
     ],
 
     /*
@@ -230,7 +255,8 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'DataTables' => Yajra\DataTables\Facades\DataTables::class,
-        'AuthHelper' => App\Helpers\AuthHelper::class
+        'AuthHelper' => App\Helpers\AuthHelper::class,
+        'OneSignal' => Berkayk\OneSignal\OneSignalFacade::class
     ],
 
 ];

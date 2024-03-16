@@ -64,3 +64,4 @@
 <!-- Custom JavaScript -->
 <script src="{{asset('js/hope-ui.js') }}"></script>
 <script src="{{asset('js/modelview.js')}}"></script>
+

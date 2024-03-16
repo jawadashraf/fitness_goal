@@ -35,6 +35,11 @@ class WorkoutSchedule extends Model
         return $this->hasMany(WorkoutScheduleProgress::class);
     }
 
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
     protected static function boot()
     {
         parent::boot();

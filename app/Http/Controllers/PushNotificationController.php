@@ -10,6 +10,7 @@ use App\Notifications\CommonNotification;
 use App\Notifications\DatabaseNotification;
 use App\Models\Notification;
 use App\Helpers\AuthHelper;
+use OneSignal;
 
 class PushNotificationController extends Controller
 {
@@ -49,7 +50,7 @@ class PushNotificationController extends Controller
         $relation = [
             'user' => User::where('user_type', 'user')->where('status','active')->get()->pluck('display_name', 'id'),
         ];
-        
+
         return view('push_notification.form', compact('pageTitle')+$relation);
     }
 
@@ -69,7 +70,7 @@ class PushNotificationController extends Controller
         $pushnotification = PushNotification::create($request->all());
 
         storeMediaFile($pushnotification, $request->notification_image, 'notification_image');
-        
+
         $notification_data = [
             'id' => $pushnotification->id,
             'push_notification_id' => $pushnotification->id,
@@ -85,6 +86,14 @@ class PushNotificationController extends Controller
 
         User::whereIn('id', $request->user)->chunk(20, function ($userdata) use ($notification_data) {
             foreach ($userdata as $user) {
+//                OneSignal::sendNotificationToUser(
+//                    "Some Message....",
+//                    $user->player_id,
+//                    $url = null,
+//                    $data = null,
+//                    $buttons = null,
+//                    $schedule = null
+//                );
                 $user->notify(new CommonNotification($notification_data['type'], $notification_data));
                 $user->notify(new DatabaseNotification($notification_data));
             }

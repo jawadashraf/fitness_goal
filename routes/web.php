@@ -154,6 +154,8 @@ Route::group(['middleware' => [ 'auth', 'useractive' ]], function () {
     Route::post('privacy-policy-save',[ SettingController::class, 'savePrivacyPolicy'])->name('pages.privacy_policy_save');
 
     Route::resource('pushnotification', PushNotificationController::class);
+// Add this to web.php or api.php
+    Route::post('/save-player-id', [UserController::class, 'savePlayerId']);
 
     Route::resource('subscription', SubscriptionController::class);
 
