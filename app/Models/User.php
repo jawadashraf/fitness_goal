@@ -70,6 +70,20 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia
         return $this->hasMany(Notification::class, 'notifiable_id', 'id');
     }
 
+    public function goal_achievements()
+    {
+        return $this->hasMany(GoalAchievement::class);
+    }
+
+    public function rewards()
+    {
+        return $this->belongsToMany(Reward::class, 'user_rewards')
+            ->using(UserReward::class)
+            ->withTimestamps();
+    }
+
+
+
     protected static function boot()
     {
         parent::boot();
