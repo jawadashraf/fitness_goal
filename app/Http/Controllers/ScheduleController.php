@@ -80,7 +80,23 @@ class ScheduleController extends Controller
 
     public function getEvents()
     {
-        $schedules = WorkoutSchedule::where('user_id', auth()->id())->get();
+        $schedules = WorkoutSchedule::with(['workout.exercises.exercise.goal_type.goals'])->where('user_id', auth()->id())->get();
+        $schedules->map(function ($schedule) {
+            // For each schedule, collect goals from all exercises' goal types
+            $goalsList = collect();
+            foreach ($schedule->workout->exercises as $exercise) {
+                $goals = $exercise->exercise->goal_type->goals->pluck('title'); // Collecting goal names
+                $goalsList = $goalsList->merge($goals);
+            }
+
+            // Make the list unique, reset keys, and check if it's empty
+            $uniqueGoals = $goalsList->unique()->values()->all();
+
+            // If there are no goals, set a default message
+            $schedule->goals = empty($uniqueGoals) ? ['no goals attached'] : $uniqueGoals;
+
+            return $schedule;
+        });
         return response()->json($schedules);
     }
 
