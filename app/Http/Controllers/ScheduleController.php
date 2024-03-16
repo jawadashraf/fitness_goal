@@ -56,6 +56,28 @@ class ScheduleController extends Controller
 
     }
 
+    public function update_event_on_drop(Request $request, $id)
+    {
+        $schedule = WorkoutSchedule::findOrFail($id);
+
+        $schedule->update([
+            'start' => Carbon::parse($request->input('start_date'))->setTimezone('UTC'),
+            'end' => Carbon::parse($request->input('end_date'))->setTimezone('UTC'),
+        ]);
+
+        return response()->json(['message' => 'Event moved successfully']);
+    }
+
+    public function resize(Request $request, $id)
+    {
+        $schedule = WorkoutSchedule::findOrFail($id);
+
+        $newEndDate = Carbon::parse($request->input('end_date'))->setTimezone('UTC');
+        $schedule->update(['end' => $newEndDate]);
+
+        return response()->json(['message' => 'Event resized successfully.']);
+    }
+
     public function getEvents()
     {
         $schedules = WorkoutSchedule::where('user_id', auth()->id())->get();
@@ -179,6 +201,17 @@ class ScheduleController extends Controller
         return response()->json(['message' => 'WorkoutSchedule created successfully', 'workoutSchedule' => $workoutSchedule]);
     }
 
+    public function updateOnDrag(Request $request, $id)
+    {
+        $schedule = WorkoutSchedule::findOrFail($id);
+
+        $schedule->update([
+            'start' => Carbon::parse($request->input('start_date'))->setTimezone('UTC'),
+            'end' => Carbon::parse($request->input('end_date'))->setTimezone('UTC'),
+        ]);
+
+        return response()->json(['message' => 'Event updated successfully']);
+    }
     public function edit($id)
     {
         if( !auth()->user()->can('workout-edit') ) {

@@ -55,13 +55,15 @@
                                 success: function(response) {
                                     console.log('Event deleted successfully.');
                                     calendar.refetchEvents(); // Refresh events after deletion
-                                    Swal.fire({
-                                        icon: 'success',
-                                        title: "{{ __('message.deleted') }}",
-                                        text: '{{ Session::get("success") }}',
-                                        confirmButtonColor: "var(--bs-primary)",
-                                        timer: 1000,
-                                    });
+                                    {{--Swal.fire({--}}
+                                    {{--    icon: 'success',--}}
+                                    {{--    title: "{{ __('message.deleted') }}",--}}
+                                    {{--    text: '{{ Session::get("success") }}',--}}
+                                    {{--    confirmButtonColor: "var(--bs-primary)",--}}
+                                    {{--    timer: 1000,--}}
+                                    {{--});--}}
+
+                                    showToast('Event deleted.');
                                 },
                                 error: function(error) {
                                     console.error('Error deleting event:', error);
@@ -110,26 +112,56 @@
                     var dropDate = info.dateStr;
                     var allDay = info.allDay;
 
-
-
-                    // Immediately add the event to the calendar
-                    // var newEvent = calendar.addEvent({
-                    //     title: title,
-                    //     start: dropDate,
-                    //     allDay: allDay,
-                    //     // Temporarily use the workoutId or another placeholder for id
-                    //     id: -1,
-                    // });
-
                     createWorkoutSchedule(workoutId, title, dropDate, allDay);
                 },
                 eventDrop: function(info) {
-                    // console.log('eventDrop ',info.event);
-                    // var eventId = info.event.id;
-                    // var newStartDate = info.event.start;
-                    // var newEndDate = info.event.end || newStartDate;
-                    // var newStartDateUTC = newStartDate.toISOString().slice(0, 10);
-                    // var newEndDateUTC = newEndDate.toISOString().slice(0, 10);
+                    var eventId = info.event.id;
+                    var newStartDate = info.event.start;
+                    var newEndDate = info.event.end || newStartDate;
+                    var newStartDateUTC = newStartDate.toISOString().slice(0, 16);
+                    var newEndDateUTC = newEndDate.toISOString().slice(0, 16);
+                    console.log(newStartDateUTC, newEndDateUTC, eventId);
+                    $.ajax({
+                        method: 'post',
+                        url: `/schedule/${eventId}/update_event_on_drop`,
+                        data: {
+                            '_token': "{{ csrf_token() }}",
+                            start_date: newStartDateUTC,
+                            end_date: newEndDateUTC,
+                        },
+                        success: function() {
+                            console.log('Event moved successfully.');
+                            showToast('Event updated successfully.');
+                        },
+                        error: function(error) {
+                            console.error('Error moving event:', error);
+                        }
+                    });
+                },
+                // Event Resizing
+                eventResize: function(info) {
+                    var eventId = info.event.id;
+                    var newEndDate = info.event.end;
+                    var newEndDateUTC = newEndDate.toISOString().slice(0, 16);
+
+                    $.ajax({
+                        method: 'post',
+                        url: `/schedule/${eventId}/resize`,
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        data: {
+                            end_date: newEndDateUTC
+                        },
+                        success: function() {
+                            console.log('Event resized successfully.');
+                            showToast('Event resized successfully.');
+                        },
+                        error: function(error) {
+                            console.error('Error resizing event:', error);
+                            showToast('Error resizing event:', error);
+                        }
+                    });
                 },
                 navLinks: true,
                 // navLinkDayClick: function(date, jsEvent) {
@@ -139,7 +171,16 @@
             });
             calendar.render();
 
+            function showToast(message){
+                var toastLiveExample = document.getElementById('liveToast');
+                var toastBody = document.getElementById('toast-body');
 
+                // Set the dynamic message from the session
+                toastBody.textContent = message;
+                var toast = new bootstrap.Toast(toastLiveExample);
+
+                toast.show();
+            }
             // Function to send AJAX request to create a WorkoutSchedule
             function createWorkoutSchedule(workoutId, title, dropDate, allDay) {
                 fetch('/schedule/create-from-drop', {
@@ -179,13 +220,15 @@
                         // });
 
 
-                        Swal.fire({
-                            icon: 'success',
-                            title: "{{ __('message.created') }}",
-                            text: '{{ Session::get("success") }}',
-                            confirmButtonColor: "var(--bs-primary)",
-                            timer: 1000,
-                        });
+                        {{--Swal.fire({--}}
+                        {{--    icon: 'success',--}}
+                        {{--    title: "{{ __('message.created') }}",--}}
+                        {{--    text: '{{ Session::get("success") }}',--}}
+                        {{--    confirmButtonColor: "var(--bs-primary)",--}}
+                        {{--    timer: 1000,--}}
+                        {{--});--}}
+
+                        showToast('Event created successfully.');
 
                         calendar.refetchEvents();
                     })
