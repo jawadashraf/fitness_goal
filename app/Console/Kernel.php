@@ -32,8 +32,8 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
 //        $schedule->command('check:subscription')->daily();
-//        $time = SettingData ('QUOTE', 'QUOTE_TIME') ?? '05:00';
-//        $schedule->command('send:quotes')->daily()->at($time);
+        $time = SettingData ('QUOTE', 'QUOTE_TIME') ?? '05:00';
+        $schedule->command('send:quotes')->daily()->at($time);
 
         $schedule->call(function () {
             $later = now()->addHour(1);
