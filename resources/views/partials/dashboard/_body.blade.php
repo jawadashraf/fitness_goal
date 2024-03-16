@@ -7,11 +7,11 @@
     @include('partials.dashboard._body_header')
     @include('partials.dashboard.sub-header')
     </div>
-    
+
     <div class="conatiner-fluid content-inner mt-n5 py-0">
     {{ $slot }}
     </div>
-    
+
     @include('partials.dashboard._body_footer')
 </main>
 <!-- <a class="btn btn-fixed-end btn-warning btn-icon btn-setting" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" role="button" aria-controls="offcanvasExample">
@@ -37,3 +37,4 @@
     </div>
 </div>
 </div>
+

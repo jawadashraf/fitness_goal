@@ -15,7 +15,7 @@
         window.OneSignalDeferred = window.OneSignalDeferred || [];
         OneSignalDeferred.push(async function (OneSignal) {
             OneSignal.init({
-                appId: "7801ce52-4a89-457c-a6f5-0f9164ed13c7",
+                appId: "{{ env('ONESIGNAL_APP_ID') }}",
                 notifyButton: {enable: true}
             });
 
@@ -53,37 +53,6 @@
 
         });
 
-        // OneSignalDeferred.push(async function (OneSignal) {
-        //     let start = +(new Date());
-        //     let interval = setInterval(() => {
-        //         let now = +(new Date());
-        //         console.log(`${(now-start)}ms timeout: `, OneSignal.User.pushSubscription.id);
-        //
-        //         if (OneSignal.User.pushSubscription.id) {
-        //             clearInterval(interval);
-        //         }
-        //
-        //         // Do work...
-        //     }, 1000);
-        // });
-
-
-
-
-        // OneSignalDeferred.push(async function (OneSignal) {
-        //     OneSignal.push(() => {
-        //         OneSignal.isPushNotificationsEnabled(isEnabled => {
-        //             if (isEnabled) {
-        //                 // user has subscribed
-        //                 OneSignal.getUserId(userId => {
-        //                     console.log(`player_id of the subscribed user is : ${userId}`)
-        //                     // Make a POST call to your server with the user ID
-        //                 })
-        //             }
-        //         })
-        //     });
-        //     // OneSignal.Slidedown.promptPush({force: true});
-        // });
     </script>
 
 </head>

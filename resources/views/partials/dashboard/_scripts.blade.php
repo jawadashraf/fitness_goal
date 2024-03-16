@@ -65,3 +65,24 @@
 <script src="{{asset('js/hope-ui.js') }}"></script>
 <script src="{{asset('js/modelview.js')}}"></script>
 
+<script>
+    $(document).ready(function() {
+        function updateUnreadCount() {
+            $.ajax({
+                url: "{{ route('notifications.unread_count') }}",
+                type: 'GET',
+                success: function(data) {
+                    let badge = $('#unread-badge');
+                    if (data.unread_count > 0) {
+                        badge.text(data.unread_count); // Update the badge count
+                        badge.show(); // Make sure the badge is visible
+                    } else {
+                        badge.hide(); // Hide the badge if no unread messages
+                    }
+                }
+            });
+        }
+
+        setInterval(updateUnreadCount, 10000); // Update the count every 10 seconds
+    });
+</script>

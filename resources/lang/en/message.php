@@ -231,6 +231,7 @@ return [
     'selectall' => 'Select All',
     'message' => 'Message',
     'notification_for' => 'Notification For',
+    'notifications' => 'Notifications',
     'package' => 'Package',
     'monthly' => 'Monthly',
     'yearly' => 'Yearly',

@@ -8,6 +8,8 @@ use App\Helpers\AuthHelper;
 use App\Models\Goal;
 use App\Models\GoalAchievement;
 use App\Models\GoalProgress;
+use App\Models\Reward;
+use App\Models\User;
 use App\Models\Workout;
 use App\Models\WorkoutSchedule;
 use App\Models\WorkoutScheduleProgress;
@@ -265,11 +267,7 @@ class ScheduleController extends Controller
 
                                 if (!$achievementExists) {
                                     // If no achievement has been recorded today, record this achievement
-                                    GoalAchievement::create([
-                                        'user_id'=>auth()->id(),
-                                        'goal_id' => $activeGoal->id,
-                                        'achieved_at' => $today, // Record the date (time part is 00:00:00)
-                                    ]);
+                                    $this->recordGoalAchievement($activeGoal->id);
 
                                     // Handle any associated rewards here, as necessary
                                 }
@@ -288,6 +286,47 @@ class ScheduleController extends Controller
         return redirect()->back()->withSuccess(__('message.update_form',['form' => __('message.goal') ] ));
 
     }
+
+    public function recordGoalAchievement($goalId)
+    {
+        $achievement = GoalAchievement::create([
+            'user_id' => auth()->id(),
+            'goal_id' => $goalId,
+            'achieved_at' => now(),
+        ]);
+
+        //Notify User for Goal Achiement
+
+        // Check for reward threshold
+        $this->checkForRewards($achievement->user, $achievement->goal);
+    }
+
+    public function checkForRewards(User $user, Goal $goal)
+    {
+        $achievementCount = $user->goalAchievements()
+            ->where('goal_id', $goal->id)
+            ->count();
+
+        $rewards = Reward::where('goal_type_id', $goal->goal_type_id)->get();
+
+        foreach ($rewards as $reward) {
+            // Check if this is the exact achievement that meets the threshold
+            if ($achievementCount == $reward->threshold) {
+                // Check if the reward has not been granted before
+                $alreadyGranted = $user->rewards()
+                    ->where('reward_id', $reward->id)
+                    ->exists();
+
+                if (!$alreadyGranted) {
+                    // Grant the reward
+                    $user->rewards()->attach($reward->id, ['granted_at' => now()]);
+
+                    //Notify user for Reward
+                }
+            }
+        }
+    }
+
 
     public function deleteEvent($id)
     {

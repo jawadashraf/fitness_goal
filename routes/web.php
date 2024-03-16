@@ -4,6 +4,7 @@
 use App\Http\Controllers\GoalController;
 use App\Http\Controllers\GoalProgressController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\Security\RolePermission;
 use App\Http\Controllers\Security\RoleController;
@@ -160,6 +161,9 @@ Route::group(['middleware' => [ 'auth', 'useractive' ]], function () {
     Route::resource('subscription', SubscriptionController::class);
 
     Route::resource('quotes', QuotesController::class);
+
+    Route::get('/notifications', [NotificationController::class, 'getUserNotifications'])->name('notifications');
+    Route::get('/notifications/unread_count', [NotificationController::class, 'getUnreadNotificationsCount'])->name('notifications.unread_count');
 
 // Schedule Routes
     Route::get('/schedule', [ScheduleController::class, 'index'])->name('schedule.index');

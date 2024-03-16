@@ -15,5 +15,9 @@ class GoalAchievement extends Model
         return $this->belongsTo(Goal::class);
     }
 
+    public function user() {
+        return $this->belongsTo(User::class);
+    }
+
 
 }

@@ -2,6 +2,12 @@
     $url = '';
 
     $MyNavBar = \Menu::make('MenuList', function ($menu) use($url){
+        $unreadCount = auth()->user()->unreadNotifications->count();
+
+// Determine whether to show the badge based on the unread count
+// The badge is always rendered, but its visibility is toggled based on the unread count.
+$badge = "<span class='badge bg-info' id='unread-badge' style='display: " . ($unreadCount > 0 ? "inline" : "none") . ";'>{$unreadCount}</span>";
+
 
         //Admin Dashboard
         $menu->add('<span class="item-name">'.__('message.dashboard').'</span>', ['route' => 'dashboard'])
@@ -402,21 +408,21 @@
 //                ->prepend('<i class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor"><g><circle cx="12" cy="12" r="8" fill="currentColor"></circle></g></svg></i>')
 //                ->link->attr(['class' => activeRoute(route('pages.privacy_policy')) ? 'nav-link active' : 'nav-link']);
 
-//        $menu->add('<span class="item-name">'.__('message.pushnotification').'</span>', ['class' => ''])
-//            ->prepend('<i class="icon">
-//                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-//                    <path d="M18.7491 9.70957V9.00497C18.7491 5.13623 15.7274 2 12 2C8.27256 2 5.25087 5.13623 5.25087 9.00497V9.70957C5.25087 10.5552 5.00972 11.3818 4.5578 12.0854L3.45036 13.8095C2.43882 15.3843 3.21105 17.5249 4.97036 18.0229C9.57274 19.3257 14.4273 19.3257 19.0296 18.0229C20.789 17.5249 21.5612 15.3843 20.5496 13.8095L19.4422 12.0854C18.9903 11.3818 18.7491 10.5552 18.7491 9.70957Z" stroke="currentColor" stroke-width="1.5"/>
-//                    <path d="M7.5 19C8.15503 20.7478 9.92246 22 12 22C14.0775 22 15.845 20.7478 16.5 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-//                    </svg></i>')
-//            ->nickname('pushnotification')
-//            ->data('permission', 'pushnotification-list')
-//            ->link->attr(['class' => 'nav-link' ])
-//            ->href('#pushnotification');
-//
-//            $menu->pushnotification->add('<span class="item-name">'.__('message.list_form_title',['form' => __('message.pushnotification')]).'</span>', ['route' => 'pushnotification.index'])
-//                ->data('permission', 'pushnotification-list')
-//                ->prepend('<i class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor"><g><circle cx="12" cy="12" r="8" fill="currentColor"></circle></g></svg></i>')
-//                ->link->attr(['class' => activeRoute(route('pushnotification.index')) ? 'nav-link active' : 'nav-link']);
+        $menu->add('<span class="item-name">'.__('message.pushnotification').'</span>', ['class' => ''])
+            ->prepend('<i class="icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M18.7491 9.70957V9.00497C18.7491 5.13623 15.7274 2 12 2C8.27256 2 5.25087 5.13623 5.25087 9.00497V9.70957C5.25087 10.5552 5.00972 11.3818 4.5578 12.0854L3.45036 13.8095C2.43882 15.3843 3.21105 17.5249 4.97036 18.0229C9.57274 19.3257 14.4273 19.3257 19.0296 18.0229C20.789 17.5249 21.5612 15.3843 20.5496 13.8095L19.4422 12.0854C18.9903 11.3818 18.7491 10.5552 18.7491 9.70957Z" stroke="currentColor" stroke-width="1.5"/>
+                    <path d="M7.5 19C8.15503 20.7478 9.92246 22 12 22C14.0775 22 15.845 20.7478 16.5 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                    </svg></i>')
+            ->nickname('pushnotification')
+            ->data('permission', 'pushnotification-list')
+            ->link->attr(['class' => 'nav-link' ])
+            ->href('#pushnotification');
+
+            $menu->pushnotification->add('<span class="item-name">'.__('message.list_form_title',['form' => __('message.pushnotification')]).'</span>', ['route' => 'pushnotification.index'])
+                ->data('permission', 'pushnotification-list')
+                ->prepend('<i class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor"><g><circle cx="12" cy="12" r="8" fill="currentColor"></circle></g></svg></i>')
+                ->link->attr(['class' => activeRoute(route('pushnotification.index')) ? 'nav-link active' : 'nav-link']);
 //
 //            $menu->pushnotification->add('<span class="item-name">'.__('message.add_form_title',['form' => __('message.pushnotification')]).'</span>', ['route' => 'pushnotification.create'])
 //                ->data('permission', 'pushnotification-add')
@@ -446,6 +452,14 @@
 //                ->prepend('<i class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor"><g><circle cx="12" cy="12" r="8" fill="currentColor"></circle></g></svg></i>')
 //                ->link->attr(['class' => activeRoute(route('quotes.create')) || request()->is('quotes/*/edit') ? 'nav-link active' : 'nav-link']);
 
+
+            $menu->add('<span class="item-name">'.__('message.notifications').$badge.'</span>', ['route' => 'notifications'])
+            ->prepend('<i class="icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M18.7491 9.70957V9.00497C18.7491 5.13623 15.7274 2 12 2C8.27256 2 5.25087 5.13623 5.25087 9.00497V9.70957C5.25087 10.5552 5.00972 11.3818 4.5578 12.0854L3.45036 13.8095C2.43882 15.3843 3.21105 17.5249 4.97036 18.0229C9.57274 19.3257 14.4273 19.3257 19.0296 18.0229C20.789 17.5249 21.5612 15.3843 20.5496 13.8095L19.4422 12.0854C18.9903 11.3818 18.7491 10.5552 18.7491 9.70957Z" stroke="currentColor" stroke-width="1.5"/>
+                    <path d="M7.5 19C8.15503 20.7478 9.92246 22 12 22C14.0775 22 15.845 20.7478 16.5 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                    </svg></i>')
+            ->link->attr([ 'class' => activeRoute(route('notifications')) ? 'nav-link active' : 'nav-link' ]);
 
         $menu->add('<span class="item-name">'.__('message.setting').'</span>', ['route' => 'setting.index'])
             ->prepend('<i class="icon">
