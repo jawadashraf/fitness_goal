@@ -151,4 +151,10 @@ class GoalController extends Controller
 
         return redirect()->back()->with($status,$message);
     }
+
+    public function achievements()
+    {
+        $user = auth()->user();
+        return view('achievements.index', ['achievements' => $user->goal_achievements, 'userName' => $user->first_name]);
+    }
 }

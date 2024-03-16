@@ -5,6 +5,7 @@ use App\Http\Controllers\GoalController;
 use App\Http\Controllers\GoalProgressController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\RewardController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\Security\RolePermission;
 use App\Http\Controllers\Security\RoleController;
@@ -165,6 +166,8 @@ Route::group(['middleware' => [ 'auth', 'useractive' ]], function () {
     Route::get('/notifications', [NotificationController::class, 'getUserNotifications'])->name('notifications');
     Route::get('/notifications/unread_count', [NotificationController::class, 'getUnreadNotificationsCount'])->name('notifications.unread_count');
 
+    Route::get('/rewards', [RewardController::class, 'index'])->name('rewards');
+    Route::get('/achievements', [GoalController::class, 'achievements'])->name('achievements');
 // Schedule Routes
     Route::get('/schedule', [ScheduleController::class, 'index'])->name('schedule.index');
     Route::get('/schedule/calendar', [ScheduleController::class, 'calendar'])->name('schedule.calendar');

@@ -11,6 +11,8 @@ class GoalAchievement extends Model
 
     protected $fillable = ['goal_id', 'achieved_at', 'user_id'];
 
+    protected $with = ['goal'];
+
     public function goal() {
         return $this->belongsTo(Goal::class);
     }
