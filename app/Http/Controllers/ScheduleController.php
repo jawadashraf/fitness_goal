@@ -97,6 +97,10 @@ class ScheduleController extends Controller
             // If there are no goals, set a default message
             $schedule->goals = empty($uniqueGoals) ? ['no goals attached'] : $uniqueGoals;
 
+            // Add URL attribute for editing the schedule, using the schedule's id
+            $schedule->url = route('schedule.edit', ['id' => $schedule->id]);
+
+
             return $schedule;
         });
         return response()->json($schedules);

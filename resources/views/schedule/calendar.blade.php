@@ -27,6 +27,7 @@
                 }
             });
 
+            let customElementClicked = false;
             var calendar = new FullCalendar.Calendar(calendarEl, {
                 headerToolbar: {
                     start: 'listWeek,dayGridMonth,timeGridWeek,timeGridDay',
@@ -43,9 +44,12 @@
 
                     var eventTitle = info.event.title;
                     var eventElement = document.createElement('div');
-                    eventElement.innerHTML = '<span style="cursor: pointer;">❌</span> ' + eventTitle;
+                    eventElement.innerHTML = '<span class="custom-icon" style="cursor: pointer;">❌</span> ' + eventTitle;
 
-                    eventElement.querySelector('span').addEventListener('click', function() {
+                    eventElement.querySelector('.custom-icon').addEventListener('click', function(event) {
+                        customElementClicked = true; // Set the flag
+                        event.preventDefault();
+                        event.stopPropagation();
                         if (confirm("Are you sure you want to delete this event?")) {
                             var eventId = info.event.id;
                             $.ajax({
@@ -57,14 +61,6 @@
                                 success: function(response) {
                                     console.log('Event deleted successfully.');
                                     calendar.refetchEvents(); // Refresh events after deletion
-                                    {{--Swal.fire({--}}
-                                    {{--    icon: 'success',--}}
-                                    {{--    title: "{{ __('message.deleted') }}",--}}
-                                    {{--    text: '{{ Session::get("success") }}',--}}
-                                    {{--    confirmButtonColor: "var(--bs-primary)",--}}
-                                    {{--    timer: 1000,--}}
-                                    {{--});--}}
-
                                     showToast('Event deleted.');
                                 },
                                 error: function(error) {
@@ -72,6 +68,7 @@
                                 }
                             });
                         }
+
                     });
                     return {
                         domNodes: [eventElement]
@@ -108,7 +105,6 @@
                 // },
                 eventDidMount: function(info) {
 
-                    console.log(info.event);
                     info.el.setAttribute('title', info.event.extendedProps.goals);
                     // Use Bootstrap's tooltip
                     var tooltip = new bootstrap.Tooltip(info.el, {
@@ -127,6 +123,18 @@
                     var allDay = info.allDay;
 
                     createWorkoutSchedule(workoutId, title, dropDate, allDay);
+                },
+                eventClick: function(event) {
+                    if (!customElementClicked) {
+                        // Proceed with your usual eventClick logic
+                        if (event.url) {
+                            window.open(event.url, "_blank");
+                            return false;
+                        }
+                    } else {
+                        // Reset the flag after checking
+                        customElementClicked = false;
+                    }
                 },
                 eventDrop: function(info) {
                     var eventId = info.event.id;
