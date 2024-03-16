@@ -13,6 +13,8 @@ use App\Models\User;
 use App\Models\Workout;
 use App\Models\WorkoutSchedule;
 use App\Models\WorkoutScheduleProgress;
+use App\Notifications\CommonNotification;
+use App\Notifications\DatabaseNotification;
 use Carbon\Carbon;
 use DB;
 use Illuminate\Http\Request;
@@ -318,7 +320,6 @@ class ScheduleController extends Controller
                                     // If no achievement has been recorded today, record this achievement
                                     $this->recordGoalAchievement($activeGoal->id);
 
-                                    // Handle any associated rewards here, as necessary
                                 }
                             }
 
@@ -343,8 +344,22 @@ class ScheduleController extends Controller
             'goal_id' => $goalId,
             'achieved_at' => now(),
         ]);
+        session()->flash('achievement', "You have achieved a goal");
 
-        //Notify User for Goal Achiement
+        $goal = Goal::find($goalId);
+        $user = auth()->user();
+        //Notify User for Goal Achievement
+
+        $notification_data = [
+            'id' => -1,
+            'push_notification_id' => -1,
+            'type' => 'achievement',
+            'subject' => 'Achievement:' . $goal->title,
+            'message' => 'You have achieved the goal:' . $goal->title,
+            'image' => null
+        ];
+        $user->notify(new CommonNotification($notification_data['type'], $notification_data));
+        $user->notify(new DatabaseNotification($notification_data));
 
         // Check for reward threshold
         $this->checkForRewards($achievement->user, $achievement->goal);
@@ -352,7 +367,7 @@ class ScheduleController extends Controller
 
     public function checkForRewards(User $user, Goal $goal)
     {
-        $achievementCount = $user->goalAchievements()
+        $achievementCount = $user->goal_achievements()
             ->where('goal_id', $goal->id)
             ->count();
 
@@ -369,8 +384,18 @@ class ScheduleController extends Controller
                 if (!$alreadyGranted) {
                     // Grant the reward
                     $user->rewards()->attach($reward->id, ['granted_at' => now()]);
-
+                    session()->flash('reward', "You have achieved a reward");
                     //Notify user for Reward
+                    $notification_data = [
+                        'id' => -1,
+                        'push_notification_id' => -1,
+                        'type' => 'reward',
+                        'subject' => 'Reward:' . $reward->title,
+                        'message' => 'You have achieved the reward:' . $reward->title,
+                        'image' => null
+                    ];
+                    $user->notify(new CommonNotification($notification_data['type'], $notification_data));
+                    $user->notify(new DatabaseNotification($notification_data));
                 }
             }
         }

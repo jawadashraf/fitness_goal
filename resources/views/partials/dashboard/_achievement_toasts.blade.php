@@ -13,15 +13,22 @@
 <script type="text/javascript">
 
     document.addEventListener('DOMContentLoaded', (event) => {
-        // Check for 'achievement' in the session
-        @if (Session::has('achievement'))
         var toastLiveExample = document.getElementById('liveToast');
         var toastBody = document.getElementById('toast-body');
-
-        // Set the dynamic message from the session
-        toastBody.textContent = "{{ Session::get('achievement') }}";
         var toast = new bootstrap.Toast(toastLiveExample);
+        var message = ''; // Initialize an empty message string
 
+        // Check for 'achievement' in the session
+        @if (Session::has('achievement'))
+            message = "{{ Session::get('achievement') }}";
+        toastBody.textContent = message;
+        toast.show();
+        @endif
+
+        // Check for 'reward' in the session
+        @if (Session::has('reward'))
+            message = "{{ Session::get('reward') }}";
+        toastBody.textContent = message;
         toast.show();
         @endif
     });

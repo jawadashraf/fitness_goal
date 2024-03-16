@@ -216,6 +216,54 @@ class WorkoutController extends Controller
             $workout->clearMediaCollection('workout_image');
             $workout->addMediaFromRequest('workout_image')->toMediaCollection('workout_image');
         }
+        $i=0;
+        $save_workdays_data = [
+            'id' => $request->workout_days_id[$i] ?? null,
+            'workout_id' => $workout->id,
+            'is_rest' => 0,
+            'sequence' => $i,
+        ];
+
+        $exercise_ids = isset($request->exercise_ids[$i]) ? $request->exercise_ids[$i] : null;
+        $workoutday = WorkoutDay::updateOrCreate(['id' => $save_workdays_data['id']],$save_workdays_data);
+        $workoutday->workoutDayExercise()->delete();
+        if(!empty($exercise_ids) ) {
+            foreach ($exercise_ids as $key => $value) {
+                $days_exercise = [
+                    'id' => null,
+                    'workout_id' => $workout->id,
+                    'workout_day_id' => $workoutday->id,
+                    'exercise_id' => (int) $value,
+                    'sequence' => $key,
+                ];
+                $workout_days_exercise = WorkoutDayExercise::create($days_exercise);
+            }
+        }
+
+        if(auth()->check()){
+            return redirect()->route('workout.index')->withSuccess(__('message.update_form',['form' => __('message.workout')]));
+        }
+        return redirect()->back()->withSuccess(__('message.update_form',['form' => __('message.workout') ] ));
+
+    }
+
+    public function updateOld(WorkoutRequest $request, $id)
+    {
+        if( !auth()->user()->can('workout-edit') ) {
+            $message = __('message.permission_denied_for_account');
+            return redirect()->back()->withErrors($message);
+        }
+
+        $workout = Workout::findOrFail($id);
+        $this->authorize('update', $workout);
+        // workout data...
+        $workout->fill($request->all())->update();
+
+        // Save workout image...
+        if (isset($request->workout_image) && $request->workout_image != null) {
+            $workout->clearMediaCollection('workout_image');
+            $workout->addMediaFromRequest('workout_image')->toMediaCollection('workout_image');
+        }
 
         if(isset($request->is_rest) && $request->is_rest != null ){
             foreach($request->is_rest as $i => $value){
@@ -256,7 +304,6 @@ class WorkoutController extends Controller
         return redirect()->back()->withSuccess(__('message.update_form',['form' => __('message.workout') ] ));
 
     }
-
     /**
      * Remove the specified resource from storage.
      *
