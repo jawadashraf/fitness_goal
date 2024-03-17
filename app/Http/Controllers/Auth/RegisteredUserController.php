@@ -39,14 +39,27 @@ class RegisteredUserController extends Controller
             'password' => 'required|string|confirmed|min:8',
         ]);
 
+//        // Generate the initial username
+//        $baseUsername = strtolower($request->first_name) . strtolower($request->last_name);
+//        $username = $baseUsername;
+//
+//        // Check if the username already exists and generate a new one if necessary
+//        $counter = 1;
+//        while (User::where('username', $username)->exists()) {
+//            // Append a number to the username to make it unique
+//            $username = $baseUsername . $counter;
+//            $counter++;
+//        }
+
         Auth::login($user = User::create([
-            'username' => strtolower($request->first_name).strtolower($request->last_name),
+            'username' => $request->email,
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
             'phone_number' => $request->phone_number,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'user_type' => 'user'
+            'user_type' => 'user',
+            'status' => 'active'
         ]));
 
         $user->assignRole('user');
@@ -54,5 +67,6 @@ class RegisteredUserController extends Controller
         event(new Registered($user));
 
         return redirect(RouteServiceProvider::HOME);
+//        return redirect(route('auth.confirmmail'));
     }
 }
