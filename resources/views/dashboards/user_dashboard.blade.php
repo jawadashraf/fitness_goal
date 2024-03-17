@@ -440,16 +440,18 @@
                     </div>
                 @endforeach
             </div>
-
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="swiper-slide card card-slide" data-aos="fade-up" data-aos-delay="700">
-                        <div class="card-body">
-                            <div id="chartdiv_combined_goals" class="p-3" style="width: 100%; height: 400px;"></div>
+            @if(!empty($goalsProgressData))
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="swiper-slide card card-slide" data-aos="fade-up" data-aos-delay="700">
+                            <div class="card-body">
+                                <div id="chartdiv_combined_goals" class="p-3" style="width: 100%; height: 400px;"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            @endif
+
 
 {{--            <div class="row">--}}
 {{--                <div class="col-lg-12">--}}
