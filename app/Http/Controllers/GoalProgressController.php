@@ -24,7 +24,7 @@ class GoalProgressController extends Controller
 
         $parentDetail = $goal->getDescription(); //"<span class='text-success'>{$goal->title}</span>  | {$goal->goal_type->title} | {$goal->unit_type->title} | {$goal->target_value}";
 
-        $headerAction = $auth_user->can('goal-add') ? '<a href="'.route('goal_progress.create', ['goal' => $goal->id]).'" class="btn btn-sm btn-primary" role="button">'.__('message.add_form_title', [ 'form' => __('message.goal_progress')]).'</a>' : '';
+        $headerAction = ''; // $auth_user->can('goal-add') ? '<a href="'.route('goal_progress.create', ['goal' => $goal->id]).'" class="btn btn-sm btn-primary" role="button">'.__('message.add_form_title', [ 'form' => __('message.goal_progress')]).'</a>' : '';
 
         return $dataTable->render('global.datatable', compact('pageTitle', 'auth_user', 'assets', 'headerAction', 'parentDetail'));
 
