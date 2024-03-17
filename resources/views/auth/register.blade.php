@@ -1,10 +1,10 @@
 <x-guest-layout>
    <section class="login-content">
-      <div class="row m-0 align-items-center bg-white vh-100">            
+      <div class="row m-0 align-items-center bg-white vh-100">
          <div class="col-md-6 d-md-block d-none bg-primary p-0 mt-n1 vh-100 overflow-hidden">
             <img src="{{asset('images/auth/05.png')}}" class="img-fluid gradient-main animated-scaleX" alt="images">
          </div>
-         <div class="col-md-6">           
+         <div class="col-md-6">
             <div class="row justify-content-center">
                <div class="col-md-10">
                   <div class="card card-transparent auth-card shadow-none d-flex justify-content-center mb-0">
@@ -73,31 +73,31 @@
                            <div class="d-flex justify-content-center">
                               <button type="submit" class="btn btn-primary"> {{ __('sign up') }}</button>
                            </div>
-                           <p class="text-center my-3">or sign in with other accounts?</p>
-                           <div class="d-flex justify-content-center">
-                              <ul class="list-group list-group-horizontal list-group-flush">
-                                 <li class="list-group-item border-0 pb-0">
-                                    <a href="#"><img src="{{asset('images/brands/fb.svg')}}" alt="fb"></a>
-                                 </li>
-                                 <li class="list-group-item border-0 pb-0">
-                                    <a href="#"><img src="{{asset('images/brands/gm.svg')}}" alt="gm"></a>
-                                 </li>
-                                 <li class="list-group-item border-0 pb-0">
-                                    <a href="#"><img src="{{asset('images/brands/im.svg')}}" alt="im"></a>
-                                 </li>
-                                 <li class="list-group-item border-0 pb-0">
-                                    <a href="#"><img src="{{asset('images/brands/li.svg')}}" alt="li"></a>
-                                 </li>
-                              </ul>
-                           </div>
+{{--                           <p class="text-center my-3">or sign in with other accounts?</p>--}}
+{{--                           <div class="d-flex justify-content-center">--}}
+{{--                              <ul class="list-group list-group-horizontal list-group-flush">--}}
+{{--                                 <li class="list-group-item border-0 pb-0">--}}
+{{--                                    <a href="#"><img src="{{asset('images/brands/fb.svg')}}" alt="fb"></a>--}}
+{{--                                 </li>--}}
+{{--                                 <li class="list-group-item border-0 pb-0">--}}
+{{--                                    <a href="#"><img src="{{asset('images/brands/gm.svg')}}" alt="gm"></a>--}}
+{{--                                 </li>--}}
+{{--                                 <li class="list-group-item border-0 pb-0">--}}
+{{--                                    <a href="#"><img src="{{asset('images/brands/im.svg')}}" alt="im"></a>--}}
+{{--                                 </li>--}}
+{{--                                 <li class="list-group-item border-0 pb-0">--}}
+{{--                                    <a href="#"><img src="{{asset('images/brands/li.svg')}}" alt="li"></a>--}}
+{{--                                 </li>--}}
+{{--                              </ul>--}}
+{{--                           </div>--}}
                            <p class="mt-3 text-center">
                               Already have an Account  <a href="{{route('auth.signin')}}" class="text-underline">Sign In</a>
                            </p>
                         </form>
                      </div>
-                  </div> 
+                  </div>
                </div>
-            </div>    
+            </div>
             <div class="sign-bg sign-bg-right">
                <svg width="280" height="230" viewBox="0 0 431 398" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <g opacity="0.05">
@@ -108,7 +108,7 @@
                   </g>
                </svg>
             </div>
-         </div>   
+         </div>
       </div>
    </section>
 </x-guest-layout>
