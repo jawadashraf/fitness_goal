@@ -2,6 +2,8 @@
 
 namespace App\Console;
 
+use App\Jobs\CheckAndSendGoalNotifications;
+use App\Models\User;
 use App\Models\WorkoutSchedule;
 use App\Notifications\CommonNotification;
 use App\Scopes\UserScope;
@@ -68,6 +70,22 @@ class Kernel extends ConsoleKernel
             // This will be executed if the task throws an exception
             Log::error('Scheduled task failed to run.');
         });
+
+
+
+        // Goal Motivation
+
+        $schedule->call(function () {
+            // Fetch all users with at least one goal
+            $users = User::whereHas('goals')->get();
+
+            foreach ($users as $user) {
+                // Dispatch a job for each user to check their goal achievements
+                CheckAndSendGoalNotifications::dispatch($user);
+            }
+        })->twiceDaily(7, 15);
+
+
     }
 
     /**
