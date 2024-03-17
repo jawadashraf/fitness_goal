@@ -66,7 +66,7 @@ class HomeController extends Controller
                 ];
             })->toArray();
 
-            $goalProgressPerWeek = $this->getUserGoalProgressForWeek($auth_user->id, $activeGoals->first()->id);
+            $goalProgressPerWeek = [];// $this->getUserGoalProgressForWeek($auth_user->id, $activeGoals->first()->id);
             $weeklyProgressForAllGoals = $this->getWeeklyProgressForAllGoals();
             return view('dashboards.user_dashboard', compact('assets',
                 'data', 'auth_user', 'goalsProgressData','goalProgressPerWeek', 'weeklyProgressForAllGoals'));
