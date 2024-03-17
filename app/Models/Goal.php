@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Scopes\UserScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -22,6 +23,12 @@ class Goal extends Model
         'end_date' => 'date',
 
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+        static::addGlobalScope(new UserScope);
+    }
 
     public function goal_type()
     {
@@ -45,4 +52,6 @@ class Goal extends Model
     {
         return "<span class='text-success'>{$this->title}</span>  | {$this->goal_type->title} | {$this->unit_type->title} | {$this->target_value}";
     }
+
+
 }

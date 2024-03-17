@@ -65,8 +65,11 @@ class HomeController extends Controller
                     ]
                 ];
             })->toArray();
+
+            $goalProgressPerWeek = $this->getUserGoalProgressForWeek($auth_user->id, $activeGoals->first()->id);
+            $weeklyProgressForAllGoals = $this->getWeeklyProgressForAllGoals();
             return view('dashboards.user_dashboard', compact('assets',
-                'data', 'auth_user', 'goalsProgressData'));
+                'data', 'auth_user', 'goalsProgressData','goalProgressPerWeek', 'weeklyProgressForAllGoals'));
         }
         else {
             $data['exercise'] = Exercise::orderBy('id', 'desc')->take(10)->get();
@@ -74,6 +77,107 @@ class HomeController extends Controller
             return view('dashboards.dashboard', compact('assets', 'data', 'auth_user'));
         }
     }
+
+    public function getUserGoalProgressForWeek($userId, $goalId)
+    {
+        $now = now();
+        $startOfWeek = $now->copy()->startOfWeek(Carbon::MONDAY);
+        $endOfWeek = $now->copy()->endOfWeek(Carbon::SUNDAY);
+
+        // Create a collection of all dates in the week
+        $dates = collect();
+        for ($date = $startOfWeek->copy(); $date->lte($endOfWeek); $date->addDay()) {
+            $dates->push($date->format('Y-m-d'));
+        }
+
+        // Fetch progress data grouped by date
+        $progressData = GoalProgress::where('user_id', $userId)
+            ->where('goal_id', $goalId)
+            ->whereBetween('date', [$startOfWeek, $endOfWeek])
+            ->get()
+            ->groupBy(function ($item) {
+                return Carbon::parse($item->date)->format('Y-m-d');
+            });
+
+        // Merge progress data with the list of all days, setting missing days to zero
+        $formattedData = $dates->map(function ($date) use ($progressData) {
+            // Check if there's an entry for the given date
+            $timestamp = Carbon::createFromFormat('Y-m-d', $date)->startOfDay()->valueOf();
+            if ($progressData->has($date)) {
+                $progress = $progressData->get($date)->first();
+
+
+                return [
+                    'date' => $timestamp,
+                    'value' => $progress->progress_value,
+                ];
+            } else {
+                return [
+                    'date' => $timestamp,
+                    'value' => 0,
+                ];
+            }
+        })->toArray();
+
+        return $formattedData;
+    }
+
+    public function getWeeklyProgressForAllGoals() {
+        $goals = Goal::with('progress')->where('status', 'ACTIVE')->get(); // Assuming Goal is your model name
+
+        $now = Carbon::now();
+        $startOfWeek = $now->copy()->startOfWeek(Carbon::MONDAY);
+        $endOfWeek = $now->copy()->endOfWeek(Carbon::SUNDAY);
+
+
+        $allGoalsProgressData = [];
+
+        foreach ($goals as $goal) {
+            $dates = collect();
+            for ($date = $startOfWeek->copy(); $date->lte($endOfWeek); $date->addDay()) {
+                for ($date = $startOfWeek->copy(); $date->lte($endOfWeek); $date->addDay()) {
+                    $dates->push($date->format('Y-m-d'));
+                }
+            }
+
+            $progressData = $goal->progress()
+                ->whereBetween('date', [$startOfWeek, $endOfWeek])
+                ->get();
+
+            // Map existing progress data onto the dates
+//            foreach ($progressData as $progress) {
+//                $progressDate = Carbon::parse($progress->date)->format('Y-m-d');
+//                $dates[$progressDate] = [
+//                    'date' => Carbon::parse($progress->date)->timestamp * 1000, // Unix timestamp in milliseconds
+//                    'value' => $progress->progress_value
+//                ];
+//            }
+
+            $formattedData = $dates->map(function ($date) use ($progressData) {
+                // Check if there's an entry for the given date
+                $timestamp = Carbon::createFromFormat('Y-m-d', $date)->startOfDay()->valueOf();
+                if ($progressData->has($date)) {
+                    $progress = $progressData->get($date)->first();
+
+
+                    return [
+                        'date' => $timestamp,
+                        'value' => $progress->progress_value,
+                    ];
+                } else {
+                    return [
+                        'date' => $timestamp,
+                        'value' => 0,
+                    ];
+                }
+            })->toArray();
+
+            $allGoalsProgressData[$goal->title] = array_values($formattedData);
+        }
+
+        return $allGoalsProgressData;
+    }
+
 
     public function changeStatus(Request $request)
     {

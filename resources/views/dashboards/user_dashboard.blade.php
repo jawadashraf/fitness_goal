@@ -7,9 +7,13 @@
     <script src="https://cdn.amcharts.com/lib/5/locales/de_DE.js"></script>
     <script src="https://cdn.amcharts.com/lib/5/geodata/germanyLow.js"></script>
     <script src="https://cdn.amcharts.com/lib/5/fonts/notosans-sc.js"></script>
+
+    <script src="https://cdn.amcharts.com/lib/5/themes/Responsive.js"></script>
     <script>
         var goalsProgressData = @json($goalsProgressData);
-        console.log(goalsProgressData);
+        var goalProgressPerWeek = @json($goalProgressPerWeek);
+        var weeklyProgressForAllGoals = @json($weeklyProgressForAllGoals);
+        console.log(weeklyProgressForAllGoals);
     </script>
 
     <script>
@@ -111,35 +115,307 @@
                 series2.appear(1000);
                 chart.appear(1000, 100);
             }
+            function createCombinedGauge(containerId, goalData){
+                // Create root element
+// https://www.amcharts.com/docs/v5/getting-started/#Root_element
+                var root = am5.Root.new("chartdiv_combined_goals");
 
-            // Example data for each goal
-            // var goals = [{
-            //     category: "Goal 1",
-            //     value: 80,
-            //     full: 100,
-            //     columnSettings: {
-            //         fill: am5.color(0x845EC2)
-            //     }
-            // }, {
-            //     category: "Goal 2",
-            //     value: 35,
-            //     full: 100,
-            //     columnSettings: {
-            //         fill: am5.color(0xD65DB1)
-            //     }
-            // }, {
-            //     category: "Goal 3",
-            //     value: 92,
-            //     full: 100,
-            //     columnSettings: {
-            //         fill: am5.color(0xFF6F91)
-            //     }
-            // }];
+// Set themes
+// https://www.amcharts.com/docs/v5/concepts/themes/
+                root.setThemes([
+                    am5themes_Animated.new(root)
+                ]);
 
+// Create chart
+// https://www.amcharts.com/docs/v5/charts/radar-chart/
+                var chart = root.container.children.push(am5radar.RadarChart.new(root, {
+                    panX: false,
+                    panY: false,
+                    wheelX: "panX",
+                    wheelY: "zoomX",
+                    innerRadius: am5.percent(20),
+                    startAngle: -90,
+                    endAngle: 180,
+                }));
+
+                chart.children.unshift(am5.Label.new(root, {
+                    text: "[#ff00ff]Today's Progress",
+                    fontSize: 24,
+                    fontWeight: "300",
+                    textAlign: "center",
+                    x: am5.percent(90),
+                    y: am5.percent(94),
+                    centerX: am5.percent(50),
+                    paddingTop: 0,
+                    paddingBottom: 0
+                }));
+
+
+
+                    var data = goalData;
+
+// Add cursor
+// https://www.amcharts.com/docs/v5/charts/radar-chart/#Cursor
+                var cursor = chart.set("cursor", am5radar.RadarCursor.new(root, {
+                    behavior: "zoomX"
+                }));
+
+                cursor.lineY.set("visible", false);
+
+// Create axes and their renderers
+// https://www.amcharts.com/docs/v5/charts/radar-chart/#Adding_axes
+                var xRenderer = am5radar.AxisRendererCircular.new(root, {
+                    //minGridDistance: 50
+                });
+
+                xRenderer.labels.template.setAll({
+                    radius: 10
+                });
+
+                xRenderer.grid.template.setAll({
+                    forceHidden: true
+                });
+
+                var xAxis = chart.xAxes.push(am5xy.ValueAxis.new(root, {
+                    renderer: xRenderer,
+                    min: 0,
+                    max: 100,
+                    strictMinMax: true,
+                    numberFormat: "#'%'",
+                    tooltip: am5.Tooltip.new(root, {})
+                }));
+
+
+                var yRenderer = am5radar.AxisRendererRadial.new(root, {
+                    minGridDistance: 20
+                });
+
+                yRenderer.labels.template.setAll({
+                    centerX: am5.p100,
+                    fontWeight: "500",
+                    fontSize: 18,
+                    templateField: "columnSettings"
+                });
+
+                yRenderer.grid.template.setAll({
+                    forceHidden: true
+                });
+
+                var yAxis = chart.yAxes.push(am5xy.CategoryAxis.new(root, {
+                    categoryField: "category",
+                    renderer: yRenderer
+                }));
+
+                yAxis.data.setAll(data);
+
+
+// Create series
+// https://www.amcharts.com/docs/v5/charts/radar-chart/#Adding_series
+                var series1 = chart.series.push(am5radar.RadarColumnSeries.new(root, {
+                    xAxis: xAxis,
+                    yAxis: yAxis,
+                    clustered: false,
+                    valueXField: "full",
+                    categoryYField: "category",
+                    fill: root.interfaceColors.get("alternativeBackground")
+                }));
+
+                series1.columns.template.setAll({
+                    width: am5.p100,
+                    fillOpacity: 0.08,
+                    strokeOpacity: 0,
+                    cornerRadius: 20
+                });
+
+                series1.data.setAll(data);
+
+
+                var series2 = chart.series.push(am5radar.RadarColumnSeries.new(root, {
+                    xAxis: xAxis,
+                    yAxis: yAxis,
+                    clustered: false,
+                    valueXField: "value",
+                    categoryYField: "category"
+                }));
+
+                series2.columns.template.setAll({
+                    width: am5.p100,
+                    strokeOpacity: 0,
+                    tooltipText: "{category}: {valueX}%",
+                    cornerRadius: 20,
+                    templateField: "columnSettings"
+                });
+
+                series2.data.setAll(data);
+
+// Animate chart and series in
+// https://www.amcharts.com/docs/v5/concepts/animations/#Initial_animation
+                series1.appear(1000);
+                series2.appear(1000);
+                chart.appear(1000, 100);
+            }
+
+            function createBarChart(containerId, weeklyGoalProgress, goalTitle="Goal Title"){
+                var root = am5.Root.new(containerId);
+
+                const myTheme = am5.Theme.new(root);
+
+                myTheme.rule("AxisLabel", ["minor"]).setAll({
+                    dy:1
+                });
+
+// Set themes
+// https://www.amcharts.com/docs/v5/concepts/themes/
+                root.setThemes([
+                    am5themes_Animated.new(root),
+                    myTheme,
+                    am5themes_Responsive.new(root)
+                ]);
+
+
+
+// Create chart
+// https://www.amcharts.com/docs/v5/charts/xy-chart/
+                var chart = root.container.children.push(am5xy.XYChart.new(root, {
+                    panX: false,
+                    panY: false,
+                    wheelX: "panX",
+                    wheelY: "zoomX",
+                    paddingTop: 40,
+                    paddingLeft:0,
+                }));
+
+                chart.children.unshift(am5.Label.new(root, {
+                    text: "[#ff00ff]This Week's Progress for " + goalTitle,
+                    fontSize: 24,
+                    fontWeight: "300",
+                    textAlign: "center",
+                    x: am5.percent(50),
+                    y: am5.percent(-10),
+                    // centerX: am5.percent(50),
+                    paddingTop: 0,
+                    paddingBottom: 0
+                }));
+
+
+// Add cursor
+// https://www.amcharts.com/docs/v5/charts/xy-chart/cursor/
+                var cursor = chart.set("cursor", am5xy.XYCursor.new(root, {
+                    behavior: "zoomX"
+                }));
+                cursor.lineY.set("visible", false);
+
+                var date = new Date();
+                date.setHours(0, 0, 0, 0);
+                var value = 100;
+
+                function generateData() {
+                    value = Math.round((Math.random() * 10 - 5) + value);
+                    am5.time.add(date, "day", 1);
+                    return {
+                        date: date.getTime(),
+                        value: value
+                    };
+                }
+
+                function generateDatas(count) {
+                    var data = [];
+                    for (var i = 0; i < count; ++i) {
+                        data.push(generateData());
+                    }
+                    return data;
+                }
+
+
+// Create axes
+// https://www.amcharts.com/docs/v5/charts/xy-chart/axes/
+                var xAxis = chart.xAxes.push(am5xy.DateAxis.new(root, {
+                    maxDeviation: 0,
+                    baseInterval: {
+                        timeUnit: "day",
+                        count: 1
+                    },
+                    renderer: am5xy.AxisRendererX.new(root, {
+                        minorGridEnabled:true,
+                        minorLabelsEnabled:true
+                    }),
+                    tooltip: am5.Tooltip.new(root, {})
+                }));
+
+                // xAxis.set("minorDateFormats", {
+                //     "day":"dd",
+                //     "month":"MM"
+                // });
+                xAxis.set("dateFormats", {
+                    day: "EEE dd", // Abbreviated weekday (Mon, Tue) and day
+                    month: "MM", // Month
+                    year: "yyyy" // Year
+                });
+
+                // xAxis.get("dateFormats")["day"] = "EEE";
+
+
+                var yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
+                    renderer: am5xy.AxisRendererY.new(root, {})
+                }));
+
+
+// Add series
+// https://www.amcharts.com/docs/v5/charts/xy-chart/series/
+                var series = chart.series.push(am5xy.ColumnSeries.new(root, {
+                    name: "Series",
+                    xAxis: xAxis,
+                    yAxis: yAxis,
+                    valueYField: "value",
+                    valueXField: "date",
+                    tooltip: am5.Tooltip.new(root, {
+                        labelText: "{valueY}"
+                    })
+                }));
+
+                series.columns.template.setAll({ strokeOpacity: 0 })
+
+
+// Add scrollbar
+// https://www.amcharts.com/docs/v5/charts/xy-chart/scrollbars/
+                chart.set("scrollbarX", am5.Scrollbar.new(root, {
+                    orientation: "horizontal"
+                }));
+
+                var data = weeklyGoalProgress;// generateDatas(7);
+                series.data.setAll(data);
+
+
+// Make stuff animate on load
+// https://www.amcharts.com/docs/v5/concepts/animations/
+                series.appear(1000);
+                chart.appear(1000, 100);
+
+            }
             // Create a gauge for each goal
             goalsProgressData.forEach(function(goal, index) {
                 createGauge("chartdiv" + (index + 1), goal);
             });
+
+            createCombinedGauge("chartdiv_combined_goals", goalsProgressData)
+
+            // createBarChart("chartdiv_bar_chart", goalProgressPerWeek);
+
+            // weeklyProgressForAllGoals.forEach(function(goal, index) {
+            //     console.log(goal[0]);
+                // createGauge("chartdiv_weekly" + (index + 1), goal);
+            // });
+            let index = 1;
+            for (let goalTitle in weeklyProgressForAllGoals) {
+                console.log(`Progress for ${goalTitle}:`);
+
+                createBarChart("chartdiv_weekly_bar_chart"+index, weeklyProgressForAllGoals[goalTitle], goalTitle);
+                ++index;
+                // Now loop through each progress entry for this goal
+                // weeklyProgressForAllGoals[goalTitle].forEach(progressEntry => {
+                //     console.log(`Date: ${progressEntry.date}, Value: ${progressEntry.value}`);
+                // });
+            }
 
         }); // end am5.ready()
     </script>
@@ -164,6 +440,45 @@
                     </div>
                 @endforeach
             </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="swiper-slide card card-slide" data-aos="fade-up" data-aos-delay="700">
+                        <div class="card-body">
+                            <div id="chartdiv_combined_goals" class="p-3" style="width: 100%; height: 400px;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+{{--            <div class="row">--}}
+{{--                <div class="col-lg-12">--}}
+{{--                    <div class="swiper-slide card card-slide" data-aos="fade-up" data-aos-delay="700">--}}
+{{--                        <div class="card-body">--}}
+{{--                            <div id="chartdiv_bar_chart" class="p-3" style="width: 100%; height: 400px;"></div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+
+
+            @foreach($weeklyProgressForAllGoals as $goalTitle => $progressData)
+                <div class="col-lg-12">
+                    <div class="swiper-slide card card-slide" data-aos="fade-up" data-aos-delay="700">
+
+                        <div class="card-head p-2">
+                            {{ $goalTitle }}
+                        </div>
+                            <div class="card-body">
+
+                                {{-- Use $loop->iteration for 1-indexed or $loop->index for 0-indexed --}}
+                                <div id="chartdiv_weekly_bar_chart{{ $loop->iteration }}" style="width: 100%; height: 300px;"></div>
+                            </div>
+
+
+                    </div>
+                </div>
+            @endforeach
                     <div class="row ">
                 <div class="col-lg-3 col-md-6" >
 					<div class="swiper-slide card card-slide" data-aos="fade-up" data-aos-delay="700">
