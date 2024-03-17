@@ -143,7 +143,10 @@ class HomeController extends Controller
             $progressData = $goal->progress()
                 ->whereBetween('date', [$startOfWeek, $endOfWeek])
                 ->get();
-
+            $progressData = $progressData->keyBy(function ($item) {
+                // Assuming 'date' is a Carbon instance or a date string in 'Y-m-d H:i:s' format
+                return Carbon::parse($item->date)->format('Y-m-d');
+            });
             // Map existing progress data onto the dates
 //            foreach ($progressData as $progress) {
 //                $progressDate = Carbon::parse($progress->date)->format('Y-m-d');
@@ -152,19 +155,22 @@ class HomeController extends Controller
 //                    'value' => $progress->progress_value
 //                ];
 //            }
-
+//            dd($progressData, $dates);
             $formattedData = $dates->map(function ($date) use ($progressData) {
                 // Check if there's an entry for the given date
-                $timestamp = Carbon::createFromFormat('Y-m-d', $date)->startOfDay()->valueOf();
-                if ($progressData->has($date)) {
-                    $progress = $progressData->get($date)->first();
 
+
+                if ($progressData->has($date)) {
+
+                    $progress = $progressData->get($date);
+                    $timestamp = Carbon::createFromFormat('Y-m-d', $date)->startOfDay()->valueOf();
 
                     return [
                         'date' => $timestamp,
-                        'value' => $progress->progress_value,
+                        'value' => (float) $progress->progress_value,
                     ];
                 } else {
+                    $timestamp = Carbon::createFromFormat('Y-m-d', $date)->startOfDay()->valueOf();
                     return [
                         'date' => $timestamp,
                         'value' => 0,
@@ -174,7 +180,6 @@ class HomeController extends Controller
 
             $allGoalsProgressData[$goal->title] = array_values($formattedData);
         }
-
         return $allGoalsProgressData;
     }
 

@@ -256,6 +256,7 @@
             }
 
             function createBarChart(containerId, weeklyGoalProgress, goalTitle="Goal Title"){
+
                 var root = am5.Root.new(containerId);
 
                 const myTheme = am5.Theme.new(root);
@@ -381,8 +382,10 @@
                 chart.set("scrollbarX", am5.Scrollbar.new(root, {
                     orientation: "horizontal"
                 }));
+                console.log(weeklyGoalProgress);
+                var data = weeklyGoalProgress;// generateDatas(7);//
 
-                var data = weeklyGoalProgress;// generateDatas(7);
+                console.log(data);
                 series.data.setAll(data);
 
 
@@ -407,14 +410,11 @@
             // });
             let index = 1;
             for (let goalTitle in weeklyProgressForAllGoals) {
-                console.log(`Progress for ${goalTitle}:`);
+                // console.log(`Progress for ${goalTitle}:` + weeklyProgressForAllGoals[goalTitle]);
 
                 createBarChart("chartdiv_weekly_bar_chart"+index, weeklyProgressForAllGoals[goalTitle], goalTitle);
                 ++index;
                 // Now loop through each progress entry for this goal
-                // weeklyProgressForAllGoals[goalTitle].forEach(progressEntry => {
-                //     console.log(`Date: ${progressEntry.date}, Value: ${progressEntry.value}`);
-                // });
             }
 
         }); // end am5.ready()
