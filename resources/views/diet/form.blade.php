@@ -20,7 +20,7 @@
         @else
             {!! Form::open(['route' => ['diet.store'], 'method' => 'post', 'enctype' => 'multipart/form-data' ]) !!}
         @endif
-       
+
         <div class="row">
             <div class="col-lg-12">
                 <div class="card">
@@ -39,7 +39,7 @@
                                 {{ Form::text('title', old('title'),[ 'placeholder' => __('message.title'),'class' =>'form-control','required']) }}
                             </div>
                             <div class="form-group col-md-4">
-                                {{ Form::label('categorydiet_id', __('message.categorydiet').' <span class="text-danger">*</span>',[ 'class' => 'form-control-label' ], false) }} 
+                                {{ Form::label('categorydiet_id', __('message.categorydiet').' <span class="text-danger">*</span>',[ 'class' => 'form-control-label' ], false) }}
                                 {{ Form::select('categorydiet_id', isset($id) ? [ optional($data->categorydiet)->id => optional($data->categorydiet)->title ] : [], old('categorydiet_id'), [
                                         'class' => 'select2js form-group categorydiet',
                                         'data-placeholder' => __('message.select_name',[ 'select' => __('message.categorydiet') ]),
@@ -88,15 +88,7 @@
                                         {{ Form::radio('is_featured', 'no', old('is_featured'), [ 'class' => 'form-check-input', 'id' => 'is_featured-no']) }}
                                     </div>
                                 </div>
-                                
-                            </div>
-                            <div class="form-group col-md-4">
-                                {{ Form::label('is_premium', __('message.is_premium'), ['class' => 'form-control-label']) }}
-                                <div class="">
-                                    {!! Form::hidden('is_premium',0, null, ['class' => 'form-check-input' ]) !!}
-                                    {!! Form::checkbox('is_premium',1, null, ['class' => 'form-check-input' ]) !!}
-                                    <label class="custom-control-label" for="is_premium"></label>
-                                </div>
+
                             </div>
                         </div>
                         <div class="row">
@@ -108,7 +100,7 @@
                                 {{ Form::label('description',__('message.description'), ['class' => 'form-control-label']) }}
                                 {{ Form::textarea('description', null, ['class'=> 'form-control tinymce-description' , 'placeholder'=> __('message.description') ]) }}
                             </div>
-                        </div>  
+                        </div>
                         <div class="row">
                             <div class="form-group col-md-4">
                                 <label class="form-control-label" for="diet_image">{{ __('message.image') }} </label>
@@ -118,7 +110,7 @@
                             </div>
                             @if( isset($id) && getMediaFileExit($data, 'diet_image'))
                                 <div class="col-md-2 mb-2 position-relative">
-                                    <img id="diet_image_preview" src="{{ getSingleMedia($data,'diet_image') }}" alt="diet-image" class="avatar-100 mt-1">                
+                                    <img id="diet_image_preview" src="{{ getSingleMedia($data,'diet_image') }}" alt="diet-image" class="avatar-100 mt-1">
                                     <a class="text-danger remove-file" href="{{ route('remove.file', ['id' => $data->id, 'type' => 'diet_image']) }}"
                                         data--submit='confirm_form'
                                         data--confirmation='true'

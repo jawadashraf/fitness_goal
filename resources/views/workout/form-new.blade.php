@@ -9,16 +9,16 @@
                     });
                 };
                 document.getElementById("search_days_data").style.display = "none";
-               
+
                 $('#days_data').click(function(event) {
                 if($(event.target).is('#hide'))
                     $('#hide_days').show();
                 else
                 $('#search_days_data').show();
                 $('#hide_days').hide();
-                
+
             });
-            
+
                 $("#to-do li").click(Done);
 
                 function Done() {
@@ -38,7 +38,7 @@
                     $(".select2tagsjs").select2("destroy");
                     var tableBody = $('#ul_list').find("ul");
                     var trLast = tableBody.find("li:last");
-                    
+
                     trLast.find(".removebtn").show().fadeIn(300);
 
                     var trNew = trLast.clone();
@@ -99,8 +99,8 @@
                 //         // $('#dayssdata').show();
                 //     });
                 //     $('#filter_data').show();
-                   
-                    
+
+
                 // });
             });
         })(jQuery);
@@ -134,7 +134,7 @@
                             </div>
 
                             <div class="form-group col-md-4">
-                                {{ Form::label('level_id', __('message.level').' <span class="text-danger">*</span>',[ 'class' => 'form-control-label' ], false) }} 
+                                {{ Form::label('level_id', __('message.level').' <span class="text-danger">*</span>',[ 'class' => 'form-control-label' ], false) }}
                                 {{ Form::select('level_id', isset($id) ? [ optional($data->level)->id => optional($data->level)->title ] : [], old('level_id'), [
                                         'class' => 'select2js form-group level',
                                         'data-placeholder' => __('message.select_name',[ 'select' => __('message.level') ]),
@@ -145,7 +145,7 @@
                             </div>
 
                             <div class="form-group col-md-4">
-                                {{ Form::label('workout_type_id', __('message.workouttype').' <span class="text-danger">*</span>',[ 'class' => 'form-control-label' ], false) }} 
+                                {{ Form::label('workout_type_id', __('message.workouttype').' <span class="text-danger">*</span>',[ 'class' => 'form-control-label' ], false) }}
                                 {{ Form::select('workout_type_id', isset($id) ? [ optional($data->workouttype)->id => optional($data->workouttype)->title ] : [], old('workout_type_id'), [
                                         'class' => 'select2js form-group workouttype',
                                         'data-placeholder' => __('message.select_name',[ 'select' => __('message.workouttype') ]),
@@ -166,7 +166,7 @@
                                     <input class="form-control file-input" type="file" name="workout_image" accept="image/*">
                                 </div>
                             </div>
-                            
+
                             @if( isset($id) && getMediaFileExit($data, 'workout_image'))
                                 <div class="col-md-2 mb-2 position-relative">
                                     <img id="workout_image_preview" src="{{ getSingleMedia($data,'workout_image') }}" alt="workout-image" class="avatar-100 mt-1">
@@ -186,15 +186,8 @@
                                     </a>
                                 </div>
                             @endif
-                            
-                            <div class="form-group col-md-4">
-                                {{ Form::label('is_premium', __('message.is_premium'), ['class' => 'form-control-label']) }}
-                                <div class="">
-                                    {!! Form::hidden('is_premium',0, null, ['class' => 'form-check-input' ]) !!}
-                                    {!! Form::checkbox('is_premium',1, null, ['class' => 'form-check-input' ]) !!}
-                                    <label class="custom-control-label" for="is_premium"></label>
-                                </div>
-                            </div>
+
+
 
                             <div class="form-group col-md-12" id="">
                                 {{ Form::label('description',__('message.description'), ['class' => 'form-control-label']) }}
@@ -232,7 +225,7 @@
                             <div class="card-body col-md-4" id="dayssdata">
                              <h5 class="mb-3">{{__('message.exercise')}} <button type="button" id="days_data" class="btn btn-sm btn-primary float-end">{{ __('message.add',['name' => '']) }}</button></h5>
                                     <ul class="list-inline m-0 p-0" id="done">
-                                                   
+
                                     </ul>
                             </div>
                         </div>

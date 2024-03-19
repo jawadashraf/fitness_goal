@@ -19,6 +19,7 @@ use Carbon\Carbon;
 use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Mail;
 
 class ScheduleController extends Controller
 {
@@ -365,6 +366,8 @@ class ScheduleController extends Controller
         $user->notify(new CommonNotification($notification_data['type'], $notification_data));
         $user->notify(new DatabaseNotification($notification_data));
 
+        Mail::to($user->email)->send(new \App\Mail\AchievementEmail($user, $goal->title));
+
         // Check for reward threshold
         $this->checkForRewards($achievement->user, $achievement->goal);
     }
@@ -400,6 +403,7 @@ class ScheduleController extends Controller
                     ];
                     $user->notify(new CommonNotification($notification_data['type'], $notification_data));
                     $user->notify(new DatabaseNotification($notification_data));
+                    Mail::to($user->email)->send(new \App\Mail\RewardEmail($user, $reward->title));
                 }
             }
         }

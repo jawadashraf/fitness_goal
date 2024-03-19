@@ -69,44 +69,9 @@
               <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path fill="currentColor" d="M9,2C7.95,2 6.95,2.16 6,2.46C10.06,3.73 13,7.5 13,12C13,16.5 10.06,20.27 6,21.54C6.95,21.84 7.95,22 9,22A10,10 0 0,0 19,12A10,10 0 0,0 9,2Z" />
               </svg>
-            </div>   
-        </li>
-        <li class="nav-item dropdown">
-          <a href="#" class="search-toggle nav-link" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            @php
-                $selected_lang_flag = file_exists(public_path('/images/flag/' .app()->getLocale() . '.png')) ? asset('/images/flag/' . app()->getLocale() . '.png') : asset('/images/lang_flag.png');
-            @endphp
-            <img src="{{ $selected_lang_flag }}" class="img-fluid rounded selected-lang" alt="lang-flag">
-            <span class="bg-primary"></span>
-          </a>
-          <div class="sub-drop dropdown-menu dropdown-menu-end p-0 language-menu" aria-labelledby="dropdownMenuButton2">
-            <div class="card shadow-none m-0 border-0">
-              <div class=" p-0 ">
-                <ul class="list-group list-group-flush">
-                @php
-                    $language_option = appSettingData('get')->language_option;
-                        if(!empty($language_option)){
-                            $language_array = languagesArray($language_option);
-                        }
-                    @endphp
-                    @if(count($language_array) > 0 )
-                        @foreach( $language_array  as $lang )
-                            <li class="iq-sub-card list-group-item">
-                                <a class="dropdown-item p-0" data-lang="{{ $lang['id'] }}" href="{{ route('change.language',[ 'locale' => $lang['id'] ]) }}">
-                                @php
-                                    $flag_path = file_exists(public_path('/images/flag/' . $lang['id'] . '.png')) ? asset('/images/flag/' . $lang['id'] . '.png') : asset('/images/lang_flag.png');
-                                @endphp
-                                    <img src="{{ $flag_path }}" alt="img-flag-{{ $lang['id'] }}" class="img-fluid me-2 selected-lang-list" />
-                                    {{ $lang['title'] }}
-                                </a>
-                            </li>
-                        @endforeach
-                    @endif
-                </ul>
-              </div>
             </div>
-          </div>
         </li>
+
         <li class="nav-item dropdown">
           <a class="nav-link py-0 d-flex align-items-center" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
           <img src="{{ getSingleMedia(auth()->user(),'profile_image', null) }}" alt="User-Profile" class="img-fluid avatar avatar-50 avatar-rounded">

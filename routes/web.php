@@ -14,6 +14,7 @@ use App\Http\Controllers\SettingController;
 use App\Http\Controllers\LanguageController;
 
 use App\Http\Controllers\UserController;
+use App\Mail\WelcomeEmail;
 use Illuminate\Support\Facades\Artisan;
 // Packages
 use Illuminate\Support\Facades\Route;
@@ -64,6 +65,27 @@ Route::get('optimize', function () {
 Route::get('language/{locale}', [ HomeController::class, 'changeLanguage'])->name('change.language');
 
 Route::group(['middleware' => [ 'auth', 'useractive' ]], function () {
+
+    Route::get('/send-goal-email', function (Request $request) {
+        $user = auth()->user();
+
+        $goalTitle = "Your Goal Title"; // The title of the achieved goal
+
+        Mail::to($user->email)->send(new \App\Mail\AchievementEmail($user, $goalTitle));
+
+        return 'Achievement Email sent to ' . $user->email . '!';
+    });
+
+    Route::get('/send-reward-email', function (Request $request) {
+        $user = auth()->user();
+
+        $rewardTitle = "Reward Title"; // The title of the achieved goal
+
+        Mail::to($user->email)->send(new \App\Mail\RewardEmail($user, $rewardTitle));
+
+        return 'Reward Email sent to ' . $user->email . '!';
+    });
+
     // Permission Module
     Route::resource('permission', PermissionController::class);
     Route::get('permission/add/{type}',[ PermissionController::class, 'addPermission' ])->name('permission.add');
