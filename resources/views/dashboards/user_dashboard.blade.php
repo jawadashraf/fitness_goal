@@ -504,15 +504,11 @@
 						<div class="card-body">
 							<div class="d-flex align-items-center gap-3">
 								<div class="rounded p-3" style="background-color: #FFF8ED;">
-									<svg width="30" height="32" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-										<path d="M14.9961 87.8677V66.1677C14.9961 64.6213 16.2497 63.3677 17.7961 63.3677H33.1961C34.7425 63.3677 35.9961 64.6213 35.9961 66.1677V87.8677" stroke="#EC7E4A" stroke-width="4"/>
-										<path d="M35.9961 87.8677V45.1677C35.9961 43.6213 37.2497 42.3677 38.7961 42.3677H57.6961C59.2425 42.3677 60.4961 43.6213 60.4961 45.1677V87.8677" stroke="#EC7E4A" stroke-width="4"/>
-										<path d="M60.4947 87.8677V24.1677C60.4947 22.6213 61.7483 21.3677 63.2947 21.3677H82.1947C83.7411 21.3677 84.9947 22.6213 84.9947 24.1677V87.8677" stroke="#EC7E4A" stroke-width="4"/>
-									</svg>
+                                    <img src="/images/svg/goal.svg" width="30"/>
 								</div>
 								<div class="text-right dashboard-show-data">
-									<h5 class="counter">{{ __('message.level') }}</h5>
-									<h4 class="counter" >{{ $data['dashboard']['total_level'] }}</h4>
+									<h5 class="counter">{{ __('Goals') }}</h5>
+									<h4 class="counter" >{{ $data['dashboard']['total_goals'] }}</h4>
 								</div>
 							</div>
 						</div>

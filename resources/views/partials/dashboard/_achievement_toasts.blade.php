@@ -31,5 +31,11 @@
         toastBody.textContent = message;
         toast.show();
         @endif
+
+            @if (Session::has('schedule'))
+            message = "{{ Session::get('schedule') }}";
+        toastBody.textContent = message;
+        toast.show();
+        @endif
     });
 </script>

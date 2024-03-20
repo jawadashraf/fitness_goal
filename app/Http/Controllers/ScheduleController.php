@@ -167,6 +167,20 @@ class ScheduleController extends Controller
             }
         });
 
+        session()->flash('schedule', "You have created a workout schedule");
+        //Notify user for Reward
+        $notification_data = [
+            'id' => -1,
+            'push_notification_id' => -1,
+            'type' => 'schedule',
+            'subject' => 'Workout:' . $workout->title,
+            'message' => 'You have created the workout schedule:' . $workout->title,
+            'image' => null
+        ];
+        $user = auth()->user();
+
+        $user->notify(new CommonNotification($notification_data['type'], $notification_data));
+        $user->notify(new DatabaseNotification($notification_data));
 
 
         return redirect()->route('schedule.index', ['workout_id' => $workoutSchedule->workout_id])->withSuccess(__('message.save_form', ['form' => __('message.schedule')]));
@@ -366,7 +380,7 @@ class ScheduleController extends Controller
         $user->notify(new CommonNotification($notification_data['type'], $notification_data));
         $user->notify(new DatabaseNotification($notification_data));
 
-        Mail::to($user->email)->send(new \App\Mail\AchievementEmail($user, $goal->title));
+//        Mail::to($user->email)->send(new \App\Mail\AchievementEmail($user, $goal->title));
 
         // Check for reward threshold
         $this->checkForRewards($achievement->user, $achievement->goal);
@@ -403,7 +417,7 @@ class ScheduleController extends Controller
                     ];
                     $user->notify(new CommonNotification($notification_data['type'], $notification_data));
                     $user->notify(new DatabaseNotification($notification_data));
-                    Mail::to($user->email)->send(new \App\Mail\RewardEmail($user, $reward->title));
+//                    Mail::to($user->email)->send(new \App\Mail\RewardEmail($user, $reward->title));
                 }
             }
         }

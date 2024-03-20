@@ -38,6 +38,7 @@ class HomeController extends Controller
     {
         $assets = ['chart', 'animation'];
         $auth_user = AuthHelper::authSession();
+        $activeGoals = Goal::where('status', 'ACTIVE')->get();
         $data['dashboard'] = [
             'total_equipment'   => Equipment::count(),
             'total_level'       => Level::count(),
@@ -45,11 +46,13 @@ class HomeController extends Controller
             'total_workouttype' => WorkoutType::count(),
             'total_exercise'    => Exercise::count(),
             'total_workout'     => Workout::count(),
+            'total_goals' => $activeGoals->count()
         ];
 
 
         if(auth()->user()->user_type == 'user') {
-            $activeGoals = Goal::where('status', 'ACTIVE')->get();
+
+
 
             $goalsProgressData = $activeGoals->map(function ($goal) {
                 $todaysProgress = GoalProgress::where('goal_id', $goal->id)
