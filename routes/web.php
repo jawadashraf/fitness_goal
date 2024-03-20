@@ -66,25 +66,25 @@ Route::get('language/{locale}', [ HomeController::class, 'changeLanguage'])->nam
 
 Route::group(['middleware' => [ 'auth', 'useractive' ]], function () {
 
-    Route::get('/send-goal-email', function (Request $request) {
-        $user = auth()->user();
-
-        $goalTitle = "Your Goal Title"; // The title of the achieved goal
-
-        Mail::to($user->email)->send(new \App\Mail\AchievementEmail($user, $goalTitle));
-
-        return 'Achievement Email sent to ' . $user->email . '!';
-    });
-
-    Route::get('/send-reward-email', function (Request $request) {
-        $user = auth()->user();
-
-        $rewardTitle = "Reward Title"; // The title of the achieved goal
-
-        Mail::to($user->email)->send(new \App\Mail\RewardEmail($user, $rewardTitle));
-
-        return 'Reward Email sent to ' . $user->email . '!';
-    });
+//    Route::get('/send-goal-email', function (Request $request) {
+//        $user = auth()->user();
+//
+//        $goalTitle = "Your Goal Title"; // The title of the achieved goal
+//
+//        Mail::to($user->email)->send(new \App\Mail\AchievementEmail($user, $goalTitle));
+//
+//        return 'Achievement Email sent to ' . $user->email . '!';
+//    });
+//
+//    Route::get('/send-reward-email', function (Request $request) {
+//        $user = auth()->user();
+//
+//        $rewardTitle = "Reward Title"; // The title of the achieved goal
+//
+//        Mail::to($user->email)->send(new \App\Mail\RewardEmail($user, $rewardTitle));
+//
+//        return 'Reward Email sent to ' . $user->email . '!';
+//    });
 
     // Permission Module
     Route::resource('permission', PermissionController::class);
