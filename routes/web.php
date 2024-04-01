@@ -66,26 +66,6 @@ Route::get('language/{locale}', [ HomeController::class, 'changeLanguage'])->nam
 
 Route::group(['middleware' => [ 'auth', 'useractive' ]], function () {
 
-//    Route::get('/send-goal-email', function (Request $request) {
-//        $user = auth()->user();
-//
-//        $goalTitle = "Your Goal Title"; // The title of the achieved goal
-//
-//        Mail::to($user->email)->send(new \App\Mail\AchievementEmail($user, $goalTitle));
-//
-//        return 'Achievement Email sent to ' . $user->email . '!';
-//    });
-//
-//    Route::get('/send-reward-email', function (Request $request) {
-//        $user = auth()->user();
-//
-//        $rewardTitle = "Reward Title"; // The title of the achieved goal
-//
-//        Mail::to($user->email)->send(new \App\Mail\RewardEmail($user, $rewardTitle));
-//
-//        return 'Reward Email sent to ' . $user->email . '!';
-//    });
-
     // Permission Module
     Route::resource('permission', PermissionController::class);
     Route::get('permission/add/{type}',[ PermissionController::class, 'addPermission' ])->name('permission.add');
@@ -102,26 +82,9 @@ Route::group(['middleware' => [ 'auth', 'useractive' ]], function () {
     Route::resource('users', UserController::class);
     Route::resource('equipment', EquipmentController::class);
 
-    //assign deit
-    Route::get('assigndiet/{user_id}',[ UserController::class, 'assignDietForm' ])->name('add.assigndiet');
-    Route::post('assigndiet',[ UserController::class, 'assignDietSave' ])->name('save.assigndiet');
-    Route::post('assigndiet-delete',[ UserController::class, 'assignDietDestroy' ])->name('delete.assigndiet');
-
-    Route::get('assigndiet-list',[ UserController::class, 'getAssignDietList'])->name('get.assigndietlist');
-    //assign workout
-    Route::get('assignworkout/{user_id}',[ UserController::class, 'assignWorkoutForm' ])->name('add.assignworkout');
-    Route::post('assignworkout',[ UserController::class, 'assignWorkoutSave' ])->name('save.assignworkout');
-    Route::post('assignworkout-delete',[ UserController::class, 'assignWorkoutDestroy' ])->name('delete.assignworkout');
-
-    Route::get('assignworkout-list',[ UserController::class, 'getAssignWorkoutList'])->name('get.assignworkoutlist');
-
-    //Fitness CategoryDiet
-    Route::resource('categorydiet', CategoryDietController::class);
-
     //Fitness Workout
     Route::resource('workouttype', WorkoutTypeController::class);
 
-    Route::resource('diet', DietController::class);
     Route::resource('category', CategoryController::class);
 
     //FitnessTags
@@ -147,26 +110,13 @@ Route::group(['middleware' => [ 'auth', 'useractive' ]], function () {
 
     Route::post('workoutdays-exercise-delete', [ WorkoutController::class , 'workoutDaysExerciseDelete'])->name('workoutdays.exercise.delete');
 
-    Route::resource('post', PostController::class);
-
-    //product
-    Route::resource('product',ProductController::class);
-    Route::resource('productcategory',ProductCategoryController::class);
-
-    Route::resource('package',PackageController::class);
 
     Route::post('remove-file',[ HomeController::class, 'removeFile' ])->name('remove.file');
 
     Route::get('setting/{page?}', [ SettingController::class, 'settings'])->name('setting.index');
     Route::post('layout-page', [ SettingController::class, 'layoutPage'])->name('layout_page');
     Route::post('settings/save', [ SettingController::class , 'settingsUpdates'])->name('settingsUpdates');
-    Route::post('mobile-config-save',[ SettingController::class , 'settingUpdate'])->name('settingUpdate');
 	Route::post('env-setting', [ SettingController::class , 'envChanges'])->name('envSetting');
-    Route::post('payment-settings/save',[ SettingController::class , 'paymentSettingsUpdate'])->name('paymentSettingsUpdate');
-    Route::post('subscription-settings/save',[ SettingController::class , 'subscriptionSettingsUpdate'])->name('subscriptionSettingsUpdate');
-
-    Route::post('get-lang-file', [ LanguageController::class, 'getFile' ] )->name('getLanguageFile');
-    Route::post('save-lang-file', [ LanguageController::class, 'saveFileContent' ] )->name('saveLangContent');
 
     Route::post('update-profile', [ SettingController::class , 'updateProfile'])->name('updateProfile');
     Route::post('change-password', [ SettingController::class , 'changePassword'])->name('changePassword');
@@ -180,8 +130,6 @@ Route::group(['middleware' => [ 'auth', 'useractive' ]], function () {
     Route::resource('pushnotification', PushNotificationController::class);
 // Add this to web.php or api.php
     Route::post('/save-player-id', [UserController::class, 'savePlayerId']);
-
-    Route::resource('subscription', SubscriptionController::class);
 
     Route::resource('quotes', QuotesController::class);
 
@@ -204,11 +152,6 @@ Route::group(['middleware' => [ 'auth', 'useractive' ]], function () {
     Route::post('/schedule/{id}/update_event_on_drop', [ScheduleController::class, 'update_event_on_drop']);
     Route::post('/schedule/{id}/resize', [ScheduleController::class, 'resize']);
 
-
-//    Route::post('/schedule/{id}/resize', [ScheduleController::class, 'resize']);
-//    Route::get('/events/search', [ScheduleController::class, 'search']);
-//
-//    Route::view('add-schedule', 'schedule.add');
     Route::post('/schedule/create-from-drop', [ScheduleController::class, 'createFromDrop']);
 });
 
